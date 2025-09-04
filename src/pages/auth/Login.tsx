@@ -1,6 +1,7 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useSession } from '../../state/SessionProvider'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import '../../styles/auth.css'
 
 export default function Login() {
     const { login } = useSession()
@@ -13,6 +14,13 @@ export default function Login() {
     const [remember, setRemember] = useState(true)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
+
+    // 进入登录页时隐藏外层“返回首页 / footbar”等；离开时还原
+    useEffect(() => {
+        const root = document.documentElement
+        root.classList.add('auth-page')
+        return () => root.classList.remove('auth-page')
+    }, [])
 
     const submit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -29,56 +37,99 @@ export default function Login() {
     }
 
     return (
-        <>
-            <div style={{textAlign:'center', marginBottom:16}}>
-                <div className="badge">🔒</div>
-                <h2 style={{margin:'8px 0'}}>登录系统</h2>
-                <div className="secondary">访问您的数字资产仪表盘</div>
-            </div>
-
-            <form onSubmit={submit} className="grid" style={{gap:'14px'}}>
-                {error && (
-                    <div className="card" style={{background:'#fdd', color:'#900', padding:'8px 10px'}}>
-                        {error}
+        <div className="auth-root">
+            <div className="auth-card">
+                <div className="auth-head">
+                    <div className="logo">🔒</div>
+                    <div className="titles">
+                        <h2 className="title">
+                            登录系统 <span className="divider">/</span> Sign In
+                        </h2>
+                        <p className="subtitle">
+                            访问您的数字资产仪表盘 <span className="dot">•</span> Access your digital-asset dashboard
+                        </p>
                     </div>
-                )}
-                <div>
-                    <div className="mb-2">账户名/邮箱</div>
-                    <input
-                        className="input"
-                        value={id}
-                        onChange={e=>setId(e.target.value)}
-                        placeholder="请输入邮箱或账户名"
-                    />
                 </div>
-                <div>
-                    <div className="mb-2">密码</div>
-                    <input
-                        className="input"
-                        type="password"
-                        value={pwd}
-                        onChange={e=>setPwd(e.target.value)}
-                        placeholder="请输入密码"
-                    />
-                </div>
-                <label className="row">
-                    <input type="checkbox" checked={remember} onChange={e=>setRemember(e.target.checked)} /> 记住我
-                </label>
-                <button className="btn" disabled={loading}>
-                    {loading ? '登录中…' : '安全登录'}
-                </button>
-                <div className="row space-between">
-                    <Link to="/auth/forgot" className="secondary">忘记密码？</Link>
-                    <div className="secondary">还没有账户？ <Link to="/auth/register">立即注册</Link></div>
-                </div>
-            </form>
 
-            <hr className="mt-6"/>
-            <div className="row" style={{justifyContent:'center', gap:12, marginTop:10}}>
-                <button className="btn secondary">G</button>
-                <button className="btn secondary">f</button>
-                <button className="btn secondary">𝙶𝚑</button>
+                <form onSubmit={submit} className="form">
+                    {error && <div className="alert">{error}</div>}
+
+                    <div className="field">
+                        <label className="bilabel" htmlFor="login-id">
+                            <span className="zh">账户名 / 邮箱</span>
+                            <span className="en">Username / Email</span>
+                        </label>
+                        <input
+                            id="login-id"
+                            className="input"
+                            value={id}
+                            onChange={e => setId(e.target.value)}
+                            placeholder="输入邮箱或账户名 / Enter email or username"
+                            autoComplete="username"
+                        />
+                    </div>
+
+                    <div className="field">
+                        <label className="bilabel" htmlFor="login-pwd">
+                            <span className="zh">密码</span>
+                            <span className="en">Password</span>
+                        </label>
+                        <input
+                            id="login-pwd"
+                            className="input"
+                            type="password"
+                            value={pwd}
+                            onChange={e => setPwd(e.target.value)}
+                            placeholder="输入密码 / Enter your password"
+                            autoComplete="current-password"
+                        />
+                    </div>
+
+                    <div className="row between">
+                        <label className="check">
+                            <input
+                                type="checkbox"
+                                checked={remember}
+                                onChange={e => setRemember(e.target.checked)}
+                            />
+                            <span>
+                记住我 <span className="en-sm">Remember me</span>
+              </span>
+                        </label>
+
+                        <Link to="/auth/forgot" className="link">
+                            忘记密码？ <span className="en-sm">Forgot password?</span>
+                        </Link>
+                    </div>
+
+                    <button className="btn-primary" disabled={loading}>
+                        {loading ? '登录中… / Signing in…' : '安全登录 / Secure Sign-in'}
+                    </button>
+
+                    <div className="row center hint">
+                        还没有账户？ <span className="en-sm">Don’t have an account?</span>&nbsp;
+                        <Link to="/auth/register" className="link strong">
+                            立即注册 <span className="en-sm">Create one</span>
+                        </Link>
+                    </div>
+
+                    <div className="or">
+                        <span>或 / OR</span>
+                    </div>
+
+                    <div className="oauth">
+                        <button type="button" className="btn-ghost" title="Sign in with Google">
+                            G <span className="en-sm">Google</span>
+                        </button>
+                        <button type="button" className="btn-ghost" title="Sign in with Phone">
+                             <span className="en-sm">Phone</span>
+                        </button>
+                        <button type="button" className="btn-ghost" title="Sign in with Wechat">
+                            wx <span className="en-sm">Weixin</span>
+                        </button>
+                    </div>
+                </form>
             </div>
-        </>
+        </div>
     )
 }
