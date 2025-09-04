@@ -1,0 +1,29 @@
+:root {
+    --bg-base: #0b0e11;
+    --bg-elevated: #12161c;
+    --bg-surface: #1a1f26;
+    --border: #2a2f36;
+
+    --text-primary: #e6eaf2;
+    --text-secondary: #96a0b5;
+    --text-muted: #6b768a;
+
+    --brand: #2ea6ff;
+    --accent: #11b0d8;
+
+    --success: #19c37d;
+    --warning: #f5a524;
+    --danger:  #f24822;
+
+    --card-radius: 14px;
+    --btn-radius: 10px;
+
+    --space-1: 4px;  --space-2: 8px;  --space-3: 12px;
+    --space-4: 16px; --space-5: 20px; --space-6: 24px;
+    --space-8: 32px; --space-10: 40px;
+
+    --shadow-1: 0 2px 6px rgba(0,0,0,.35);
+    --shadow-2: 0 8px 24px rgba(0,0,0,.35);
+}
+
+html, body, #root { height: 100%; background: var(--bg-base); color: var(--text-primary); }
