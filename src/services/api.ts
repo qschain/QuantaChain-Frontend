@@ -2,52 +2,58 @@ import type { AssetOverview, TxItem, User } from '../types'
 import type { Activity } from '../types'
 import { http } from '../lib/http'
 
-const json = async <T>(res: Response) => {
-    if (!res.ok) throw new Error(await res.text() || `HTTP ${res.status}`)
-    return res.json() as Promise<T>
+type ApiOpts = { real?: boolean }
+function withReal<T extends Record<string, any> | undefined>(opts: T, real?: boolean): T {
+    if (!real) return opts as T
+    const next: any = { ...(opts || {}) }
+    next.bypassMock = true // http.ts 会把它转换为 x-msw-bypass 头
+    return next
 }
 
 export const api = {
-    async login(identifier: string, password: string): Promise<User> {
-        return http.post<User>('/api/login', { identifier, password }, { withAuth: false })
+    async login(identifier: string, password: string, opts?: ApiOpts): Promise<User> {
+        return http.post<User>('/api/login', { identifier, password }, withReal({ withAuth: false }, opts?.real))
     },
 
-    async getAssetOverview(): Promise<AssetOverview> {
-        return http.get<AssetOverview>('/api/asset/overview')
+    async getAssetOverview(opts?: ApiOpts): Promise<AssetOverview> {
+        return http.get<AssetOverview>('/api/asset/overview', withReal(undefined, opts?.real))
     },
 
-    async getTxHistory(): Promise<TxItem[]> {
-        return http.get<TxItem[]>('/api/tx/history')
+    async getTxHistory(opts?: ApiOpts): Promise<TxItem[]> {
+        return http.get<TxItem[]>('/api/tx/history', withReal(undefined, opts?.real))
     },
 
-    async getDepositAddress(assetId:string, networkId:string) {
-        return http.get<{ address:string; tag?:string; qrcodeUrl?:string }>('/api/deposit/address', {
-            query: { assetId, networkId }
-        })
+    async getDepositAddress(assetId:string, networkId:string, opts?: ApiOpts) {
+        return http.get<{ address:string; tag?:string; qrcodeUrl?:string }>(
+            '/api/deposit/address',
+            withReal({ query: { assetId, networkId } }, opts?.real)
+        )
     },
 
-    async quoteWithdraw(assetId:string, networkId:string, amount:number) {
-        return http.get<{ fee:number; fiat:number; minAmount:number; estimatedTime:string }>('/api/withdraw/quote', {
-            query: { assetId, networkId, amount }
-        })
+    async quoteWithdraw(assetId:string, networkId:string, amount:number, opts?: ApiOpts) {
+        return http.get<{ fee:number; fiat:number; minAmount:number; estimatedTime:string }>(
+            '/api/withdraw/quote',
+            withReal({ query: { assetId, networkId, amount } }, opts?.real)
+        )
     },
 
-    async getDashboard(): Promise<{
+    async getDashboard(opts?: ApiOpts): Promise<{
         overview: { totalUSD:number; diffUSD:number; diffPct:number; series:number[] },
         mainAssets: { icon:string; name:string; symbol:string; amount:number; usd:number; changePct:number }[],
         market: { pair:string; price:number; changePct:number }[],
         distribution: { label:string; value:number; color:string }[],
         activities: Activity[]
     }> {
-        return http.get('/api/dashboard')
+        return http.get('/api/dashboard', withReal(undefined, opts?.real))
     }
 }
 
 // 报价：from=BTC, to=ETH, amount=0.5 返回 outAmount/费率/费用/余额
-export async function getSwapQuote(params: { from: string; to: string; amount: number }) {
-    return http.get<{ rate:number; outAmount:number; feeUSD:number; balance:number }>('/api/swap/quote', {
-        query: params
-    })
+export async function getSwapQuote(params: { from: string; to: string; amount: number }, opts?: ApiOpts) {
+    return http.get<{ rate:number; outAmount:number; feeUSD:number; balance:number }>(
+        '/api/swap/quote',
+        withReal({ query: params }, opts?.real)
+    )
 }
 
 export type SwapHistoryItem = {
@@ -57,25 +63,17 @@ export type SwapHistoryItem = {
     time: string
     hash: string
 }
-
-export async function getSwapHistory(): Promise<SwapHistoryItem[]> {
-    return http.get<SwapHistoryItem[]>('/api/swap/history')
+export async function getSwapHistory(opts?: ApiOpts): Promise<SwapHistoryItem[]> {
+    return http.get<SwapHistoryItem[]>('/api/swap/history', withReal(undefined, opts?.real))
 }
 
-export type BridgeNetwork = {
-    id: string; name: string; icon?: string;
-}
-export type BridgeQuote = {
-    send: number;
-    gasUSD: number;
-    bridgeFeePct: number;
-    totalUSD: number;
+export type BridgeNetwork = { id: string; name: string; icon?: string }
+export type BridgeQuote = { send: number; gasUSD: number; bridgeFeePct: number; totalUSD: number }
+
+export async function listBridgeNetworks(opts?: ApiOpts): Promise<BridgeNetwork[]> {
+    return http.get<BridgeNetwork[]>('/api/bridge/networks', withReal(undefined, opts?.real))
 }
 
-export async function listBridgeNetworks(): Promise<BridgeNetwork[]> {
-    return http.get<BridgeNetwork[]>('/api/bridge/networks')
-}
-
-export async function bridgeQuote(params: { from:string; to:string; amount:number }): Promise<BridgeQuote> {
-    return http.get<BridgeQuote>('/api/bridge/quote', { query: params })
+export async function bridgeQuote(params: { from:string; to:string; amount:number }, opts?: ApiOpts): Promise<BridgeQuote> {
+    return http.get<BridgeQuote>('/api/bridge/quote', withReal({ query: params }, opts?.real))
 }

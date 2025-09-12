@@ -1,0 +1,110 @@
+{
+  "nav": {
+    "title": "区块链浏览器",
+    "home": "首页",
+    "tokens": "代币",
+    "stats": "统计分析",
+    "api": "API 文档",
+    "extra": "个人设置 / 帮助"
+  },
+  "hero": {
+    "title": "QuantaChain 区块链浏览器",
+    "subtitle": "探索、验证和分析区块链上的所有活动。",
+    "placeholder": "搜索区块高度 / 交易哈希 / 地址 / 代币",
+    "search": "搜索"
+  },
+  "overview": {
+    "tps": "实时 TPS",
+    "height": "最新区块高度",
+    "validators": "活跃验证者",
+    "price": "TRX 价格",
+    "latestBlocks": "最新区块",
+    "latestTxs": "最新交易",
+    "viewAll": "查看全部",
+    "viewMoreStats": "查看更多统计"
+  },
+  "table": {
+    "block": "区块",
+    "height": "高度",
+    "hash": "哈希",
+    "time": "时间",
+    "txs": "交易数",
+    "miner": "出块者",
+    "fee": "费用",
+    "value": "金额",
+    "from": "发送方",
+    "to": "接收方",
+    "method": "方法",
+    "status": "状态",
+    "actions": "操作"
+  },
+  "block": {
+    "title": "区块详情",
+    "blockHash": "区块哈希",
+    "parent": "父区块",
+    "size": "区块大小",
+    "gasUsed": "Gas Used",
+    "miner": "出块者",
+    "count": "交易数量",
+    "txList": "区块交易列表",
+    "prevBlock": "前一个区块",
+    "nextBlock": "后一个区块"
+  },
+  "tx": {
+    "title": "交易详情",
+    "statusSuccess": "成功",
+    "statusFailed": "失败",
+    "hash": "交易哈希",
+    "timestamp": "时间戳",
+    "block": "区块高度",
+    "type": "交易类型",
+    "amount": "交易金额",
+    "fee": "交易费用",
+    "sender": "发送方",
+    "receiver": "接收方（合约）",
+    "advanced": "高级数据",
+    "hex": "HEX",
+    "internalTxs": "内部交易",
+    "related": "相关历史交易"
+  },
+  "stats": {
+    "title": "统计与分析",
+    "networkGrowth": "网络增长",
+    "txActivity": "交易活动",
+    "tokenOverview": "代币生态总览",
+    "srAnalysis": "超级代表分析",
+    "voteWeight": "投票权重分布",
+    "stakingApy": "质押率与历史 APY",
+    "trends": "热门趋势预测",
+    "back": "返回浏览器首页"
+  },
+  "tokens": {
+    "title": "主要代币列表",
+    "searchPlaceholder": "按代币名称或符号搜索",
+    "type": "代币类型",
+    "sort": "排序方式",
+    "price": "价格",
+    "change24h": "24h 涨跌",
+    "marketcap": "市值",
+    "volume24h": "24h 交易量"
+  },
+  "api": {
+    "title": "区块链浏览器 API 文档",
+    "quickSearch": "搜索 API 端点、参数或功能…",
+    "newApi": "新版 API",
+    "oldApi": "旧版 API",
+    "backHome": "返回浏览器首页",
+    "endpoint": "请求端点",
+    "params": "请求参数",
+    "response": "响应示例",
+    "errors": "错误码说明",
+    "tryIt": "交互式 API 测试",
+    "run": "执行测试"
+  },
+  "common": {
+    "copy": "复制",
+    "copied": "已复制",
+    "loading": "加载中…",
+    "empty": "暂无数据"
+  }
+}

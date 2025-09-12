@@ -1,0 +1,110 @@
+{
+  "nav": {
+    "title": "Explorer",
+    "home": "Home",
+    "tokens": "Tokens",
+    "stats": "Analytics",
+    "api": "API Docs",
+    "extra": "Profile / Help"
+  },
+  "hero": {
+    "title": "QuantaChain Explorer",
+    "subtitle": "Explore, verify and analyze all on-chain activities.",
+    "placeholder": "Search block height / tx hash / address / token",
+    "search": "Search"
+  },
+  "overview": {
+    "tps": "Live TPS",
+    "height": "Latest Height",
+    "validators": "Active Validators",
+    "price": "TRX Price",
+    "latestBlocks": "Latest Blocks",
+    "latestTxs": "Latest Transactions",
+    "viewAll": "View all",
+    "viewMoreStats": "View more analytics"
+  },
+  "table": {
+    "block": "Block",
+    "height": "Height",
+    "hash": "Hash",
+    "time": "Time",
+    "txs": "Txs",
+    "miner": "Miner",
+    "fee": "Fee",
+    "value": "Value",
+    "from": "From",
+    "to": "To",
+    "method": "Method",
+    "status": "Status",
+    "actions": "Actions"
+  },
+  "block": {
+    "title": "Block Detail",
+    "blockHash": "Block Hash",
+    "parent": "Parent",
+    "size": "Size",
+    "gasUsed": "Gas Used",
+    "miner": "Miner",
+    "count": "Transactions",
+    "txList": "Transactions in this block",
+    "prevBlock": "Previous Block",
+    "nextBlock": "Next Block"
+  },
+  "tx": {
+    "title": "Transaction Detail",
+    "statusSuccess": "Success",
+    "statusFailed": "Failed",
+    "hash": "Tx Hash",
+    "timestamp": "Timestamp",
+    "block": "Block",
+    "type": "Type",
+    "amount": "Amount",
+    "fee": "Fee",
+    "sender": "From",
+    "receiver": "To (Contract)",
+    "advanced": "Advanced Data",
+    "hex": "HEX",
+    "internalTxs": "Internal Txs",
+    "related": "Related Txs"
+  },
+  "stats": {
+    "title": "Analytics",
+    "networkGrowth": "Network Growth",
+    "txActivity": "Transaction Activity",
+    "tokenOverview": "Token Ecosystem",
+    "srAnalysis": "SR Analysis",
+    "voteWeight": "Vote Weight Distribution",
+    "stakingApy": "Staking Rate & APY",
+    "trends": "Trending Predictions",
+    "back": "Back to Explorer Home"
+  },
+  "tokens": {
+    "title": "Top Tokens",
+    "searchPlaceholder": "Search by name or symbol",
+    "type": "Type",
+    "sort": "Sort",
+    "price": "Price",
+    "change24h": "24h Change",
+    "marketcap": "Market Cap",
+    "volume24h": "24h Volume"
+  },
+  "api": {
+    "title": "Explorer API Docs",
+    "quickSearch": "Search endpoints, params or features…",
+    "newApi": "New API",
+    "oldApi": "Legacy API",
+    "backHome": "Back to Explorer Home",
+    "endpoint": "Endpoint",
+    "params": "Parameters",
+    "response": "Response",
+    "errors": "Error Codes",
+    "tryIt": "Try it out",
+    "run": "Run"
+  },
+  "common": {
+    "copy": "Copy",
+    "copied": "Copied",
+    "loading": "Loading…",
+    "empty": "No data"
+  }
+}

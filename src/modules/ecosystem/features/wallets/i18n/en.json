@@ -1,0 +1,30 @@
+{
+  "hero": {
+    "title": "Blockchain Wallet Integration",
+    "subtitle": "A curated directory of community wallets with official sites, web links and downloads. Discover tools that support the Quanta ecosystem.",
+    "tip": "Home > Wallets"
+  },
+  "tabs": { "all": "All", "web": "Web", "mobile": "Mobile", "desktop": "Desktop" },
+  "sort": { "popular": "Sort by Popularity" },
+  "tags": { "official": "Official", "featured": "Featured", "new": "New", "hardware": "Hardware" },
+  "actions": { "visit": "Visit", "download": "Download", "enter": "Enter My Wallet" },
+  "cards": {
+    "tronlink": { "desc": "Officially recommended wallet. Powerful features, supports mobile and browser extension. A go-to for visiting Tron DApps." },
+    "tp": { "desc": "Multi-chain wallet deeply integrated with Tron. Handy DApp browser and asset management." },
+    "imtoken": { "desc": "A leading multi-chain digital asset wallet, including Tron, offering secure management and DApp experience." },
+    "ledger": { "desc": "Top-grade hardware wallet. With Ledger Live supporting Tron, ideal security for large holdings." },
+    "quanta": { "title": "Quanta Wallet", "desc": "Brand new quantum-encrypted wallet, featuring secure login, asset management, transfers, Swap and more " }
+  },
+  "cta": {
+    "title": "Your wallet not listed?",
+    "subtitle": "Submit your wallet or contact us for integration support.",
+    "submit": "Submit a Wallet",
+    "support": "Contact Integration Support"
+  },
+  "faq": {
+    "title": "FAQ",
+    "q1": { "title": "How to choose a wallet?", "content": "Consider your needs: for frequent DApp interactions, browser extension wallets are convenient; for maximum security and large holdings, hardware wallets are best; mobile wallets balance portability and features." },
+    "q2": { "title": "Security Tips", "content": "Never share seed phrases or private keys; enable biometrics/password; download only from official sources; update regularly." },
+    "q3": { "title": "How to list my wallet?", "content": "Click 'Submit a Wallet' above and provide basic info, supported platforms, download links and (optional) audit info." }
+  }
+}

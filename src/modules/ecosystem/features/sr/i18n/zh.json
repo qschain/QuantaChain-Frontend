@@ -1,0 +1,128 @@
+{
+  "common": {
+    "ecosystem": "生态系统",
+    "search": "搜索",
+    "loadMore": "加载更多",
+    "filter": "筛选",
+    "export": "导出",
+    "tablePlaceholder": "表格占位",
+    "chartPlaceholder": "图表占位",
+    "timelinePlaceholder": "时间线占位",
+    "paginationPlaceholder": "分页占位"
+  },
+  "nav": {
+    "dashboard": "控制台",
+    "vote": "投票",
+    "rewards": "奖励与收益",
+    "proposals": "治理提案",
+    "analytics": "统计分析",
+    "learn": "学习支持",
+    "title": "超级代表生态",
+    "extra": "更多"
+  },
+  "dashboard": {
+    "title": "SR控制台",
+    "subtitle": "管理您的超级代表投票和收益",
+    "actions": {
+      "viewDetails": "查看详情",
+      "viewIncome": "查看收益详情",
+      "claimNow": "立即领取"
+    },
+    "cards": {
+      "myVotes": { "title": "我的投票总览" },
+      "estIncome": { "title": "预估收益" },
+      "toClaim": { "title": "待领取奖励" }
+    },
+    "network": {
+      "title": "SR网络状态",
+      "activeSr": "活跃SR",
+      "blockRate": "出块率",
+      "blockHeight": "当前轮次"
+    },
+    "trend": { "title": "网络性能趋势" },
+    "proposalsOverview": { "title": "治理提案概览" },
+    "activity": { "title": "近期活动与通知" },
+    "news": { "title": "SR生态新闻与更新" }
+  },
+  "vote": {
+    "title": "SR投票模块",
+    "subtitle": "选择您信任的超级代表，参与网络治理并获得奖励",
+    "searchPlaceholder": "搜索SR名称或地址…",
+    "sort": "排序方式",
+    "filters": "筛选条件",
+    "quick": {
+      "recommended": "推荐SR",
+      "highApy": "高收益SR",
+      "highActive": "高活跃SR",
+      "newlyListed": "新上链SR"
+    },
+    "basket": {
+      "title": "投票篮",
+      "amount": "投票数量",
+      "incomePreview": "收益预估",
+      "selected": "已选择的SR",
+      "none": "暂未选择任何SR"
+    },
+    "actions": {
+      "confirm": "确认投票",
+      "batch": "批量投票",
+      "simulate": "投票模拟"
+    }
+  },
+  "rewards": {
+    "title": "奖励历史记录",
+    "cards": {
+      "total": "累计领取总额",
+      "lastTime": "最近奖励时间",
+      "pending": "待领取奖励"
+    },
+    "table": { "title": "奖励记录" },
+    "filters": {
+      "byDate": "按日期筛选",
+      "byType": "按奖励类型"
+    },
+    "simulator": {
+      "title": "收益模拟与优化",
+      "inputs": { "amount": "投票TRX数量", "sr": "SR选择", "lock": "锁定期（可选）" },
+      "actions": { "simulate": "模拟收益" },
+      "result": { "title": "收益估算" },
+      "note": "收益预估仅供参考，实际收益受网络状况和SR表现影响。"
+    }
+  },
+  "proposals": {
+    "title": "SR治理提案列表",
+    "filters": { "status": "状态筛选", "type": "类型筛选", "progress": "投票进度", "sort": "排序方式" },
+    "searchPlaceholder": "搜索提案标题或ID"
+  },
+  "analytics": {
+    "title": "SR统计与分析",
+    "subtitle": "深度洞察SR生态系统健康度与投票行为模式",
+    "kpi": { "totalVotes": "总投票数", "totalStakeRate": "总质押率", "avgApy": "平均APY" },
+    "distribution": { "title": "投票权分布", "ranking": "排名前列的SR" },
+    "trends": {
+      "title": "质押率与APY趋势",
+      "range": "过去7天",
+      "maxStakeRate": "最高质押率",
+      "minStakeRate": "最低质押率",
+      "maxApy": "最高APY",
+      "minApy": "最低APY"
+    },
+    "userHistory": { "title": "用户投票历史" }
+  },
+  "learn": {
+    "title": "SR学习与支持",
+    "subtitle": "在这里，您可以找到关于超级代表生态系统的所有学习资源",
+    "tabs": {
+      "beginner": "新手入门",
+      "advanced": "进阶指南",
+      "glossary": "术语表",
+      "cases": "实践案例",
+      "bot": "问答机器人"
+    },
+    "items": {
+      "basics": { "title": "SR基础概念", "desc": "了解SR的角色、职责以及对网络安全和去中心化的重要性。" },
+      "vote": { "title": "如何参与投票", "desc": "通过质押TRX获得资源和投票权，完成SR投票流程。" },
+      "rewards": { "title": "奖励领取指南", "desc": "投票奖励计算方式、发放周期以及领取方法。" }
+    }
+  }
+}

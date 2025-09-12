@@ -17,3 +17,4 @@ export type Activity = {
     time: string;
     delta?: string;
 };
+

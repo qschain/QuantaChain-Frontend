@@ -1,0 +1,128 @@
+{
+  "common": {
+    "ecosystem": "Ecosystem",
+    "search": "Search",
+    "loadMore": "Load more",
+    "filter": "Filter",
+    "export": "Export",
+    "tablePlaceholder": "Table placeholder",
+    "chartPlaceholder": "Chart placeholder",
+    "timelinePlaceholder": "Timeline placeholder",
+    "paginationPlaceholder": "Pagination placeholder"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "vote": "Vote",
+    "rewards": "Rewards",
+    "proposals": "Proposals",
+    "analytics": "Analytics",
+    "learn": "Learn",
+    "title": "SR",
+    "extra": "extra"
+  },
+  "dashboard": {
+    "title": "SR Dashboard",
+    "subtitle": "Manage your Super Representatives voting and rewards",
+    "actions": {
+      "viewDetails": "View details",
+      "viewIncome": "View income",
+      "claimNow": "Claim now"
+    },
+    "cards": {
+      "myVotes": { "title": "My voting overview" },
+      "estIncome": { "title": "Estimated income" },
+      "toClaim": { "title": "Pending rewards" }
+    },
+    "network": {
+      "title": "SR Network Status",
+      "activeSr": "Active SRs",
+      "blockRate": "Block rate",
+      "blockHeight": "Current height"
+    },
+    "trend": { "title": "Performance trends" },
+    "proposalsOverview": { "title": "Proposals overview" },
+    "activity": { "title": "Recent activity & notifications" },
+    "news": { "title": "SR news & updates" }
+  },
+  "vote": {
+    "title": "SR Voting",
+    "subtitle": "Choose trusted SRs, join governance and earn rewards",
+    "searchPlaceholder": "Search SR name or address…",
+    "sort": "Sort",
+    "filters": "Filters",
+    "quick": {
+      "recommended": "Recommended",
+      "highApy": "High APY",
+      "highActive": "High active",
+      "newlyListed": "Newly listed"
+    },
+    "basket": {
+      "title": "Vote basket",
+      "amount": "Amount",
+      "incomePreview": "Income preview",
+      "selected": "Selected SRs",
+      "none": "No SR selected yet"
+    },
+    "actions": {
+      "confirm": "Confirm vote",
+      "batch": "Batch vote",
+      "simulate": "Simulate"
+    }
+  },
+  "rewards": {
+    "title": "Rewards history",
+    "cards": {
+      "total": "Total claimed",
+      "lastTime": "Last claim time",
+      "pending": "Pending to claim"
+    },
+    "table": { "title": "Rewards table" },
+    "filters": {
+      "byDate": "Filter by date",
+      "byType": "Filter by type"
+    },
+    "simulator": {
+      "title": "Income simulation & optimization",
+      "inputs": { "amount": "TRX amount", "sr": "Select SR", "lock": "Lock period (optional)" },
+      "actions": { "simulate": "Simulate" },
+      "result": { "title": "Estimation" },
+      "note": "Estimation is for reference only. Actual income depends on network and SR performance."
+    }
+  },
+  "proposals": {
+    "title": "SR Proposals",
+    "filters": { "status": "Status", "type": "Type", "progress": "Progress", "sort": "Sort" },
+    "searchPlaceholder": "Search proposal title or ID"
+  },
+  "analytics": {
+    "title": "SR Analytics",
+    "subtitle": "Deep insights of ecosystem health and voting behaviors",
+    "kpi": { "totalVotes": "Total votes", "totalStakeRate": "Total stake rate", "avgApy": "Average APY" },
+    "distribution": { "title": "Vote distribution", "ranking": "Top SRs" },
+    "trends": {
+      "title": "Stake rate & APY trends",
+      "range": "Last 7 days",
+      "maxStakeRate": "Max stake rate",
+      "minStakeRate": "Min stake rate",
+      "maxApy": "Max APY",
+      "minApy": "Min APY"
+    },
+    "userHistory": { "title": "User vote history" }
+  },
+  "learn": {
+    "title": "SR Learning",
+    "subtitle": "Find all learning materials about Super Representatives",
+    "tabs": {
+      "beginner": "Beginner",
+      "advanced": "Advanced",
+      "glossary": "Glossary",
+      "cases": "Cases",
+      "bot": "Bot"
+    },
+    "items": {
+      "basics": { "title": "SR basics", "desc": "Understand SR roles and how they secure decentralization." },
+      "vote": { "title": "How to vote", "desc": "Stake TRX to obtain resources and voting power, then vote SRs." },
+      "rewards": { "title": "Rewards guide", "desc": "How rewards are calculated, distributed and claimed." }
+    }
+  }
+}

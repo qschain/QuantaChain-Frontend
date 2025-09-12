@@ -1,0 +1,34 @@
+{
+  "hero": {
+    "title1": "Explore the digital future,",
+    "title2": "connect the multi-chain world",
+    "subtitle": "Next-gen blockchain integration platform that seamlessly connects decentralized ecosystems.",
+    "cta": "Start exploring"
+  },
+  "modules": {
+    "title": "Modules",
+    "sr": { "title": "Super Representatives", "desc": "Join governance, vote for SRs and earn rewards." },
+    "wallets": { "title": "Wallets", "desc": "Securely manage digital assets with multi-chain wallets." },
+    "explorer": { "title": "Blockchain Explorer", "desc": "Track blocks, transactions and addresses in real time." },
+    "dapps": { "title": "DApp Browser", "desc": "Discover and experience trending decentralized apps." },
+    "bridge": { "title": "Cross-chain", "desc": "Seamless asset and data transfer across blockchains." },
+    "nft": { "title": "NFT Marketplace", "desc": "Explore, trade and create unique non-fungible tokens." }
+  },
+  "dev": {
+    "title": "Built for Developers",
+    "subtitle": "Powerful tools and support to help you build next-generation dApps.",
+    "security": { "title": "Security Audit Reports", "desc": "See authoritative audits for core protocols and contracts." },
+    "bounty": { "title": "Bug Bounty Program", "desc": "Help us find and fix vulnerabilities and earn rewards." }
+  },
+  "footer": {
+    "brandTitle": "QUANTACHAIN",
+    "brandDesc": "A multi-functional blockchain integration platform for unified access and management of ecosystems.",
+    "summary": "Ecosystem: SRs, Wallets, Explorer, DApp Browser, Cross-chain",
+    "devTools": "Value-added: NFT market, APIs, Dev tools",
+    "devLinks": "Developers: Whitepaper, GitHub, Audits, Bounty",
+    "contact": "Support, Contact, Privacy, Terms",
+    "lang": "English",
+    "theme": "Theme",
+    "version": "Version"
+  }
+}

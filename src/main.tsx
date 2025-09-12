@@ -1,10 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
-import './styles/global.css'
-import { SessionProvider } from './state/SessionProvider'
-import { UIProvider } from './state/UIProvider'
-import App from './App'
+import './shared/styles/global.css'
+import { SessionProvider } from './shared/state/SessionProvider'
+import { UIProvider } from './shared/state/UIProvider'
+import App from './app/App'
 
 // 在开发/指定模式下才启动 MSW
 async function bootstrap() {
@@ -15,7 +15,7 @@ async function bootstrap() {
     }
 
 
-    await import('./i18n')
+    await import('./core/i18n/i18n')
 
     ReactDOM.createRoot(document.getElementById('root')!).render(
         <React.StrictMode>

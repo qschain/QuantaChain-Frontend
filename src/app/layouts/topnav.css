@@ -1,0 +1,24 @@
+.qc-header{position:sticky;top:0;z-index:50;background:#0b0e11;border-bottom:1px solid #1c1f24}
+.qc-header__inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:18px;padding:12px 16px}
+.qc-logo{display:flex;align-items:center;gap:8px;color:#7dfcff;text-decoration:none;font-weight:800}
+.qc-logo__dot{width:12px;height:12px;border-radius:50%;background:#00fff5;box-shadow:0 0 12px #00fff5}
+
+.qc-nav{display:flex;gap:8px}
+.qc-nav__item{position:relative}
+.qc-nav__btn{background:transparent;border:0;color:#d6dde6;padding:8px 10px;border-radius:8px;cursor:pointer}
+.qc-nav__btn:hover{background:#1a1f25}
+
+.qc-menu{position:absolute;top:36px;left:0;background:#171b20;border:1px solid #22262c;border-radius:12px;min-width:220px;padding:8px;display:flex;flex-direction:column;gap:4px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.qc-menu__item{color:#d6dde6;text-decoration:none;padding:10px 12px;border-radius:8px}
+.qc-menu__item:hover{background:#1f242b;color:#fff}
+
+.qc-actions{margin-left:auto;display:flex;align-items:center;gap:10px}
+.qc-select{background:#12161b;border:1px solid #2a2f36;color:#cdd6e1;border-radius:8px;padding:6px 10px}
+.qc-search{display:flex;align-items:center;background:#12161b;border:1px solid #2a2f36;border-radius:8px;overflow:hidden}
+.qc-search input{background:transparent;border:0;outline:0;padding:6px 8px;color:#d6dde6;width:240px}
+.qc-search button{background:transparent;border:0;color:#9fb0c3;padding:6px 8px;cursor:pointer}
+
+.qc-btn{padding:8px 12px;border-radius:10px;text-decoration:none;font-weight:700}
+.qc-btn.primary{background:#00fff5;color:#0b0e11;box-shadow:0 0 14px rgba(0,255,245,.4)}
+.qc-btn.ghost{background:#141a20;border:1px solid #2a2f36;color:#d6dde6}
+.qc-btn:hover{filter:brightness(1.05)}

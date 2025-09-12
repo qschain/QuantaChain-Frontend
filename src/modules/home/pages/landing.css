@@ -1,0 +1,122 @@
+:root{ --header-h:72px; }
+
+.qc-landing-fullpage{ background:#0b0e11; color:#e8eef6; scroll-behavior:smooth; }
+
+/* 屏幕段落 */
+.qc-screen{
+    min-height:calc(100vh - var(--header-h));
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:24px 16px;
+}
+
+/* 第一屏 */
+.qc-hero-screen{
+    position:relative;
+    background:
+            radial-gradient(700px 380px at 25% 10%, rgba(0,255,245,.12), transparent 60%),
+            radial-gradient(780px 420px at 80% 35%, rgba(0,255,245,.08), transparent 60%),
+            #0b0e11;
+}
+.qc-hero__content{ text-align:center; max-width:980px; margin-top:40px; }
+.qc-hero__title{
+    font-size:64px; line-height:1.12; font-weight:900; letter-spacing:1px; color:#dffffa;
+    text-shadow:0 0 24px rgba(0,255,245,.6), 0 0 8px rgba(0,255,245,.5);
+}
+.qc-hero__desc{ opacity:.85; margin-top:18px }
+.qc-hero__cta{ margin-top:28px }
+.qc-hero__scroll-hint{
+    position:absolute; bottom:12px; left:50%; transform:translateX(-50%);
+    opacity:.5; animation:bounce 2.4s infinite; font-size:20px; user-select:none;
+}
+@keyframes bounce{ 0%,20%,50%,80%,100%{transform:translate(-50%,0)} 40%{transform:translate(-50%,-10px)} 60%{transform:translate(-50%,-5px)} }
+
+/* 第二屏：模块网格 + 开发者区 */
+.qc-modules-screen{
+    width:100%;
+    background:
+            radial-gradient(600px 320px at 15% 15%, rgba(0,255,245,.06), transparent 60%),
+            #0b0e11;
+}
+.qc-modules__grid{
+    width:100%; max-width:1100px; margin:0 auto 24px;
+    display:grid; grid-template-columns:repeat(3,1fr); gap:24px;
+}
+.qc-card{
+    text-align:center; background:rgba(20,22,26,.9);
+    border:1px solid #20252c; border-radius:16px; padding:32px 24px;
+    cursor:pointer; transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    backdrop-filter: blur(2px);
+}
+.qc-card:hover{ transform:translateY(-6px); box-shadow:0 0 22px rgba(0,255,245,.18); border-color:#2b313a }
+.qc-card__icon{ font-size:36px; margin-bottom:12px; color:#00fff5; text-shadow:0 0 12px rgba(0,255,245,.5) }
+.qc-card__title{ font-size:18px; font-weight:800; margin-bottom:8px }
+.qc-card__desc{ opacity:.8 }
+
+/* 开发者区块（位于第二屏下部） */
+.qc-dev{ width:100%; max-width:1100px; margin:48px auto 0; text-align:center; }
+.qc-dev__title{ font-size:32px; font-weight:900; margin-bottom:6px }
+.qc-dev__subtitle{ opacity:.8; margin-bottom:18px }
+.qc-dev__grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:24px; }
+.qc-feature{
+    text-align:center; background:rgba(20,22,26,.9); border:1px solid #20252c; border-radius:16px; padding:28px 24px;
+    cursor:pointer; transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.qc-feature:hover{ transform:translateY(-6px); box-shadow:0 0 22px rgba(0,255,245,.18); border-color:#2b313a }
+.qc-feature__icon{ font-size:30px; margin-bottom:10px; color:#00fff5; text-shadow:0 0 10px rgba(0,255,245,.45) }
+.qc-feature__title{ font-size:18px; font-weight:800; margin-bottom:6px }
+.qc-feature__desc{ opacity:.8 }
+
+/* CTA 按钮 */
+.qc-btn{ padding:12px 16px; border-radius:10px; font-weight:800; }
+.qc-btn.primary{ background:#00fff5; color:#0b0e11; box-shadow:0 0 14px rgba(0,255,245,.4) }
+.qc-btn.primary:hover{ filter:brightness(1.05) }
+
+/* 页脚 */
+.qc-footer{ background:#0e1115; border-top:1px solid #1d2229; margin-top:24px; }
+.qc-footer__content{ max-width:1200px; margin:0 auto; padding:32px 16px; display:flex; gap:24px; align-items:flex-start; }
+.qc-footer__brand{ flex:1; }
+.qc-footer__brand-title{ color:#7dfcff; font-weight:900; letter-spacing:.5px; margin-bottom:6px }
+.qc-footer__brand-desc{ opacity:.85; margin-bottom:12px }
+.qc-footer__brand-links{ opacity:.75; }
+.qc-footer__meta{ display:flex; align-items:center; gap:12px; color:#a7b3c3; }
+.qc-footer__theme{ padding:6px 10px; border-radius:8px; background:#141a20; border:1px solid #2a2f36; color:#d6dde6 }
+.qc-footer__ver{ opacity:.7 }
+.qc-footer__copy{ text-align:center; color:#8b98aa; border-top:1px solid #1a2027; padding:10px 16px; }
+
+/* 自适应 */
+@media (max-width:980px){
+    .qc-hero__title{ font-size:42px }
+    .qc-modules__grid{ grid-template-columns:1fr }
+    .qc-dev__grid{ grid-template-columns:1fr }
+}/* 强制按钮卡片的文字颜色，覆盖全局 reset */
+.qc-card {
+    color: #e8eef6 !important;   /* 主体文字 */
+}
+.qc-card__title {
+    color: #eaf2ff !important;   /* 标题更亮一点 */
+}
+.qc-card__desc {
+    color: #c8d2e0 !important;   /* 描述略灰 */
+    opacity: .9;                 /* 若之前有 opacity: .0 被覆盖，提亮 */
+}
+/* 防止外部样式把文字再次设成透明 */
+.qc-feature, .qc-feature * {
+    -webkit-text-fill-color: initial !important;
+}
+/* 强制按钮卡片的文字颜色，覆盖全局 reset */
+.qc-feature {
+    color: #e8eef6 !important;   /* 主体文字 */
+}
+.qc-feature__title {
+    color: #eaf2ff !important;   /* 标题更亮一点 */
+}
+.qc-feature__desc {
+    color: #c8d2e0 !important;   /* 描述略灰 */
+    opacity: .9;                 /* 若之前有 opacity: .0 被覆盖，提亮 */
+}
+/* 防止外部样式把文字再次设成透明 */
+.qc-feature, .qc-feature * {
+    -webkit-text-fill-color: initial !important;
+}
+
+
