@@ -1,0 +1,21 @@
+{
+  "title": "跨链仪表盘",
+  "subtitle": "统一的跨链资产总览，方便管理多链资产和追踪历史操作。",
+  "portfolio": {
+    "title": "您的跨链资产概览",
+    "share": "资产占比 {{val}}",
+    "more": "显示"
+  },
+  "chart": {
+    "title": "资产分布",
+    "chains": "{{count}} 条链"
+  },
+  "recent": {
+    "title": "近期跨链活动",
+    "tabs": { "all": "所有交易", "success": "成功", "failed": "失败", "processing": "处理中" },
+    "cols": { "asset": "资产/数量", "path": "跨链路径", "time": "时间", "status": "状态", "hash": "交易详情" }
+  },
+  "status": { "success": "成功", "processing": "处理中", "failed": "失败" },
+  "actions": { "smartSwap": "智能跨链交换", "refresh": "刷新" },
+  "common": { "loading": "加载中…" }
+}

@@ -1,0 +1,102 @@
+{
+  "nav": {
+    "title": "DApp 浏览器",
+    "discover": "发现",
+    "home": "首页",
+    "search": "搜索发现",
+    "account": "我的账户",
+    "resources": "资源与教育",
+    "devCenter": "开发者中心",
+    "settings": "个人设置",
+    "help": "帮助"
+  },
+  "common": {
+    "searchDapp": "搜索DApp...",
+    "search": "搜索",
+    "sort": "排序方式",
+    "timeRange": "时间范围",
+    "backHome": "返回DApp浏览器首页",
+    "clearAll": "清除所有筛选",
+    "view": "查看详情",
+    "chartPlaceholder": "图表占位",
+    "searchPlaceholder": "搜索DApp名称、代币名或智能合约地址"
+  },
+  "home": {
+    "title": "DApp 生态系统总览",
+    "sub": "探索多链生态中的去中心化应用",
+    "stats": {
+      "apps": "DApp 总数",
+      "users24h": "24小时活跃用户",
+      "vol24h": "24小时交易量",
+      "volTotal": "总交易量"
+    },
+    "hotCategories": "热门 DApp 分类",
+    "hotCategoriesSub": "快速探索不同类型的去中心化应用",
+    "rankings": "DApp 榜单",
+    "rankingsSub": "基于多维度数据的 DApp 排行榜",
+    "rank": { "dau": "每日活跃用户", "vol24h": "24小时交易量", "growth": "用户增长" },
+    "collections": "DApp 分类与精选合集",
+    "collectionsSub": "发现更多优质 DApp 和专题合集",
+    "browseByCategory": "按分类浏览（占位）",
+    "curatedCollections": "精选合集（占位）",
+    "featuredTitle": "精选 DApp",
+    "featuredSub": "近期新增 / 高热度 / 高TVL"
+  },
+  "discover": {
+    "title": "DApp 搜索与发现",
+    "sub": "发现优质DApp，探索区块链生态的无限可能",
+    "selectCategory": "选择分类",
+    "selectChain": "选择区块链",
+    "selectTVL": "选择TVL范围",
+    "selectUsers": "选择用户数范围",
+    "recommend": "DApp 推荐",
+    "carouselPlaceholder": "轮播/卡片占位",
+    "results": "搜索结果",
+    "totalFound": "共找到"
+  },
+  "account": {
+    "title": "我的账户",
+    "favTitle": "我的关注",
+    "portfolio": "投资组合总览",
+    "totalValue": "总资产价值",
+    "activeCount": "活跃DApp数量",
+    "roi": "总收益率",
+    "assetDist": "资产分布",
+    "alerts": "个性化警报设置",
+    "addAlert": "添加警报",
+    "alert": {
+      "price": "价格警报",
+      "tvl": "TVL 变化警报",
+      "security": "安全事件警报"
+    }
+  },
+  "resources": {
+    "title": "资源与教育",
+    "tab": { "learn": "学习", "report": "行业报告" },
+    "cards": {
+      "web3Wallet": { "title": "Web3 钱包入门", "cta": "继续学习" },
+      "dappGuide": { "title": "DApp 交互指南", "cta": "开始教程" },
+      "smartContract": { "title": "理解智能合约", "cta": "开始教程" },
+      "nftBasics": { "title": "NFTs 基础概念", "cta": "重新学习" }
+    }
+  },
+  "dev": {
+    "title": "开发者中心",
+    "submit": { "title": "提交你的 DApp", "cta": "提交 DApp" },
+    "form": {
+      "name": "DApp 名称",
+      "desc": "DApp 描述",
+      "email": "联系邮箱",
+      "logo": "DApp 图标",
+      "pkg": "DApp 软件包",
+      "uploadImg": "拖放图片或点击上传（PNG/JPG/SVG）",
+      "uploadPkg": "拖放软件包或点击上传（.zip/.apk）"
+    },
+    "api": {
+      "title": "API & SDK 参考",
+      "sdk": "SDK 集成指南",
+      "sdkGuide": "这里展示 SDK 使用说明与示例代码。",
+      "downloadSdk": "下载 SDK"
+    }
+  }
+}

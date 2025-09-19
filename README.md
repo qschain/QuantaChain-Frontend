@@ -94,7 +94,7 @@ npm install
   - React Router v6
 
 - **状态管理**
-  - Context Provider（SessionProvider / UIProvider）
+  - Context Provider（WalletSessionProvider / UIProvider）
 
 - **可视化**
   -  react-globe.gl / 图表库

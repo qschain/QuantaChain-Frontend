@@ -1,0 +1,49 @@
+{
+  "brand": "QuantaChain",
+  "nav": {
+    "ecosystem": "Ecosystem",
+    "token": "Tokens",
+    "developer": "Developers",
+    "sr": "Super Representatives (SR)",
+    "wallets": "Wallets",
+    "explorer": "Blockchain Explorer",
+    "dapps": "DApp Browser & Analytics",
+    "bridge": "Cross-chain Integration",
+    "trx": "TRX",
+    "commonTokens": "Common Tokens",
+    "whitepaper": "Whitepaper",
+    "github": "GitHub Code",
+    "security": "Security Reports",
+    "bounty": "Bug Bounty"
+  },
+  "actions": {
+    "login": "Login",
+    "connectWallet": "Connect Wallet",
+    "startExploring": "Start Exploring →",
+    "searchPlaceholder": "Search blocks, txs, addresses…"
+  },
+  "hero": {
+    "titleLine1": "Explore the digital future,",
+    "titleLine2": "connect multi-chain worlds",
+    "subtitle": "Next-gen blockchain integration platform, seamlessly connecting decentralized ecosystems"
+  },
+  "directory": {
+    "walletsTitle": "Wallets Integration",
+    "visit": "Visit",
+    "enterMyWallet": "Enter My Wallet"
+  },
+  "footer": {
+    "brandTitle": "QUANTACHAIN",
+    "brandDesc": "A multi-functional blockchain integration platform for unified access and management of ecosystems.",
+    "summary": "Ecosystem: SRs, Wallets, Explorer, DApp Browser, Cross-chain",
+    "devTools": "Value-added: NFT market, APIs, Dev tools",
+    "devLinks": "Developers: Whitepaper, GitHub, Audits, Bounty",
+    "contact": "Support, Contact, Privacy, Terms",
+    "lang": "English",
+    "theme": "Theme",
+    "version": "Version"
+  }
+}
+
+
+

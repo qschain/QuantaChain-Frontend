@@ -1,29 +1,30 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
-import './shared/styles/global.css'
-import { SessionProvider } from './shared/state/SessionProvider'
+import './modules/ecosystem/subdomains/wallets/quanta-wallet/styles/global.css'
+import { WalletSessionProvider } from './modules/ecosystem/subdomains/wallets/quanta-wallet/state/WalletSessionProvider'
 import { UIProvider } from './shared/state/UIProvider'
-import App from './app/App'
+import App from './App'
 
 // 在开发/指定模式下才启动 MSW
 async function bootstrap() {
+    // @ts-ignore
     const useMsw = import.meta.env.VITE_USE_MSW === 'true'
     if (useMsw) {
-        const { worker } = await import('../src/mocks/browser')
+        const { worker } = await import('./shared/mocks/browser')
         await worker.start({ onUnhandledRequest: 'bypass' })
     }
 
 
-    await import('./core/i18n/i18n')
+    await import('./shared/lib/i18n/i18n')
 
     ReactDOM.createRoot(document.getElementById('root')!).render(
         <React.StrictMode>
             <BrowserRouter>
                 <UIProvider>
-                    <SessionProvider>
+                    <WalletSessionProvider>
                         <App />
-                    </SessionProvider>
+                    </WalletSessionProvider>
                 </UIProvider>
             </BrowserRouter>
         </React.StrictMode>

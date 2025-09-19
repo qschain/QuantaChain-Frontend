@@ -1,0 +1,21 @@
+{
+  "title": "Cross-Chain Dashboard",
+  "subtitle": "Unified overview of your cross-chain assets and recent activities.",
+  "portfolio": {
+    "title": "Your Cross-Chain Portfolio",
+    "share": "Share {{val}}",
+    "more": "More"
+  },
+  "chart": {
+    "title": "Distribution",
+    "chains": "{{count}} chains"
+  },
+  "recent": {
+    "title": "Recent Cross-Chain Activity",
+    "tabs": { "all": "All", "success": "Success", "failed": "Failed", "processing": "Processing" },
+    "cols": { "asset": "Asset/Amount", "path": "Route", "time": "Time", "status": "Status", "hash": "Tx" }
+  },
+  "status": { "success": "Success", "processing": "Processing", "failed": "Failed" },
+  "actions": { "smartSwap": "Smart Bridge Swap", "refresh": "Refresh" },
+  "common": { "loading": "Loading…" }
+}

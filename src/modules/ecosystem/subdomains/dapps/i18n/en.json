@@ -1,0 +1,93 @@
+{
+  "nav": {
+    "title": "DApp Browser",
+    "discover": "Discover",
+    "home": "Home",
+    "search": "Discover",
+    "account": "My Account",
+    "resources": "Resources",
+    "devCenter": "Developer Center",
+    "settings": "Settings",
+    "help": "Help"
+  },
+  "common": {
+    "searchDapp": "Search DApp...",
+    "search": "Search",
+    "sort": "Sort",
+    "timeRange": "Time Range",
+    "backHome": "Back to DApp Home",
+    "clearAll": "Clear All",
+    "view": "View",
+    "chartPlaceholder": "Chart Placeholder",
+    "searchPlaceholder": "Search by DApp name, token or contract"
+  },
+  "home": {
+    "title": "DApp Ecosystem Overview",
+    "sub": "Explore decentralized apps across multi-chain",
+    "stats": { "apps": "Total DApps", "users24h": "24h Active Users", "vol24h": "24h Volume", "volTotal": "Total Volume" },
+    "hotCategories": "Popular Categories",
+    "hotCategoriesSub": "Quickly explore different app types",
+    "rankings": "DApp Rankings",
+    "rankingsSub": "Rankings by multi-dimensional metrics",
+    "rank": { "dau": "Daily Active Users", "vol24h": "24h Volume", "growth": "User Growth" },
+    "collections": "Browse & Curated Collections",
+    "collectionsSub": "Find more quality DApps and sets",
+    "browseByCategory": "Browse by category (placeholder)",
+    "curatedCollections": "Curated collections (placeholder)",
+    "featuredTitle": "Featured DApps",
+    "featuredSub": "New / Trending / High TVL"
+  },
+  "discover": {
+    "title": "Search & Discover",
+    "sub": "Find great DApps and explore the ecosystem",
+    "selectCategory": "Select Category",
+    "selectChain": "Select Chain",
+    "selectTVL": "Select TVL Range",
+    "selectUsers": "Select User Range",
+    "recommend": "Recommendations",
+    "carouselPlaceholder": "Carousel / Cards placeholder",
+    "results": "Results",
+    "totalFound": "Found"
+  },
+  "account": {
+    "title": "My Account",
+    "favTitle": "My Favorites",
+    "portfolio": "Portfolio Overview",
+    "totalValue": "Total Value",
+    "activeCount": "Active DApps",
+    "roi": "ROI",
+    "assetDist": "Asset Distribution",
+    "alerts": "Personalized Alerts",
+    "addAlert": "Add Alert",
+    "alert": { "price": "Price Alert", "tvl": "TVL Change", "security": "Security Incident" }
+  },
+  "resources": {
+    "title": "Resources & Education",
+    "tab": { "learn": "Learn", "report": "Reports" },
+    "cards": {
+      "web3Wallet": { "title": "Intro to Web3 Wallets", "cta": "Continue" },
+      "dappGuide": { "title": "DApp Interaction Guide", "cta": "Start" },
+      "smartContract": { "title": "Understand Smart Contracts", "cta": "Start" },
+      "nftBasics": { "title": "NFTs Basics", "cta": "Review" }
+    }
+  },
+  "dev": {
+    "title": "Developer Center",
+    "submit": { "title": "Submit Your DApp", "cta": "Submit" },
+    "form": {
+      "name": "DApp Name",
+      "desc": "DApp Description",
+      "email": "Email",
+      "logo": "DApp Logo",
+      "pkg": "DApp Package",
+      "uploadImg": "Drop image or click to upload (PNG/JPG/SVG)",
+      "uploadPkg": "Drop package or click to upload (.zip/.apk)"
+    },
+    "api": {
+      "title": "API & SDK Reference",
+      "sdk": "SDK Integration",
+      "sdkGuide": "SDK usage and examples here.",
+      "downloadSdk": "Download SDK"
+    }
+  }
+}

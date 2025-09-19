@@ -1,13 +1,15 @@
-
 import type { ModuleDefinition } from '../../app/registry/types';
 import { routes } from './routes';
-import zhWallets from './features/wallets/i18n/zh.json';
-import enWallets from './features/wallets/i18n/en.json';
-import zhExplorer from './features/explorer/i18n/zh.json';
-import enExplorer from './features/explorer/i18n/en.json';
-import zhSr from './features/sr/i18n/zh.json';
-import enSr from './features/sr/i18n/en.json';
-
+import zhWallets from './subdomains/wallets/shared/i18n/zh.json';
+import enWallets from './subdomains/wallets/shared/i18n/en.json';
+import zhExplorer from './subdomains/explorer/shared/i18n/zh.json';
+import enExplorer from './subdomains/explorer/shared/i18n/en.json';
+import zhSr from './subdomains/sr/shared/i18n/zh.json';
+import enSr from './subdomains/sr/shared/i18n/en.json';
+import zhDapps from './subdomains/dapps/i18n/zh.json';
+import enDapps from './subdomains/dapps/i18n/en.json';
+import zhBridge from './subdomains/bridge/i18n/zh.json';
+import enBridge from './subdomains/bridge/i18n/en.json';
 const EcosystemModule: ModuleDefinition = {
     id: 'ecosystem',
     title: '生态模块',
@@ -17,6 +19,8 @@ const EcosystemModule: ModuleDefinition = {
         { ns: 'wallets',  resources: { zh: zhWallets,  en: enWallets  } },
         { ns: 'explorer', resources: { zh: zhExplorer, en: enExplorer } },
         { ns: 'sr',       resources: { zh: zhSr,       en: enSr       } },
+        { ns: 'dapps',     resources: { zh: zhDapps,    en: enDapps    } },
+        { ns: 'bridge', resources: { zh: zhBridge, en: enBridge } }
     ],
 };
 

@@ -1,0 +1,61 @@
+/* 页脚 */
+.qc-footer {
+    background: #0e1115;
+    border-top: 1px solid #1d2229;
+    margin-top: 24px;
+}
+
+.qc-footer__content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 16px;
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+.qc-footer__brand {
+    flex: 1;
+}
+
+.qc-footer__brand-title {
+    color: #7dfcff;
+    font-weight: 900;
+    letter-spacing: .5px;
+    margin-bottom: 6px;
+}
+
+.qc-footer__brand-desc {
+    opacity: .85;
+    margin-bottom: 12px;
+}
+
+.qc-footer__brand-links {
+    opacity: .75;
+}
+
+.qc-footer__meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #a7b3c3;
+}
+
+.qc-footer__theme {
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: #141a20;
+    border: 1px solid #2a2f36;
+    color: #d6dde6;
+}
+
+.qc-footer__ver {
+    opacity: .7;
+}
+
+.qc-footer__copy {
+    text-align: center;
+    color: #8b98aa;
+    border-top: 1px solid #1a2027;
+    padding: 10px 16px;
+}

@@ -1,3 +1,4 @@
+//集中管理全局 UI 配置
 import { createContext, useContext, useEffect, useState } from 'react'
 
 type UI = {
