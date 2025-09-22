@@ -1,53 +1,78 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useSession } from '../state/WalletSessionProvider'
 import { useTranslation } from 'react-i18next'
-import { useEffect, useState } from 'react'
-import { api } from '../shared/api/api'
-
-type TotalOverview = { totalUSD:number; diffUSD:number; diffPct:number; series:number[] }
+import { useDashboardCtx } from '../model/DashboardContext'
 
 export default function Sidebar() {
     const nav = useNavigate()
     const { logout } = useSession()
     const { t, i18n } = useTranslation(['wallet'])
-    const [overview, setOverview] = useState<TotalOverview>()
+    const { data, loading, error } = useDashboardCtx()
 
-
-
-    const fmtCurrency = (n:number|undefined) =>
+    const fmtCurrency = (n?: number) =>
         (n ?? 0).toLocaleString(
             i18n.language?.startsWith('zh') ? 'zh-CN' : 'en-US',
-            { style:'currency', currency:'USD' }
+            { style: 'currency', currency: 'USD' }
         )
+
+    const overview = data?.overview
+    const diffPct = overview?.diffPct ?? 0
+    const diffBadgeClass = diffPct >= 0 ? 'green' : 'red'
 
     return (
         <aside className="sidebar">
+            {/* 顶部操作区 —— 永远可见 */}
             <div className="section">
                 <div className="row space-between">
-                    <div style={{fontWeight:700}}>{t('navMenu')}</div>
+                    <div style={{ fontWeight: 700 }}>{t('navMenu')}</div>
                     <button
                         className="btn ghost"
-                        onClick={()=>{ logout(); nav('auth/login') }}
+                        onClick={() => { logout(); nav('auth/login') }}
                     >
                         {t('logout')}
                     </button>
                 </div>
 
-                <div className="secondary" style={{marginTop:8}}>
+                <div className="secondary" style={{ marginTop: 8 }}>
                     {t('totalValuation')}
                 </div>
 
-                {/* 总资产取真实 overview */}
-                <div style={{fontSize:22, fontWeight:700}}>
-                    {fmtCurrency(overview?.totalUSD)}
-                </div>
-                <div
-                    className={`badge ${overview?.diffPct && overview.diffPct >= 0 ? 'green':'red'}`}
-                >
-                    {overview ? `${overview.diffPct >= 0 ? '+' : ''}${overview.diffPct}% (24h)` : ''}
-                </div>
+                {/* 状态与数据兜底 */}
+                {loading && (
+                    <div style={{ marginTop: 6, fontSize: 14 }}>{t('loading') || 'Loading…'}</div>
+                )}
+
+                {error && (
+                    <div
+                        style={{
+                            marginTop: 8,
+                            padding: 8,
+                            borderRadius: 8,
+                            fontSize: 12,
+                            lineHeight: 1.4,
+                            background: 'rgba(255,0,0,0.08)',
+                            border: '1px solid rgba(255,0,0,0.25)',
+                            wordBreak: 'break-all',
+                        }}
+                    >
+                        {t('loadFailed') || '加载失败'}：{String(error)}
+                    </div>
+                )}
+
+                {/* 数据就绪时展示总览 */}
+                {!!data && (
+                    <>
+                        <div style={{ fontSize: 22, fontWeight: 700 }}>
+                            {fmtCurrency(overview?.totalUSD)}
+                        </div>
+                        <div className={`badge ${diffBadgeClass}`}>
+                            {`${diffPct >= 0 ? '+' : ''}${diffPct}% (24h)`}
+                        </div>
+                    </>
+                )}
             </div>
 
+            {/* 导航区 —— 不依赖数据，始终可用 */}
             <div className="section nav">
                 <NavLink to="dashboard">📊 {t('dashboard')}</NavLink>
                 <NavLink to="atlas">🌐 {t('atlas')}</NavLink>
@@ -55,21 +80,21 @@ export default function Sidebar() {
                 <NavLink to="settings">⚙️ {t('settings.title')}</NavLink>
             </div>
 
+            {/* 快捷操作 —— 不依赖数据，始终可用 */}
             <div className="section">
-                <div className="row" style={{gap:10}}>
-                    <button className="btn" onClick={()=>nav('asset/send')}>▶ {t('send')}</button>
-                    <button className="btn" onClick={()=>nav('asset/receive')}>📥 {t('receive')}</button>
+                <div className="row" style={{ gap: 10 }}>
+                    <button className="btn" onClick={() => nav('asset/send')}>▶ {t('send')}</button>
+                    <button className="btn" onClick={() => nav('asset/receive')}>📥 {t('receive')}</button>
                 </div>
-                <div className="row" style={{gap:10, marginTop:10}}>
-                    <button className="btn secondary" onClick={()=>nav('asset/deposit')}>⬆ {t('deposit')}</button>
-                    <button className="btn secondary" onClick={()=>nav('asset/withdraw')}>⬇ {t('withdraw')}</button>
+                <div className="row" style={{ gap: 10, marginTop: 10 }}>
+                    <button className="btn secondary" onClick={() => nav('asset/deposit')}>⬆ {t('deposit')}</button>
+                    <button className="btn secondary" onClick={() => nav('asset/withdraw')}>⬇ {t('withdraw')}</button>
                 </div>
 
-                <div style={{marginTop:16}} className="badge green">
+                <div style={{ marginTop: 16 }} className="badge green">
                     {t('quantumSecureStorage')}
                 </div>
             </div>
         </aside>
     )
 }
-

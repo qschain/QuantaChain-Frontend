@@ -3,7 +3,8 @@ import { lazy } from 'react'
 import { Outlet } from 'react-router-dom'
 import { PrivateRoute } from './guards'
 import WalletI18nProvider from '../WalletI18nProvider'
-import { WalletSessionProvider } from '../state/WalletSessionProvider' // ← 钱包专用会话
+import { WalletSessionProvider } from '../state/WalletSessionProvider'
+import {DashboardProvider} from "../model/DashboardContext"; // ← 钱包专用会话
 
 const AuthLayout        = lazy(() => import('../AuthLayout'))
 const DashboardLayout   = lazy(() => import('../pages/DashboardLayout'))
@@ -64,7 +65,9 @@ export const routes: RouteObject[] = [
             {
                 element: (
                     <PrivateRoute>
-                        <DashboardLayout />
+                        <DashboardProvider real>
+                            <DashboardLayout />
+                        </DashboardProvider>
                     </PrivateRoute>
                 ),
                 children: [

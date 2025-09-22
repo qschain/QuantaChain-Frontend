@@ -13,6 +13,7 @@ export type LoginResponse = {
     role: string
     confirm: string  
     token: string
+    message: string
   }
 }
 
@@ -42,13 +43,7 @@ export type AccountGetByUserResp = {
         dataList: AccountAssetRow[]
     }
 }
-export type DashboardDTO = {
-    overview: TotalOverview
-    mainAssets: MainAsset[]
-    market: MarketRow[]
-    distribution: {label:string; value:number; color:string}[]
-    activities: Activity[]
-}
+
 export type AssetOverview = {
     id: string; symbol: string; name: string; network: string;
     address: string; balance: number; fiatValue: number; change24h: number;

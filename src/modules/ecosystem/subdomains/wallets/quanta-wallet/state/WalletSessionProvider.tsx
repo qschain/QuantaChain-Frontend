@@ -88,8 +88,8 @@ export function WalletSessionProvider({ children }: { children: React.ReactNode 
 
     const login = async (identifier: string, password: string) => {
         const response = await api.login(identifier, password, { real: true })
-        if (response.code !== '200') {
-            throw new Error(response.message || '登录失败')
+        if (response.code == '500') {
+            throw new Error(response.data?.message)
         }
         const token = response.data?.token
         if (!token) {
