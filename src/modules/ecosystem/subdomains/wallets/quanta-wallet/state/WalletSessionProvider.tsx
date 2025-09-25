@@ -35,22 +35,19 @@ export function WalletSessionProvider({ children }: { children: React.ReactNode 
             const token = localStorage.getItem('token')
             if (token) {
                 applyToken(token)
-
-                // 方式一（严格）：调用“获取当前用户”接口验证 token
-                // 注：你可以在 api 层补一个 api.me()，这里我先用 dashboard 做“轻验证”
                 try {
-                    // await api.getDashboard({ real: true })
-                    // 若能通，则认为 authed = true（也可在这里设置 user 资料）
                     setAuthed(true)
-                    // 也可以在这里调一个真实的 /me 接口获取用户信息
-                    // const me = await api.me({real:true})
-                    // setUser(me)
                 } catch {
                     // token 无效或网络问题
                     applyToken(null)
                     setAuthed(false)
                     setUser(null)
                 }
+                const savedUser = localStorage.getItem('user')
+                    if (savedUser) {
+                        const user = JSON.parse(savedUser)
+                        setUser(user)
+            }
             }
         } finally {
             setLoading(false)
@@ -88,32 +85,41 @@ export function WalletSessionProvider({ children }: { children: React.ReactNode 
 
     const login = async (identifier: string, password: string) => {
         const response = await api.login(identifier, password, { real: true })
-        if (response.code == '500') {
-            throw new Error(response.data?.message)
+        if (response.code == '422') {
+            throw new Error(response.message)
+        }
+        const role = response.data?.role
+        if (role !== 'REGULAR') {
+            throw new Error('登录失败：非用户角色')
         }
         const token = response.data?.token
         if (!token) {
             throw new Error('登录失败：未获取到 token')
         }
-
+        const userName = response.data?.userName
+        if (!userName) {
+            throw new Error('登录失败：未获取到用户名')
+        }
         // —— 应用 token ——（之后所有请求会自动带 Authorization 头）
         applyToken(token)
 
         // 组装用户对象（实际应该从后端回传的 profile 字段取）
         const userData: User = {
-            id: identifier,
-            name: identifier,
-            email: identifier,
-            token,
+            role: role,
+            name: userName,
+            token
         }
         setUser(userData)
         setAuthed(true)
+
+        localStorage.setItem('user', JSON.stringify(userData))
     }
 
     const logout = () => {
         setAuthed(false)
         setUser(null)
         applyToken(null)
+        localStorage.removeItem('user') // 添加:清除保存的用户信息
     }
 
     const value = useMemo(

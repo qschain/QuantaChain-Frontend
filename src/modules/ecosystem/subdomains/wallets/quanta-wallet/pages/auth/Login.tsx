@@ -52,6 +52,13 @@ export default function Login() {
 
     return (
         <div className="auth-root">
+              <button 
+                className="custom-back-button" // 使用 btn-primary 样式
+                onClick={() => nav('/ecosystem/wallets')} // 返回钱包集成页面
+                style={{ position: 'absolute' , top: '20px', left: '20px' }}
+            >
+                返回钱包集成
+            </button>
             <div className="auth-card">
                 <div className="auth-head">
                     <div className="logo">🔒</div>

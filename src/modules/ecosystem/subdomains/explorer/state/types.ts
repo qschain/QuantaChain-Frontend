@@ -17,9 +17,20 @@ export type BlockDetail = BlockLite & {
 };
 
 export type TxDetail = {
-    status:'success'|'failed';
-    hash:string; time:string; blockHeight:number;
-    from:string; to?:string; type:string; amount:string; fee:string; inputHex?:string;
+    code:string,
+    meessage:string,
+    data:{
+        "blockNum": string
+        "time": string
+        "ownerAddress":string
+        "toAddress":string
+        "contractType":string
+        "contractDescribe":string
+        "amount":string
+        "fee":string
+        "status": string
+        "hash":string
+    }
 };
 
 export type TokenLite = { rank:number; symbol:string; name:string; price:number; change24h:number; marketcap:number; volume24h:number };

@@ -1,10 +1,14 @@
-import type { RouteObject } from 'react-router-dom'
+// src/modules/wallet/app/router/routes.tsx  （你的这份文件）
 import { lazy } from 'react'
+import type { RouteObject } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
 import { PrivateRoute } from './guards'
 import WalletI18nProvider from '../WalletI18nProvider'
 import { WalletSessionProvider } from '../state/WalletSessionProvider'
-import {DashboardProvider} from "../model/DashboardContext"; // ← 钱包专用会话
+import { DashboardProvider } from '../model/DashboardContext'
+
+// ⭐ 新增：节点缓存 Provider
+import { NodesProvider } from '../model/atlas/NodesStore'
 
 const AuthLayout        = lazy(() => import('../AuthLayout'))
 const DashboardLayout   = lazy(() => import('../pages/DashboardLayout'))
@@ -32,11 +36,13 @@ const Appearance        = lazy(() => import('../pages/settings/Appearance'))
 const Notifications     = lazy(() => import('../pages/settings/Notifications'))
 const About             = lazy(() => import('../pages/settings/About'))
 
-const GlobePage         = lazy(() => import('../pages/atlas/Globe'))
-const RegionOverview    = lazy(() => import('../pages/atlas/RegionOverview'))
+// ⬇️ 这里替换：原本是 GlobePage，改为组合页 ExplorerLanding
+const ExplorerLanding   = lazy(() => import('../pages/atlas/ExplorerLanding'))
+const NodeDetailPage    = lazy(() => import('../pages/atlas/NodeDetailPage'))
+const RegionOverview    = lazy(() => import('../pages/atlas/NodeDetailPage'))
+
 const NotFound          = lazy(() => import('../pages/NotFound'))
 
-// 顶层：钱包模块命名空间 Provider（只作用于本模块）
 const WalletShell = () => (
     <WalletSessionProvider>
         <WalletI18nProvider>
@@ -47,10 +53,8 @@ const WalletShell = () => (
 
 export const routes: RouteObject[] = [
     {
-        // /ecosystem/wallets/quanta/* （假设你的模块是挂在这个前缀下）
-        element: <WalletShell />,     // ← 会话与 i18n 只包住钱包模块
+        element: <WalletShell />,
         children: [
-            // 未登录域：/auth/*
             {
                 path: 'auth',
                 element: <AuthLayout />,
@@ -60,8 +64,6 @@ export const routes: RouteObject[] = [
                     { path: 'forgot', element: <ForgotPassword /> },
                 ],
             },
-
-            // 登录后域：需要鉴权
             {
                 element: (
                     <PrivateRoute>
@@ -73,10 +75,8 @@ export const routes: RouteObject[] = [
                 children: [
                     { index: true, element: <Dashboard /> },
                     { path: 'dashboard', element: <Dashboard /> },
-
                     { path: 'bridge', element: <BridgeTokens /> },
                     { path: 'swap', element: <SwapAsset /> },
-
                     { path: 'asset', element: <AssetDetail /> },
                     { path: 'asset/send', element: <SendAsset /> },
                     { path: 'asset/receive', element: <ReceiveAsset /> },
@@ -97,11 +97,22 @@ export const routes: RouteObject[] = [
                         ],
                     },
 
-                    { path: 'atlas', element: <GlobePage /> },
-                    { path: 'atlas/:region', element: <RegionOverview /> },
+                    // ⭐ atlas 域：挂上 NodesProvider（只影响 atlas 子树）
+                    {
+                        path: 'atlas',
+                        element: (
+                            <NodesProvider>
+                                <Outlet />
+                            </NodesProvider>
+                        ),
+                        children: [
+                            { index: true, element: <ExplorerLanding /> },              // 第一屏地球 + 第二屏排行
+                            { path: 'nodes/:id', element: <NodeDetailPage /> },         // 节点详情（id=ip）
+                            { path: ':region', element: <RegionOverview /> },           // 你原来的区域概览路由，保留
+                        ],
+                    },
                 ],
             },
-
             { path: '*', element: <NotFound /> },
         ],
     },

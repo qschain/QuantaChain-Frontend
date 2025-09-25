@@ -44,7 +44,7 @@ export default function Landing() {
                         icon="🛡"
                         title={t('modules.sr.title')}
                         desc={t('modules.sr.desc')}
-                        onClick={() => nav('/sr')}
+                        onClick={() => nav('/ecosystem/sr')}
                     />
                     <ModuleCard
                         icon="👛"

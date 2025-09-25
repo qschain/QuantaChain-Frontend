@@ -32,7 +32,7 @@ type TxLite = {
 };
 
 /** ============ 滚动数据缓冲区 ============ */
-let HEIGHT = 26_173_060;        // 初始区块高度
+let HEIGHT = 76_017_612;        // 初始区块高度
 let seedTx = 1_000_000;
 
 const blocksBuf: BlockLite[] = [];
@@ -113,9 +113,9 @@ export const explorerHandlers = [
         // 每次拉概览也“推进一下链”，让首页指标更灵动
         produceOne();
         return HttpResponse.json({
-            tps: 1205,
+            tps: "1205",
             height: blocksBuf[0]?.height ?? HEIGHT,
-            validators: 27,
+            validators: "27",
             priceUSD: 0.115,
         });
     }),

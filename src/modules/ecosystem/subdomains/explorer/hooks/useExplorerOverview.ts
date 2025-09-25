@@ -12,7 +12,7 @@ export function useExplorerOverview() {
             try { setOverview(await api.getOverview()); } catch {}
         };
         run();
-        t = window.setInterval(run, 5000);
+        t = window.setInterval(run, 3000);
 
         return () => { if (t) clearInterval(t); };
     }, []);

@@ -1,73 +1,80 @@
-import Card from '../../components/Card';
-import { useEffect, useState } from 'react';
-import { transferTrx } from '../../shared/api/api';
-import { useSession } from '../../state/WalletSessionProvider';
-import { useTranslation } from 'react-i18next';
-import i18n from '../../../../../../../shared/lib/i18n/i18n';
+// src/pages/asset/SendAsset.tsx
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import TransferForm from '../../components/transfer/TransferForm'
+import PasswordConfirmDialog from '../../components/transfer/PasswordConfirmDialog'
+import ResultDialog from '../../components/transfer/ResultDialog'
+import ErrorDialog from '../../components/transfer/ErrorDialog'
+import useTransfer from '../../hooks/useTransfer'
 
 export default function SendAsset() {
-    const [balance, setBalance] = useState(12.543);
-    const [fee, setFee] = useState<{ fee: number; fiat: number }>({ fee: 0.002, fiat: 5.8 });
-    const { t } = useTranslation(['wallet']);
-    const { user } = useSession();
-    const [toTronAddress, setToTronAddress] = useState('');
-    const [amount, setAmount] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [result, setResult] = useState<any>(null);
-    const [error, setError] = useState<string | null>(null);
+  const { t } = useTranslation(['wallet'])
+  const { handleTransfer, loading, error, success } = useTransfer()
 
-    const locale = i18n.language?.startsWith('zh') ? 'zh-CN' : 'en-US';
+  // 地址/金额确认后的待提交数据（控制密码弹窗开关）
+  const [pending, setPending] = useState<{ address: string; amount: string } | null>(null)
 
-    const handleTransfer = async () => {
-        if (!user?.name || !user?.token) {
-            setError('未登录或会话失效');
-            return;
-        }
-        setLoading(true);
-        setError(null);
-        try {
-            // 这里假设token即为密码，实际可根据SessionProvider调整
-            const resp = await transferTrx({
-                userName: user.name,
-                passWord: user.token || '',
-                toTronAddress,
-                amount: Number(amount)
-            });
-            setResult(resp);
-        } catch (e: any) {
-            setError(e?.message || '转账失败');
-        } finally {
-            setLoading(false);
-        }
-    };
+  // 错误弹窗
+  const [errOpen, setErrOpen] = useState(false)
+  const [errMsg, setErrMsg] = useState<string>('')
 
-    return (
-        <div className="container">
-            <Card title={t('sendAsset.title')}>
-                <div className="grid" style={{ gap: 14, maxWidth: 720 }}>
-                    <div>
-                        <div className="mb-2">TRON地址</div>
-                        <input className="input" value={toTronAddress} onChange={e => setToTronAddress(e.target.value)} placeholder="请输入TRON地址" />
-                    </div>
-                    <div className="row" style={{ gap: 14 }}>
-                        <div style={{ flex: 2 }}>
-                            <div className="mb-2">资产类型</div>
-                            <select className="select" disabled><option>TRX</option></select>
-                        </div>
-                        <div style={{ flex: 1 }}>
-                            <div className="mb-2">金额</div>
-                            <input className="input" value={amount} onChange={e => setAmount(e.target.value)} placeholder="0.00" />
-                        </div>
-                    </div>
-                    <div className="row space-between secondary">
-                        <div>余额：{balance} TRX</div>
-                        <div>手续费 ≈ {fee.fee} TRX ({fee.fiat.toLocaleString(locale, { style: 'currency', currency: 'USD' })})</div>
-                    </div>
-                    <button className="btn" onClick={handleTransfer} disabled={loading}>{loading ? '转账中...' : '确认转账'}</button>
-                    {error && <div style={{ color: 'red' }}>{error}</div>}
-                    {result && <pre style={{ background: '#f6f6f6', padding: 10 }}>{JSON.stringify(result, null, 2)}</pre>}
-                </div>
-            </Card>
-        </div>
-    );
+  return (
+    <div className="card send-card">
+      <h2>{t('send')}</h2>
+
+      <TransferForm
+        onSubmit={(v) => { setPending(v) }}
+        loading={loading}
+        error={error || undefined}
+      />
+
+      {/* 密码确认弹窗：失败时不关闭 */}
+      {pending && (
+        <PasswordConfirmDialog
+          address={pending.address}
+          amount={pending.amount}
+          loading={loading}
+          serverError={undefined}          // 错误不在此处显示，改为 ErrorDialog
+          onCancel={() => setPending(null)}
+          onConfirm={async (password) => {
+            const res = await handleTransfer(pending.address, pending.amount, password)
+            if (res.ok) {
+              // ✅ 成功才关闭密码弹窗
+              setPending(null)
+            } else {
+              // ❌ 失败：保留密码弹窗 + 叠加错误弹窗
+              setErrMsg(res.error || t('transferFailed') || 'Transfer failed')
+              setErrOpen(true)
+            }
+          }}
+        />
+      )}
+
+      {/* 失败错误弹窗（叠在最上层） */}
+      {errOpen && (
+        <ErrorDialog
+          title={t('transferFailed') || 'Transfer Failed'}
+          message={errMsg}
+          onClose={() => setErrOpen(false)}   // 仅关闭错误层，不关密码弹窗
+          primaryText={t('close') || 'Close'}
+        />
+      )}
+
+      {/* 成功结果弹窗：展示转账前/后余额 */}
+      {success && (
+        <ResultDialog
+          title={t('transferSuccess') || 'Transfer Successful'}
+          onClose={() => window.location.reload()}  // 或改为导航
+          primaryText={t('gotIt') || 'Got it'}
+        >
+          <div className="confirm-details">
+            <div className="detail-row"><div className="label">{t('amount') || 'Amount'}</div><div>{success.amount}</div></div>
+            {success.burn && <div className="detail-row"><div className="label">Burn</div><div>{success.burn}</div></div>}
+            <div className="detail-row"><div className="label">{t('beforeBalance') || 'Before balance'}</div><div>{success.beforeBalance}</div></div>
+            <div className="detail-row"><div className="label">{t('laterBalance') || 'After balance'} </div><div>{success.laterBalance}</div></div>
+          </div>
+        </ResultDialog>
+      )}
+    </div>
+  )
 }

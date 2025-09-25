@@ -1,22 +1,12 @@
-// TRX转账接口
-export async function transferTrx(params: { userName: string; passWord: string; toTronAddress: string; amount: number }, opts?: ApiOpts) {
-    return http.post<{ code: string; message: string; data: { burn: string; amount: string; laterBalance: string; beforeBalance: string } }>(
-        '/api/transaction/trx',
-        params,
-        withReal(undefined, opts?.real)
-    );
-}
 import type {
     AssetOverview,
     TxItem,
-    User,
     LoginResponse,
     RegisterResponse,
-    AccountGetByUserReq,
-    AccountGetByUserResp
+    AccountGetByUserResp,
+    transferCrypto
 } from '../../types'
-import type { Activity } from '../../types'
-import { http } from '../../../../../../../shared/api/http'
+import { http } from '../api/httpWallet'
 
 type ApiOpts = { real?: boolean }
 
@@ -52,6 +42,20 @@ export const api = {
             'api/account/get',
             { userName: username },
             { useRealApi: !!opts?.real }
+        )
+    },
+
+     async transfer(
+         userName: string,
+         passWord: string, 
+         toTronAddress: string, 
+         amount: number ,  
+         opts?: { real?: boolean}
+        ):Promise<transferCrypto> {
+        return http.post<transferCrypto>(
+        '/api/transaction/trx',
+        { userName, passWord, toTronAddress, amount },
+        withReal(undefined, opts?.real)
         )
     },
 

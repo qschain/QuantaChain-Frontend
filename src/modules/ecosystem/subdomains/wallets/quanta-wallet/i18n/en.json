@@ -10,7 +10,6 @@
   "dashboard": "Dashboard",
   "atlas": "World Map",
   "assets": "Assets",
-  "settings": "Settings",
   "send": "Send",
   "receive": "Receive",
   "deposit": "Deposit",
@@ -49,14 +48,6 @@
   "region.txCount": "Transaction Count",
   "region.transferVolume": "Total Transfer Volume",
   "region.tvl": "Token Value Locked",
-  "settings.center": "Account & Settings",
-  "settings.accountOverview": "Account Overview",
-  "settings.privacy": "Privacy & Security",
-  "settings.permissions": "Permissions",
-  "settings.network": "Network",
-  "settings.appearance": "Appearance",
-  "settings.notifications": "Notifications",
-  "settings.about": "About",
   "appearance.theme": "Theme",
   "appearance.layout": "Home Widgets Layout",
   "appearance.layout.tip": "Drag-and-drop upcoming · Toggle and sort for now",
@@ -149,7 +140,6 @@
   "select.network": "Select Network",
   "cancel": "Cancel",
   "pair": "Pair",
-  "loadMoreActivities": "Load more activities",
   "region.name.cn": "China",
   "region.name.br": "Brazil",
   "region.name.my": "Malaysia",
@@ -170,7 +160,10 @@
     "networkManagement": "Network Management",
     "appearance": "Appearance",
     "notifications": "Notifications",
-    "about": "About"
+    "about": "About",
+    "center": "Account & Settings",
+    "privacy": "Privacy & Security",
+    "network": "Network"
   },
   "account": {
     "userId": "User ID",
@@ -256,5 +249,13 @@
     "hide": "Hide",
     "chooseFile": "choose file",
     "change": "change"
-  }
+  },
+  "confirmTransfer": "Confirm Transfer",
+  "pleaseConfirmDetails": "Please check the transfer details",
+  "recipientAddress": "Recipient Address",
+  "confirm": "Confirm",
+  "sending": "Sending...",
+  "enterPassword":"Please enter password...",
+  "recipientAddressPlaceholder": "Please enter recipient address",
+  "amountPlaceholder": "Please enter amount to send"
 }

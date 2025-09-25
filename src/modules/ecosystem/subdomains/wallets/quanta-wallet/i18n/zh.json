@@ -10,7 +10,6 @@
   "dashboard": "仪表盘",
   "atlas": "世界地图",
   "assets": "资产管理",
-  "settings": "系统设置",
   "send": "发送",
   "receive": "接收",
   "deposit": "充值",
@@ -259,5 +258,15 @@
     "hide": "隐藏",
     "chooseFile": "选择文件",
     "change": "更改"
-  }
+  },
+  "recipientAddress":"接收方地址",
+  "confirmTransfer":"确认转账",
+  "pleaseConfirmDetails":"请检查转账详情",
+  "password": "密码",
+  "sending": "发送中...",
+  "confirm": "确认",
+  "enterPassword":"请输入密码...",
+  "unit": "单位",
+  "recipientAddressPlaceholder": "请输入或粘贴链钱包地址",
+  "amountPlaceholder": "请输入发送数量"
 }
