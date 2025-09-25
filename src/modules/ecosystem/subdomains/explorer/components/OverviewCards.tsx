@@ -10,10 +10,10 @@ export default function OverviewCards({ overview }:{ overview?: ChainOverview })
         <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:12, marginBottom:4 }}>
             {!overview ? <Skeleton rows={1}/> : (
                 <>
-                    <StatCard title={t('overview.tps')}        value={overview.tps.toLocaleString()} />
-                    <StatCard title={t('overview.height')}     value={overview.height.toLocaleString()} />
-                    <StatCard title={t('overview.validators')} value={overview.validators.toLocaleString()} />
-                    <StatCard title={t('overview.price')}      value={`$${overview.priceUSD.toFixed(3)}`} />
+                    <StatCard title={t('overview.tps')}        value={overview.data.currentTps.toLocaleString()} />
+                    <StatCard title={t('overview.height')}     value={overview.data.blockHeight.toLocaleString()} />
+                    <StatCard title={t('overview.validators')} value={overview.data.superNumber.toLocaleString()} />
+                    <StatCard title={t('overview.price')}      value={`$${overview.data.trxRate.toFixed(3)}`} />
                 </>
             )}
         </div>

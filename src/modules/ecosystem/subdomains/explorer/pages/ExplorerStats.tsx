@@ -29,9 +29,9 @@ export default function ExplorerStats(){
 
             {!ov ? <Skeleton rows={1}/> : (
                 <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:12, marginBottom:16 }}>
-                    <StatCard title="TPS" value={ov.tps.toLocaleString()} />
+                    <StatCard title="TPS" value={ov.data.currentTps.toLocaleString()} />
                     <StatCard title="Avg Block Time" value="~3s" />
-                    <StatCard title="Active Validators" value={ov.validators.toLocaleString()} />
+                    <StatCard title="Active Validators" value={ov.data.superNumber.toLocaleString()} />
                 </div>
             )}
 

@@ -268,5 +268,10 @@
   "enterPassword":"请输入密码...",
   "unit": "单位",
   "recipientAddressPlaceholder": "请输入或粘贴链钱包地址",
-  "amountPlaceholder": "请输入发送数量"
+  "amountPlaceholder": "请输入发送数量",
+  "transferFailed": "转账失败",
+  "transferSuccess": "转账成功",
+  "beforeBalance": "转账前余额",
+  "laterBalance": "转账后余额",
+  "gotIt": "知道了!"
 }

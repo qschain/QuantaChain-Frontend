@@ -257,5 +257,10 @@
   "sending": "Sending...",
   "enterPassword":"Please enter password...",
   "recipientAddressPlaceholder": "Please enter recipient address",
-  "amountPlaceholder": "Please enter amount to send"
+  "amountPlaceholder": "Please enter amount to send",
+  "transferFailed": "Transfer Failed",
+  "transferSuccess": "Transfer Success",
+  "beforeBalance": "Before Balance",
+  "laterBalance": "Later Balance",
+  "gotIt": "Got It !"
 }

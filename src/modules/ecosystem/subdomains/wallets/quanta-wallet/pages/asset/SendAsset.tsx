@@ -53,19 +53,19 @@ export default function SendAsset() {
       {/* 失败错误弹窗（叠在最上层） */}
       {errOpen && (
         <ErrorDialog
-          title={t('transferFailed') || 'Transfer Failed'}
+          titleKey={t('transferFailed') || 'Transfer Failed'}
           message={errMsg}
           onClose={() => setErrOpen(false)}   // 仅关闭错误层，不关密码弹窗
-          primaryText={t('close') || 'Close'}
+          primaryTextKey={t('close') || 'Close'}
         />
       )}
 
       {/* 成功结果弹窗：展示转账前/后余额 */}
       {success && (
         <ResultDialog
-          title={t('transferSuccess') || 'Transfer Successful'}
-          onClose={() => window.location.reload()}  // 或改为导航
-          primaryText={t('gotIt') || 'Got it'}
+            titleKey={t('transferSuccess') || 'Transfer Successful'}
+            onClose={() => window.location.reload()}  // 或改为导航
+            primaryTextKey={t('gotIt') || 'Got it'}
         >
           <div className="confirm-details">
             <div className="detail-row"><div className="label">{t('amount') || 'Amount'}</div><div>{success.amount}</div></div>

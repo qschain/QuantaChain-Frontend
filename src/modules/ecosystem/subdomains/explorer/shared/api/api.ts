@@ -91,11 +91,17 @@ export const api = {
         { useRealApi: true, withAuth: false }  // ⭐ 强制走真实后端
     )
 },
+    async getOverview(): Promise<ChainOverview> {
+        return await http.get<ChainOverview>(
+            'api/get/edgeData',
+            { useRealApi: true, withAuth: false }
+        )
+    },
   /* ---------------- explorer 侧其余接口（保持原路由，可被 MSW） ---------------- */
-  
-  getOverview(): Promise<ChainOverview> {
-    return http.get<ChainOverview>('/api/explorer/overview', { withAuth: false });
-  },
+
+  // getOverview(): Promise<ChainOverview> {
+  //   return http.get<ChainOverview>('/api/explorer/overview', { withAuth: false });
+  // },
 
   getLatestTxs(limit = 10): Promise<{ items: TxLite[] }> {
     return http.get<{ items: TxLite[] }>('/api/explorer/txs', {

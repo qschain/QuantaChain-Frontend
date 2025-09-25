@@ -1,6 +1,15 @@
 export type ChainOverview = {
-    tps:number; height:number; validators:number; priceUSD:number;
+    code:string
+    messgae:string
+    data:{
+        "blockHeight":number
+        "currentTps": number,
+        "maxTps": number,
+        "trxRate": number,
+        "superNumber": string
+    }
 };
+
 
 export type BlockLite = {
     height:number; hash:string; time:string; txCount:number; miner?:string;
