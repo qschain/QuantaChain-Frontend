@@ -1,7 +1,7 @@
 import { Navigate, useLocation } from 'react-router-dom';
-import { useSession } from '../state/WalletSessionProvider';
+import { useSession } from '../session/PlatformSessionProvider';
 
-export function PrivateRoute({ children }: { children: React.ReactNode }) {
+export default function PrivateRoute({ children }: { children: React.ReactNode }) {
   const { authed, loading } = useSession();
   const location = useLocation();
 
@@ -12,7 +12,7 @@ export function PrivateRoute({ children }: { children: React.ReactNode }) {
 
   // 如果未认证，重定向到登录页
   if (!authed) {
-    return <Navigate to="/ecosystem/wallets/quanta/auth/login" state={{ from: location }} replace />;
+    return <Navigate to="/auth/login" state={{ from: location }} replace />;
   }
 
   return <>{children}</>;

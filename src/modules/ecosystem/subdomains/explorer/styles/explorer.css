@@ -349,3 +349,63 @@ body { margin:0; background:var(--ex-bg); color:var(--ex-text); }
     color: #a9c2ff;
     text-shadow: 0 0 6px rgba(122,162,255,0.25);
 }
+/* ---------- Pagination（与 SR 对齐，使用 ex- 体系） ---------- */
+.ex-pagination {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--ex-space-12);
+    margin-top: var(--ex-space-16);
+}
+
+.ex-pagination-btn {
+    min-width: 60px;
+    height: 38px;
+    padding: 0 var(--ex-space-16);
+    border-radius: 999px;
+    border: 1px solid #1f2937;
+    background: #121720;
+    color: var(--ex-text);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.ex-pagination-btn:hover {
+    background: #151c26;
+    border-color: #27313e;
+}
+.ex-pagination-btn.is-active {
+    font-weight: 700;
+    border-color: var(--ex-primary);
+    box-shadow: 0 0 0 2px var(--ex-primary), 0 0 12px rgba(0, 229, 255, 0.35);
+    color: var(--ex-primary);
+}
+.ex-pagination-btn.is-disabled,
+.ex-pagination-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+/* “跳转到”文字 */
+.ex-pagination-text {
+    color: var(--ex-muted);
+    font-size: 14px;
+}
+
+/* 输入框 */
+.ex-pagination-input {
+    width: 64px;
+    height: 36px;
+    padding: 0 10px;
+    border-radius: 12px;
+    background: var(--ex-bg-surface);
+    color: var(--ex-text);
+    border: 1px solid #1f2a37;
+    text-align: center;
+    outline: none;
+    transition: all 0.2s ease;
+}
+.ex-pagination-input:focus {
+    border-color: var(--ex-primary);
+    box-shadow: 0 0 0 2px rgba(0, 229, 255, 0.3);
+}

@@ -1,7 +1,7 @@
 import React, { createContext, useContext } from 'react'
 import type { DashboardDTO } from '../types'
 import { useDashboard } from './useDashboard'
-import { useSession } from '../state/WalletSessionProvider'
+import { useSession } from '../../../../../../app/session/PlatformSessionProvider'
 
 /** Context 里放 状态 + 值 */
 type DashboardCtxValue = {

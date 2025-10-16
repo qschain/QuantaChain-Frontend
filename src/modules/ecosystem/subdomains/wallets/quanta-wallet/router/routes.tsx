@@ -2,21 +2,13 @@
 import { lazy } from 'react'
 import type { RouteObject } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
-import { PrivateRoute } from './guards'
+import PrivateRoute from '../../../../../../app/router/guards'
 import WalletI18nProvider from '../WalletI18nProvider'
-import { WalletSessionProvider } from '../state/WalletSessionProvider'
 import { DashboardProvider } from '../model/DashboardContext'
-
-// ⭐ 新增：节点缓存 Provider
+//节点缓存 Provider
 import { NodesProvider } from '../model/atlas/NodesStore'
 
-const AuthLayout        = lazy(() => import('../AuthLayout'))
 const DashboardLayout   = lazy(() => import('../pages/DashboardLayout'))
-
-const Login             = lazy(() => import('../pages/auth/Login'))
-const Register          = lazy(() => import('../pages/auth/Register'))
-const ForgotPassword    = lazy(() => import('../pages/auth/ForgotPassword'))
-
 const Dashboard         = lazy(() => import('../pages/Dashboard'))
 
 const AssetDetail       = lazy(() => import('../pages/asset/AssetDetail'))
@@ -36,7 +28,7 @@ const Appearance        = lazy(() => import('../pages/settings/Appearance'))
 const Notifications     = lazy(() => import('../pages/settings/Notifications'))
 const About             = lazy(() => import('../pages/settings/About'))
 
-// ⬇️ 这里替换：原本是 GlobePage，改为组合页 ExplorerLanding
+
 const ExplorerLanding   = lazy(() => import('../pages/atlas/ExplorerLanding'))
 const NodeDetailPage    = lazy(() => import('../pages/atlas/NodeDetailPage'))
 const RegionOverview    = lazy(() => import('../pages/atlas/NodeDetailPage'))
@@ -44,26 +36,15 @@ const RegionOverview    = lazy(() => import('../pages/atlas/NodeDetailPage'))
 const NotFound          = lazy(() => import('../pages/NotFound'))
 
 const WalletShell = () => (
-    <WalletSessionProvider>
         <WalletI18nProvider>
             <Outlet />
         </WalletI18nProvider>
-    </WalletSessionProvider>
 )
 
 export const routes: RouteObject[] = [
     {
         element: <WalletShell />,
         children: [
-            {
-                path: 'auth',
-                element: <AuthLayout />,
-                children: [
-                    { path: 'login', element: <Login /> },
-                    { path: 'register', element: <Register /> },
-                    { path: 'forgot', element: <ForgotPassword /> },
-                ],
-            },
             {
                 element: (
                     <PrivateRoute>

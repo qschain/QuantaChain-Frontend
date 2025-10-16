@@ -1,0 +1,98 @@
+{
+  "login": {
+    "title": "Sign In",
+    "subtitle": "Access your digital-asset dashboard",
+    "slogan": "Sign in, unlock more possibilities…",
+    "fields": {
+      "username": "Username / Email",
+      "usernamePh": "Enter email or username",
+      "password": "Password",
+      "passwordPh": "Enter your password"
+    },
+    "actions": {
+      "remember": "Remember me",
+      "forgot": "Forgot password?",
+      "login": "Secure Sign-in",
+      "register": "Create one",
+      "or": "or",
+      "google": "Google",
+      "phone": "Phone",
+      "wechat": "WeChat",
+      "backHome": "Back to Home"
+    },
+    "tips": {
+      "noAccount": "Don't have an account?",
+      "accessDenied": "Login failed. Please check your credentials.",
+      "missingCreds": "Please enter your account/password"
+    }
+  },
+
+  "register": {
+    "title": "Create your account",
+    "subtitle": "Welcome to the next-gen digital asset platform",
+    "fields": {
+      "email": "Email",
+      "username": "Username",
+      "password": "Password",
+      "confirmPassword": "Confirm password"
+    },
+    "placeholders": {
+      "email": "you@example.com",
+      "username": "Pick a unique username",
+      "password": "At least 8 characters",
+      "confirmPassword": "Re-enter"
+    },
+    "actions": {
+      "signup": "Sign up",
+      "signin": "Sign in",
+      "registering": "Registering…"
+    },
+    "legal": {
+      "consent": "I have read and agree to the Terms & Privacy"
+    },
+    "tips": {
+      "fillAll": "Please complete the form.",
+      "invalidEmail": "Invalid email format.",
+      "pwdTooShort": "Password must be at least 8 characters.",
+      "pwdMismatch": "Passwords do not match.",
+      "acceptTerms": "Please accept Terms & Privacy.",
+      "registerOk": "Registration succeeded. Please sign in.",
+      "registerFail": "Registration failed, please try again.",
+      "hasAccount": "Already have an account?"
+    }
+  },
+
+  "forgot": {
+    "title": "Forgot Password",
+    "backToLogin": "Back to Sign in",
+    "subtitle": "Enter your email or phone number to receive a verification code.",
+    "fields": {
+      "account": "Account",
+      "code": "Verification code",
+      "newPassword": "New password",
+      "confirmNewPassword": "Confirm new password"
+    },
+    "placeholders": {
+      "account": "Email or phone number",
+      "code": "6-digit code",
+      "newPassword": "8+ chars with letters & digits",
+      "confirmNewPassword": "Re-enter new password"
+    },
+    "actions": {
+      "sendCode": "Send code",
+      "resendIn": "Resend in {{sec}}s",
+      "sending": "Sending…",
+      "reset": "Reset password",
+      "resetting": "Resetting…",
+      "backToLogin": "Back to Sign in"
+    },
+    "tips": {
+      "missingAccount": "Please enter email or phone.",
+      "fillAll": "Please complete the form.",
+      "pwdWeak": "Password must be at least 8 chars and include letters & digits.",
+      "pwdMismatch": "Passwords do not match.",
+      "resetOk": "Reset succeeded. Please sign in.",
+      "resetFail": "Reset failed, please try again."
+    }
+  }
+}

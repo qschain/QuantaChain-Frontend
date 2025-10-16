@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom';
 import TopNav from './TopNav/TopNav';
 import Footbar from "./Footbar/Footbar";
 export default function AppLayout() {
+    // @ts-ignore
     return (
         <div className="app-shell">
             <TopNav />

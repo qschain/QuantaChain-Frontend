@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import {DashboardDTO} from "../types";
-import {useSession} from "../state/WalletSessionProvider";
+import {useSession} from "../../../../../../app/session/PlatformSessionProvider";
 import {accountByUserRespToDashboardDTO} from "./dashboardAdapter";
 import {api} from "../shared/api/api";
 

@@ -1,4 +1,4 @@
-import { http } from './httpWallet';
+import { http } from '../../../../../../../shared/api/http'
 import type { NodesApiResp, NodesData, AtlasPoint, NodeRaw } from '../../types';
 
 // 简单 slug 化（路由与 i18n 更稳）

@@ -14,10 +14,15 @@
     "whitepaper": "Whitepaper",
     "github": "GitHub Code",
     "security": "Security Reports",
-    "bounty": "Bug Bounty"
+    "bounty": "Bug Bounty",
+    "ai": "AI",
+    "aiExplore": "Explore",
+    "aiAgents": "Agents",
+    "aiLabs": "Labs"
   },
   "actions": {
     "login": "Login",
+    "logout": "Logout",
     "connectWallet": "Connect Wallet",
     "startExploring": "Start Exploring →",
     "searchPlaceholder": "Search blocks, txs, addresses…"

@@ -1,12 +1,10 @@
 import type {
     AssetOverview,
     TxItem,
-    LoginResponse,
-    RegisterResponse,
     AccountGetByUserResp,
     transferCrypto
 } from '../../types'
-import { http } from '../api/httpWallet'
+import { http } from '../../../../../../../shared/api/http'
 
 type ApiOpts = { real?: boolean }
 
@@ -18,22 +16,6 @@ function withReal<T extends Record<string, any> | undefined>(opts: T, real?: boo
 }
 
 export const api = {
-    async register(userName: string, passWord: string, opts?: ApiOpts): Promise<RegisterResponse> {
-        return http.post<RegisterResponse>(
-            '/api/register',
-            { userName, passWord },
-            withReal({ withAuth: false }, opts?.real)
-        )
-    },
-
-    async login(userName: string, passWord: string, opts?: ApiOpts): Promise<LoginResponse> {
-        return http.post<LoginResponse>(
-            '/api/login',
-            { userName, passWord },
-            withReal({ withAuth: false }, opts?.real)
-        )
-    },
-
     async getAccountOverview(
         username: string,
         opts?: { real?: boolean }

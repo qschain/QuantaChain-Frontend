@@ -13,7 +13,7 @@
     "tp": { "desc": "多链钱包，深度集成 Tron 生态，提供便捷的 DApp 浏览器和资产管理功能。" },
     "imtoken": { "desc": "全球领先的数字资产钱包，支持多链，包括 Tron，提供安全可靠的资产管理和 DApp 体验。" },
     "ledger": { "desc": "领先的硬件钱包，通过 Ledger Live 应用支持 Tron，为大额资产提供极致安全保障。" },
-    "your": { "title": "QuantaWallet", "desc": "全新自研的量子加密钱包应用，支持登录、资产、转账、Swap 等功能。" }
+    "quanta": { "title": "QuantaWallet", "desc": "全新自研的量子加密钱包应用，支持登录、资产、转账、Swap 等功能。" }
   },
   "cta": {
     "title": "您的钱包还未在此列？",

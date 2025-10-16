@@ -1,0 +1,15 @@
+{
+  "nav": {
+    "ai": "AI",
+    "explore": "Explore",
+    "labs": "Labs"
+  },
+  "title": {
+    "explore": "AI Explore",
+    "labs": "AI Labs"
+  },
+  "desc": {
+    "explore": "Playground for demos: retrieval, agents, and experiments.",
+    "labs": "Prototype features and sandbox capabilities."
+  }
+}

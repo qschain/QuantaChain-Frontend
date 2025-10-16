@@ -1,66 +1,112 @@
+
 import { useMemo } from 'react';
 import { useNodes } from '../../model/atlas/NodesStore';
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, LabelList, CartesianGrid } from 'recharts';
+import {
+    ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip,
+    LabelList, CartesianGrid
+} from 'recharts';
 
 type Row = { name: string; value: number };
 
-export default function NodesRankingSection() {
+export default function NodesRankingSectionCompact({
+                                                       topN = 15,
+                                                       height = 520,      // 一屏高度，可按页面调
+                                                   }: { topN?: number; height?: number }) {
     const { counts } = useNodes();
+
+    const theme = {
+        axis: getVar('--muted', '#8a97a6'),
+        bar:  getVar('--primary', '#75e6d5'),
+        grid: getVar('--line', '#1c2530'),
+        card: getVar('--bg-panel', '#0f1318'),
+        text: getVar('--text', '#d8e1ea'),
+    };
 
     const data = useMemo<Row[]>(() => {
         const list = Object.entries(counts).map(([k, v]) => ({ name: k, value: v || 0 }));
-        // 你图里似乎把长尾聚合成 Others；这里给个简单版（前 18，其余求和为 Others）
         list.sort((a,b)=> b.value - a.value);
-        const top = list.slice(0, 18);
-        const restSum = list.slice(18).reduce((s, x)=> s + x.value, 0);
-        return restSum > 0 ? [...top, { name: 'Others', value: restSum }] : top;
-    }, [counts]);
+        const head = list.slice(0, topN);
+        const rest = list.slice(topN);
+        const others = rest.reduce((s,x)=> s + x.value, 0);
+        return others > 0 ? [...head, { name: 'Others', value: others }] : head;
+    }, [counts, topN]);
 
-    const axisColor = getComputedStyle(document.documentElement).getPropertyValue('--muted')?.trim() || '#8a97a6';
-    const barColor  = getComputedStyle(document.documentElement).getPropertyValue('--primary')?.trim() || '#f54d4d';
-    const gridColor = getComputedStyle(document.documentElement).getPropertyValue('--line')?.trim()    || '#1c2530';
+    // 左轴宽度：动态按最长名称估算，避免溢出 & 无需横向滚动
+    const yWidth = Math.min(180, Math.max(80, longestLabelPx(data, 11) + 16));
 
     return (
-        <section style={{ padding: '24px 16px' }} id="nodes-ranking">
+        <section id="nodes-ranking" style={{ padding: '16px 12px' }}>
             <h2 style={{ margin: 0 }}>Nodes Ranking</h2>
-            <div className="secondary" style={{ marginTop: 4, marginBottom: 12 }}>Ranked by country and region</div>
+            <div style={{ color: theme.axis, margin: '4px 0 10px' }}>Ranked by country and region</div>
 
-            <div className="card" style={{ height: 560 }}>
+            <div style={{
+                height,
+                borderRadius: 16,
+                border: `1px solid ${theme.grid}`,
+                background: theme.card,
+                padding: 8
+            }}>
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart
                         data={data}
                         layout="vertical"
-                        margin={{ top: 16, right: 24, bottom: 16, left: 120 }}
+                        margin={{ top: 8, right: 18, bottom: 8, left: 8 }}
                     >
-                        <CartesianGrid horizontal stroke={gridColor} strokeDasharray="3 6" />
+                        <CartesianGrid horizontal stroke={theme.grid} strokeDasharray="3 6" />
                         <XAxis
                             type="number"
-                            tick={{ fill: axisColor, fontSize: 12 }}
-                            axisLine={{ stroke: gridColor }}
-                            tickLine={{ stroke: gridColor }}
+                            tick={{ fill: theme.axis, fontSize: 11 }}
+                            axisLine={{ stroke: theme.grid }}
+                            tickLine={{ stroke: theme.grid }}
+                            // 紧凑一点的 domain，给右侧数值留位
+                            domain={[0, (max) => Math.ceil((Number(max) || 0) * 1.05)]}
                         />
                         <YAxis
-                            dataKey="name"
                             type="category"
-                            width={120}
-                            tick={{ fill: axisColor, fontSize: 12 }}
-                            axisLine={{ stroke: gridColor }}
-                            tickLine={{ stroke: gridColor }}
+                            dataKey="name"
+                            width={yWidth}
+                            tick={{ fill: theme.axis, fontSize: 12 }}
+                            axisLine={{ stroke: theme.grid }}
+                            tickLine={{ stroke: theme.grid }}
+                            tickFormatter={(v) => ellipsis(v, 18)}
                         />
                         <Tooltip
                             cursor={{ fill: 'rgba(255,255,255,0.04)' }}
                             contentStyle={{
-                                background: getComputedStyle(document.documentElement).getPropertyValue('--bg-surface')?.trim() || '#0f1318',
-                                border: `1px solid ${gridColor}`,
-                                borderRadius: 12
+                                background: theme.card,
+                                border: `1px solid ${theme.grid}`,
+                                borderRadius: 12,
+                                color: theme.text
                             }}
                         />
-                        <Bar dataKey="value" fill={barColor} radius={[8,8,8,8]} barSize={14}>
-                            <LabelList dataKey="value" position="right" fill={axisColor} fontSize={12}/>
+                        <Bar dataKey="value" fill={theme.bar} radius={[8,8,8,8]} barSize={14}>
+                            <LabelList dataKey="value" position="right" fill={theme.axis} fontSize={11}/>
                         </Bar>
                     </BarChart>
                 </ResponsiveContainer>
             </div>
         </section>
     );
+}
+
+/* -------- utils -------- */
+function getVar(name: string, fallback: string) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name)?.trim() || fallback;
+}
+function ellipsis(s: string, n = 16) {
+    if (!s) return '';
+    return s.length > n ? s.slice(0, n - 1) + '…' : s;
+}
+// 粗略估算中文/英文像素宽度（用于 Y 轴宽度）
+function longestLabelPx(data: {name:string}[], fontSize = 12) {
+    const avg = fontSize * 0.62; // 英文
+    const avgCJK = fontSize * 0.9; // 中文偏宽
+    return data.reduce((m, d) => {
+        const s = d.name || '';
+        const w = [...s].reduce((sum, ch) => {
+            const isCJK = /[\u4e00-\u9fa5]/.test(ch);
+            return sum + (isCJK ? avgCJK : avg);
+        }, 0);
+        return Math.max(m, w);
+    }, 0);
 }

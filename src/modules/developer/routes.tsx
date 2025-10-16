@@ -1,7 +1,7 @@
 import type { RouteObject } from 'react-router-dom';
 import { lazy } from 'react';
 import AppLayout from "../../app/layouts/AppLayout";
-import UnderConstruction from '../../pages/UnderConstruction'
+import {UnderConstruction} from '../../pages/UnderConstruction'
 
 const Whitepaper = lazy(() => import('./pages/Whitepaper'));
 const GithubCode = lazy(() => import('./pages/GithubCode'));

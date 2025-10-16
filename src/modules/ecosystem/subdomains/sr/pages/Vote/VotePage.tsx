@@ -1,115 +1,184 @@
-import { useTranslation } from 'react-i18next';
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { SrProvider, useSr } from '../../state/store'
+import useSrInit from '../../hooks/useSrInit'
+import SRList from '../../components/SRList'
+import VoteSidebar from '../../components/VoteSidebar'
+import ConfirmVoteModal from '../../components/ConfirmVoteModal'
+import TxResultModal from '../../components/TxResultModal'
+import FreezePanel from '../../components/FreezePanel'
+import srApi from '../../shared/api/srApi'
+import { useSession } from '../../../../../../app/session/PlatformSessionProvider'
+import SRDetailDrawer from '../../components/SRDetailDrawer'
+
+
+function Content() {
+    const { t } = useTranslation('sr')
+    const { state, dispatch } = useSr()
+    const { user } = useSession()
+    useSrInit()
+
+    async function reloadAccount() {
+        if (!user?.name) return
+        try {
+            const acc = await srApi.getAccount(user.name, true)
+            dispatch({ type: 'setAccount', payload: acc })
+        } catch (e: any) {
+            dispatch({ type: 'setError', payload: e?.message || 'reload account error' })
+        }
+    }
+
+    async function reloadList() {
+        try {
+            dispatch({ type: 'setPageLoading', payload: true })
+            const list = await srApi.getWitnessList(
+                { pageNum: state.pageNum, pageSize: state.pageSize },
+                true
+            )
+            dispatch({ type: 'setList', payload: list })
+            dispatch({
+                type: 'setHasMore',
+                payload: Array.isArray(list) && list.length >= state.pageSize,
+            })
+        } catch (e: any) {
+            dispatch({ type: 'setError', payload: e?.message || 'reload list error' })
+        } finally {
+            dispatch({ type: 'setPageLoading', payload: false })
+        }
+    }
+
+    async function submitVote() {
+        if (!user?.address) return
+        try {
+            dispatch({ type: 'setSubmitting', payload: true })
+            dispatch({ type: 'setConfirmOpen', payload: false })
+            const payload: any = { ownerAddress: user.address }
+            Object.entries(state.allocations).forEach(([addr, v]) => {
+                if (v > 0) payload[addr] = String(v)
+            })
+            const hash = await srApi.postVoteSR(payload, true)
+            dispatch({ type: 'setTxHash', payload: { vote: hash } })
+            dispatch({ type: 'allocClear' })
+            await reloadAccount()
+            await reloadList()
+        } catch (e: any) {
+            dispatch({ type: 'setError', payload: e?.message || 'vote error' })
+        } finally {
+            dispatch({ type: 'setSubmitting', payload: false })
+        }
+    }
+
+    async function changePage(next: number) {
+        try {
+            const page = Math.max(1, next)
+            dispatch({ type: 'setPage', payload: { pageNum: page } })
+            dispatch({ type: 'setPageLoading', payload: true })
+            const list = await srApi.getWitnessList({ pageNum: page, pageSize: state.pageSize }, true)
+            dispatch({ type: 'setList', payload: list })
+            dispatch({
+                type: 'setHasMore',
+                payload: Array.isArray(list) && list.length >= state.pageSize,
+            })
+        } catch (e: any) {
+            dispatch({ type: 'setError', payload: e?.message || 'load page error' })
+        } finally {
+            dispatch({ type: 'setPageLoading', payload: false })
+        }
+    }
+
+    const windowPages = [state.pageNum - 2, state.pageNum - 1, state.pageNum, state.pageNum + 1, state.pageNum + 2]
+        .filter(p => p >= 1)
+
+    const lastHash = state.lastVoteTxHash || state.lastFreezeTxHash
+
+    return (
+        <div className="sr-content">
+            <div className="sr-content-inner">
+                <div className="sr-grid sr-grid-2">
+                    <div className="sr-col sr-gap-16">
+                        <div className="sr-title-neon">{t('page.header')}</div>
+                        <div className="sr-desc">{t('page.desc')}</div>
+
+                        <SRList data={state.list} loading={state.pageLoading} />
+
+                        {/* —— 页码 —— */}
+                        <div className="sr-row sr-gap-8" style={{ marginTop:12, justifyContent:'flex-end', alignItems:'center' }}>
+                            <button
+                                className="sr-btn"
+                                onClick={() => void changePage(state.pageNum - 1)}
+                                disabled={state.pageLoading || state.pageNum <= 1}
+                            >
+                                {t('pagination.prev', { defaultValue: '上一页' })}
+                            </button>
+
+                            {windowPages.map(p => (
+                                <button
+                                    key={p}
+                                    className={`sr-btn ${p === state.pageNum ? 'active' : ''}`}
+                                    onClick={() => void changePage(p)}
+                                    disabled={state.pageLoading}
+                                >
+                                    {p}
+                                </button>
+                            ))}
+
+                            <button
+                                className="sr-btn"
+                                onClick={() => void changePage(state.pageNum + 1)}
+                                disabled={state.pageLoading || state.hasMore === false}
+                            >
+                                {t('pagination.next', { defaultValue: '下一页' })}
+                            </button>
+
+                            <span className="sr-muted" style={{ marginLeft:8 }}>
+                {t('pagination.jump', { defaultValue: '跳转到' })}
+              </span>
+                            <input
+                                className="sr-input"
+                                style={{ width:72, textAlign:'center' }}
+                                type="number"
+                                min={1}
+                                step={1}
+                                defaultValue={state.pageNum}
+                                onKeyDown={e => {
+                                    if (e.key === 'Enter') {
+                                        const v = Number((e.target as HTMLInputElement).value || 1)
+                                        if (v >= 1) void changePage(v)
+                                    }
+                                }}
+                            />
+                            <span className="sr-muted">{t('pagination.page', { defaultValue: '页' })}</span>
+                        </div>
+                    </div>
+
+                    {/* —— 右侧面板 —— */}
+                    <div className="sr-col sr-gap-16" style={{ position:'sticky', top:16, height:'fit-content' }}>
+                        <VoteSidebar onOpenConfirm={() => dispatch({ type: 'setConfirmOpen', payload: true })} />
+                        {/* ⚠️ 不再传 onError，避免 TS2322 */}
+                        <FreezePanel onAfterSuccess={async () => { await reloadAccount(); await reloadList(); }} />
+                    </div>
+                </div>
+
+                <ConfirmVoteModal
+                    open={state.confirmOpen}
+                    onCancel={() => dispatch({ type: 'setConfirmOpen', payload: false })}
+                    onConfirm={submitVote}
+                />
+                <TxResultModal
+                    open={!!lastHash}
+                    trxHash={lastHash}
+                    onClose={() => dispatch({ type: 'setTxHash', payload: { vote: '', freeze: '' } })}
+                />
+                <SRDetailDrawer />
+            </div>
+        </div>
+    )
+}
 
 export default function VotePage() {
-  const { t } = useTranslation('sr');
-
-  return (
-    <div className="sr-page sr-vote">
-      <header className="sr-header">
-        <h1 className="sr-title-neon">{t('vote.title')}</h1>
-        <p className="sr-desc">{t('vote.subtitle')}</p>
-      </header>
-
-      <div className="sr-row sr-gap-16">
-        <div className="sr-col sr-flex-1">
-          {/* 工具条 */}
-          <div className="sr-toolbar">
-            <input
-              className="sr-input"
-              placeholder={t('vote.searchPlaceholder')!}
-            />
-            <button className="sr-btn">{t('vote.sort')}</button>
-            <button className="sr-btn ghost">{t('vote.filters')}</button>
-
-            <div className="sr-chips">
-              <span className="sr-chip">{t('vote.quick.recommended')}</span>
-              <span className="sr-chip">{t('vote.quick.highApy')}</span>
-              <span className="sr-chip">{t('vote.quick.highActive')}</span>
-              <span className="sr-chip">{t('vote.quick.newlyListed')}</span>
-            </div>
-          </div>
-
-          {/* 列表 */}
-          <SrRow name="TronLink" apy="8.5%" votes="15.2M" online="99.8%" people="2,456" />
-          <SrRow name="Binance Staking" apy="7.8%" votes="18.7M" online="99.9%" people="3,128" />
-          <SrRow name="TRON Foundation" apy="9.2%" votes="12.3M" online="98.5%" people="1,892" />
-
-          <div className="sr-center" style={{ marginTop: 12 }}>
-            <button className="sr-btn ghost">{t('common.loadMore')}</button>
-          </div>
-        </div>
-
-        {/* 右侧投票篮 */}
-        <aside className="sr-vote-basket">
-          <div className="sr-panel sr-sticky">
-            <div className="sr-panel__title">{t('vote.basket.title')}</div>
-
-            <div className="sr-slider">
-              <div className="sr-row sr-space-between">
-                <div className="sr-muted">{t('vote.basket.amount')}</div>
-                <div className="sr-muted">1000 TRX</div>
-              </div>
-              <div className="sr-slider__track">
-                <div className="sr-slider__thumb" style={{ left: '35%' }} />
-              </div>
-            </div>
-
-            <div className="sr-card">
-              <div className="sr-card__title">{t('vote.basket.incomePreview')}</div>
-              <div className="sr-muted">APY 8.5% · 日/周/月收益估算</div>
-            </div>
-
-            <div className="sr-card">
-              <div className="sr-card__title">{t('vote.basket.selected')}</div>
-              <div className="sr-muted">{t('vote.basket.none')}</div>
-            </div>
-
-            <div className="sr-col sr-gap-8">
-              <button className="sr-btn primary">{t('vote.actions.confirm')}</button>
-              <button className="sr-btn">{t('vote.actions.batch')}</button>
-              <button className="sr-btn ghost">{t('vote.actions.simulate')}</button>
-            </div>
-          </div>
-        </aside>
-      </div>
-    </div>
-  );
-}
-
-function SrRow({ name, apy, votes, online, people }:{
-  name:string; apy:string; votes:string; online:string; people:string;
-}) {
-  return (
-    <div className="sr-card sr-row sr-space-between sr-align-center">
-      <div className="sr-row sr-align-center" style={{ gap: 12 }}>
-        <div className="sr-avatar">SR</div>
-        <div>
-          <div className="sr-card__title">{name}</div>
-          <div className="sr-muted">TLy…K7ZH</div>
-          <div className="sr-row sr-gap-6" style={{ marginTop: 6 }}>
-            <span className="sr-badge">推荐</span>
-            <span className="sr-badge">高收益</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="sr-row sr-gap-24">
-        <KV k="APY" v={apy} />
-        <KV k="得票数" v={votes} />
-        <KV k="在线率" v={online} />
-        <KV k="投票人数" v={people} />
-      </div>
-
-      <button className="sr-btn">{'一键投票'}</button>
-    </div>
-  );
-}
-
-function KV({ k, v }:{k:string; v:string}) {
-  return (
-    <div className="sr-kv">
-      <div className="sr-muted">{k}</div>
-      <div className="sr-number-md">{v}</div>
-    </div>
-  );
+    return (
+        <SrProvider>
+            <Content />
+        </SrProvider>
+    )
 }

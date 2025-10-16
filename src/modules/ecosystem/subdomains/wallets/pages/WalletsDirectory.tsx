@@ -131,9 +131,9 @@ export default function WalletsDirectory() {
                                     className="link"
                                     onClick={e => {
                                         e.preventDefault();
-                                        nav('/ecosystem/wallets/quanta/auth/login');
+                                        nav('/ecosystem/wallets/quanta/dashboard');
                                     }}
-                                    href="/ecosystem/wallets/quanta/auth/login"
+                                    href="/ecosystem/wallets/quanta/dashboard"
                                 >
                                     {t('actions.enter')}
                                 </a>

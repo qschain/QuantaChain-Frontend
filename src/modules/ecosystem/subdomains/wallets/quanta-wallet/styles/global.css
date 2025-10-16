@@ -145,3 +145,18 @@ hr { border: none; border-top: 1px solid var(--border); }
 /* 响应式缩放 */
 @media (max-width: 1200px){ .qc-hero__title{ font-size: 56px; } }
 @media (max-width: 900px) { .qc-hero__title{ font-size: 40px; } }
+
+/* 保留基础重置，但去掉全局 overflow 限制 */
+html, body { margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; }
+
+.no-x-scroll { overflow-x: clip; }
+/* 禁止横向滚动（clip 比 hidden 更干净，避免产生合成层滚动） */
+html, body, #root {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;   /* 如果你的目标浏览器不全支持，可换成 hidden */
+}
+
+/* 统一盒模型，减少子像素溢出概率 */
+*, *::before, *::after { box-sizing: border-box; }

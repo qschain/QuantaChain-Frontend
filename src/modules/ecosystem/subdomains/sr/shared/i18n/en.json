@@ -1,5 +1,37 @@
 {
+  "title": "SR Voting",
+  "subtitle": "Choose the Super Representatives you support to participate in governance and earn rewards.",
+  "freezeConfirm": {
+    "title": "Confirm Freeze",
+    "qty": "Freeze Amount",
+    "note": "After confirmation the transaction will be submitted on-chain. The final result depends on the network.",
+    "invalid": "Please enter a valid amount"
+  },
+  "pagination": {
+    "prev": "Prev",
+    "next": "Next",
+    "jump": "Go to",
+    "page": "page"
+  },
+  "detail": {
+    "rank": "Ranking",
+    "change": "Change Votes",
+    "brokerage": "Brokerage",
+    "voterBrokerage": "Voter Brokerage",
+    "producedTotal": "Produced Total",
+    "producedEfficiency": "Block Efficiency",
+    "version": "Version",
+    "hasPage": "Has Page"
+  },
   "common": {
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "close": "Close",
+    "copy": "Copy",
+    "copied": "Copied",
+    "viewTx": "View Transaction",
+    "clear": "Clear",
+    "empty": "Empty",
     "ecosystem": "Ecosystem",
     "search": "Search",
     "loadMore": "Load more",
@@ -9,6 +41,46 @@
     "chartPlaceholder": "Chart placeholder",
     "timelinePlaceholder": "Timeline placeholder",
     "paginationPlaceholder": "Pagination placeholder"
+  },
+  "list": {
+    "annualized": "APY",
+    "realtimeVotes": "Real-time Votes",
+    "oneClickVote": "Vote All"
+  },
+  "sidebar": {
+    "basket": "Voting Basket",
+    "available": "Available Votes",
+    "voteAmount": "Vote Amount",
+    "selectedSR": "Selected SRs",
+    "confirmVote": "Confirm Vote",
+    "used": "Used Votes"
+  },
+  "freeze": {
+    "title": "Freeze TRX to Gain Voting Power",
+    "balance": "Available Balance",
+    "half": "50%",
+    "max": "MAX",
+    "submit": "Freeze",
+    "success": "Freeze submitted",
+    "failed": "Freeze failed"
+  },
+  "confirmModal": {
+    "title": "Confirm Voting Transaction",
+    "qty": "Total Votes",
+    "feeNote": "Network fee is not available for preview. Final result is subject to chain."
+  },
+  "resultModal": {
+    "title": "Transaction Submitted",
+    "hash": "Transaction Hash"
+  },
+  "page": {
+    "header": "SR Voting",
+    "desc": "Choose the Super Representatives you support to participate in governance and earn rewards."
+  },
+  "toast": {
+    "voteFailed": "Vote failed",
+    "voteSuccess": "Vote submitted",
+    "copyOk": "Copied to clipboard"
   },
   "nav": {
     "dashboard": "Dashboard",

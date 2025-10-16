@@ -7,11 +7,15 @@ export interface ModuleInitContext {
     services: { apiBase?: string }
 }
 
+export type AppRouteObject = RouteObject & {
+    handle?: { requiresAuth?: boolean };
+};
+
 export interface ModuleDefinition {
     id: ModuleId;
     title: string;
     basePath: string;
-    routes: RouteObject[];
+    routes: AppRouteObject[];
     menu?: NavItem[];
     providers?: ComponentType<{ children: ReactNode }>[];
     i18n?: { ns: string; resources: { en?: any; zh?: any } }[];

@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import './modules/ecosystem/subdomains/wallets/quanta-wallet/styles/global.css'
-import { WalletSessionProvider } from './modules/ecosystem/subdomains/wallets/quanta-wallet/state/WalletSessionProvider'
+import { PlatformSessionProvider } from './app/session/PlatformSessionProvider'
 import { UIProvider } from './shared/state/UIProvider'
 import App from './App'
 
@@ -22,9 +22,9 @@ async function bootstrap() {
         <React.StrictMode>
             <BrowserRouter>
                 <UIProvider>
-                    <WalletSessionProvider>
+                    <PlatformSessionProvider>
                         <App />
-                    </WalletSessionProvider>
+                    </PlatformSessionProvider>
                 </UIProvider>
             </BrowserRouter>
         </React.StrictMode>

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-export default function UnderConstruction() {
+export function UnderConstruction() {
     useEffect(() => {
         const root = document.querySelector(".uc-particles");
         if (!root) return;
@@ -17,25 +17,27 @@ export default function UnderConstruction() {
             root.appendChild(d);
             arr.push(d);
         }
-        return () => { arr.forEach((n) => n.remove()); };
+        return () => {
+            arr.forEach((n) => n.remove());
+        };
     }, []);
 
     return (
         <div className="uc-wrap">
             <div className="uc-bg">
-                <div className="uc-beam a" />
-                <div className="uc-beam b" />
-                <div className="uc-beam c" />
-                <div className="uc-vignette" />
-                <div className="uc-noise" />
-                <div className="uc-particles" aria-hidden />
+                <div className="uc-beam a"/>
+                <div className="uc-beam b"/>
+                <div className="uc-beam c"/>
+                <div className="uc-vignette"/>
+                <div className="uc-noise"/>
+                <div className="uc-particles" aria-hidden/>
             </div>
 
             <div className="uc-center">
                 <h1 className="uc-title">正在开发中......</h1>
                 <p className="uc-sub">页面正在紧锣密鼓建设中，敬请期待上线！</p>
                 <div className="uc-actions">
-                    <button className="uc-btn" onClick={()=>window.history.back()}>返回上一页</button>
+                    <button className="uc-btn" onClick={() => window.history.back()}>返回上一页</button>
                     <a className="uc-btn ghost" href="/">返回主页</a>
                 </div>
             </div>

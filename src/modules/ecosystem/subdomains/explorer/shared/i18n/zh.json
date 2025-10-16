@@ -26,7 +26,7 @@
   "table": {
     "block": "区块",
     "height": "高度",
-    "hash": "哈希",
+    "hash": "名称",
     "time": "时间",
     "txs": "交易数",
     "miner": "出块者",

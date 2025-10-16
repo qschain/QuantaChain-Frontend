@@ -1,48 +1,252 @@
-.qc-header{position:sticky;top:0;z-index:50;background:#0b0e11;border-bottom:1px solid #1c1f24}
-.qc-header__inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:18px;padding:12px 16px}
-.qc-logo{display:flex;align-items:center;gap:8px;color:#7dfcff;text-decoration:none;font-weight:800}
-.qc-logo__dot{width:12px;height:12px;border-radius:50%;background:#00fff5;box-shadow:0 0 12px #00fff5}
+/* ================================
+   Quanta Topbar (prefix: .qc-topbar)
+   ================================ */
 
-.qc-nav{display:flex;gap:8px}
-.qc-nav__item{position:relative}
-.qc-nav__btn{background:transparent;border:0;color:#d6dde6;padding:8px 10px;border-radius:8px;cursor:pointer}
-.qc-nav__btn:hover{background:#1a1f25}
-
-.qc-menu{position:absolute;top:36px;left:0;background:#171b20;border:1px solid #22262c;border-radius:12px;min-width:220px;padding:8px;display:flex;flex-direction:column;gap:4px;box-shadow:0 10px 30px rgba(0,0,0,.35)}
-.qc-menu__item{color:#d6dde6;text-decoration:none;padding:10px 12px;border-radius:8px}
-.qc-menu__item:hover{background:#1f242b;color:#fff}
-
-.qc-actions{
-  margin-left:auto;
-  display:flex;
-  align-items:center;
-  gap:10px;
+/* ---------- 基础变量 ---------- */
+:root {
+    --qc-topbar-h: 60px;
+    --qc-ease: cubic-bezier(.2,.8,.2,1);
+    --qc-fast: 160ms;
+    --qc-slow: 220ms;
 }
 
-.qc-select{
-  background:#12161b;
-  border:1px solid #2a2f36;
-  color:#cdd6e1;
-  border-radius:8px;
-  padding:6px 10px;
-  height:36px;
+/* ---------- 基础与布局 ---------- */
+.qc-topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: #0b0e11;
+    border-bottom: 1px solid #1c1f24;
+}
+.qc-topbar__inner {
+    max-width: 1280px; margin: 0 auto;
+    display: flex; align-items: center; gap: 16px;
+    padding: 12px 16px;
 }
 
-.qc-search{display:flex;align-items:center;background:#12161b;border:1px solid #2a2f36;border-radius:8px;overflow:hidden;height:36px}
-.qc-search input{background:transparent;border:0;outline:0;padding:0 8px;color:#d6dde6;width:240px;line-height:36px}
-.qc-search button{background:transparent;border:0;color:#9fb0c3;padding:0 8px;cursor:pointer}
-
-.qc-btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  height:36px;
-  padding:0 14px;
-  border-radius:10px;
-  text-decoration:none;
-  font-weight:700;
-  white-space:nowrap;
+/* ---------- 品牌 ---------- */
+.qc-topbar__logo {
+    display: flex; align-items: center; gap: 8px;
+    color: #7dfcff; text-decoration: none; font-weight: 800;
+    white-space: nowrap;
 }
-.qc-btn.primary{background:#00fff5;color:#0b0e11;box-shadow:0 0 14px rgba(0,255,245,.4)}
-.qc-btn.ghost{background:#141a20;border:1px solid #2a2f36;color:#d6dde6}
-.qc-btn:hover{filter:brightness(1.05)}
+.qc-topbar__logo-dot {
+    width: 12px; height: 12px; border-radius: 50%;
+    background: #00fff5; box-shadow: 0 0 12px #00fff5;
+}
+
+/* ---------- 主导航（桌面横排） ---------- */
+.qc-topbar__nav { display: flex; gap: 8px; }
+.qc-topbar__nav-item { position: relative; }
+
+/* 统一按钮/链接外观（含卡片同款动效） */
+.qc-topbar__nav-btn,
+.qc-topbar__btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 6px;
+    height: 32px; padding: 8px 10px;
+    font-size: 14px; line-height: 1;
+    background: transparent; border: 1px solid transparent;
+    border-radius: 8px;
+    color: #d6dde6; cursor: pointer; text-decoration: none;
+    vertical-align: middle;
+    white-space: nowrap;              /* 不换行，避免被压成竖排字 */
+    min-width: 96px;                  /* 给中文留空间，可调 88~110 */
+    transition:
+            background var(--qc-fast) var(--qc-ease),
+            transform  var(--qc-fast) var(--qc-ease),
+            color      var(--qc-fast) var(--qc-ease),
+            box-shadow var(--qc-fast) var(--qc-ease),
+            border-color var(--qc-fast) var(--qc-ease),
+            filter var(--qc-fast) var(--qc-ease);
+    will-change: background, transform, box-shadow, border-color;
+}
+.qc-topbar__nav-btn:hover,
+.qc-topbar__btn:hover {
+    transform: translateY(-3px);
+    background: #1a1f25;
+    box-shadow: 0 0 22px rgba(0,255,245,.18);
+    border-color: #2b313a;
+    filter: brightness(1.05);
+}
+.qc-topbar__nav-btn:active,
+.qc-topbar__btn:active { transform: translateY(0); }
+.qc-topbar__nav-btn:focus-visible,
+.qc-topbar__btn:focus-visible {
+    outline: 0;
+    box-shadow: 0 0 0 2px #0b0e11, 0 0 0 4px rgba(0,255,245,.55);
+    border-color: #2b313a;
+}
+
+/* 主按钮/幽灵按钮配色（含更亮的 hover） */
+.qc-topbar__btn--primary {
+    background: linear-gradient(90deg, #00fff5, #05ffd2);
+    color:#0b0e11; font-weight:700;
+    box-shadow:0 0 14px rgba(0,255,245,.4);
+    transition: all .2s var(--qc-ease);
+}
+.qc-topbar__btn--primary:hover {
+    background: linear-gradient(90deg, #05ffd2, #00e6ff);
+    box-shadow:0 0 24px rgba(0,255,245,.55), 0 6px 18px rgba(0,0,0,.35);
+    filter: brightness(1.08);
+}
+.qc-topbar__btn--ghost,
+.qc-topbar__nav-btn {
+    background:#141a20; border-color:#2a2f36; color:#d6dde6;
+}
+.qc-topbar__btn--ghost:hover,
+.qc-topbar__nav-btn:hover { background:#171d24; }
+
+/* 图标随悬浮微亮（可选） */
+.qc-topbar__btn svg, .qc-topbar__nav-btn svg,
+.qc-topbar__btn i,   .qc-topbar__nav-btn i {
+    transition: color var(--qc-fast) var(--qc-ease), text-shadow var(--qc-fast) var(--qc-ease);
+}
+.qc-topbar__btn:hover svg, .qc-topbar__nav-btn:hover svg,
+.qc-topbar__btn:hover i,   .qc-topbar__nav-btn:hover i {
+    color:#00fff5; text-shadow:0 0 12px rgba(0,255,245,.5);
+}
+
+/* ---------- 下拉菜单（桌面浮层 / 移动内嵌） ---------- */
+.qc-topbar__menu {
+    position: absolute; top: 36px; left: 0;
+    display: flex; flex-direction: column; gap: 4px;
+    background: #171b20; border: 1px solid #22262c; border-radius: 12px;
+    min-width: 220px; padding: 8px; box-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+.qc-topbar__menu-item {
+    color:#d6dde6; text-decoration:none; padding:10px 12px; border-radius:8px;
+    transition: background var(--qc-fast) var(--qc-ease), color var(--qc-fast) var(--qc-ease), transform var(--qc-fast) var(--qc-ease);
+}
+.qc-topbar__menu-item:hover { background:#1f242b; color:#fff; transform: translateX(2px); }
+.qc-topbar__menu-item:active { transform: translateX(2px) scale(0.99); }
+
+/* 桌面端：下拉淡入/位移/轻缩放 */
+@media (min-width: 901px) {
+    .qc-topbar__menu {
+        opacity: 0; pointer-events: none;
+        transform: translateY(6px) scale(0.98);
+        transform-origin: top;
+        transition: opacity var(--qc-slow) var(--qc-ease), transform var(--qc-slow) var(--qc-ease);
+    }
+    .qc-topbar__nav-item.is-open > .qc-topbar__menu {
+        opacity: 1; pointer-events: auto; transform: translateY(0) scale(1);
+    }
+}
+
+/* ---------- 右侧操作（桌面横排） ---------- */
+.qc-topbar__actions {
+    margin-left: auto;
+    display: flex; align-items: center;
+    flex-direction: row;           /* 桌面横排 */
+    gap: 10px;
+    flex-wrap: nowrap;             /* 优先同一行 */
+}
+
+/* 语言切换：紧凑 */
+.qc-topbar__select {
+    height: 32px; padding: 4px 8px; min-width: 90px;
+    background: #12161b; border: 1px solid #2a2f36;
+    color: #cdd6e1; border-radius: 8px; font-size: 13px;
+}
+
+/* 搜索框：紧凑 + 固定按钮 */
+.qc-topbar__search {
+    display:flex; align-items:center; height:32px;
+    background:#12161b; border:1px solid #2a2f36; border-radius:8px; overflow:hidden;
+    min-width: 220px;
+}
+.qc-topbar__search input {
+    flex: 1; padding: 0 8px; line-height: 32px;
+    background: transparent; border: 0; outline: 0; color: #d6dde6; font-size: 13px;
+}
+.qc-topbar__search button {
+    width: 36px; height: 100%;
+    display:flex; align-items:center; justify-content:center;
+    background: transparent; border: 0; color: #9fb0c3; cursor: pointer;
+    transition: color .2s ease;
+}
+.qc-topbar__search button:hover { color:#00fff5; }
+
+/* ---------- 用户信息（您好 + 用户名） ---------- */
+.qc-topbar__user {
+    display: flex; align-items: center; gap: 6px;
+    white-space: nowrap; font-size: 14px; color: #d6dde6;
+}
+.qc-topbar__user span { font-weight: 500; }
+.qc-topbar__user-name {
+    font-weight: 700; text-shadow: 0 0 4px rgba(0,255,245,.6);
+    transition: all .25s var(--qc-ease);
+}
+.qc-topbar__user-name:hover { text-shadow: 0 0 8px rgba(0,255,245,.9); transform: scale(1.05); }
+
+/* ---------- 汉堡按钮（仅小屏显示） ---------- */
+.qc-topbar__burger {
+    display: none; margin-left: auto;
+    background: #141a20; border:1px solid #2a2f36; color:#d6dde6;
+    border-radius:10px; padding:6px 10px; cursor:pointer;
+}
+.qc-topbar__burger:hover { filter:brightness(1.06); }
+
+/* ---------- 抽屉容器（小屏：承载 nav + actions） ---------- */
+.qc-topbar__drawer {
+    display: none; position: absolute; left:0; right:0; top:100%;
+    background:#0b0e11; border-top:1px solid #1c1f24;
+    box-shadow: 0 18px 40px rgba(0,0,0,.45);
+    transform-origin: top; transform: scaleY(0);
+    transition: transform .18s ease; overflow: hidden;
+}
+.qc-topbar.is-open .qc-topbar__drawer { transform: scaleY(1); display:block; }
+
+/* ---------- 响应式：中屏（1200~901）允许柔性换行 ---------- */
+@media (max-width: 1200px) and (min-width: 901px) {
+    .qc-topbar__actions { flex-wrap: wrap; row-gap: 8px; }
+    .qc-topbar__search { min-width: 180px; }
+    .qc-topbar__select { min-width: 84px; }
+    .qc-topbar__inner { flex-wrap: wrap; } /* 允许顶栏整体分两行，避免把中文压窄 */
+}
+
+/* ---------- 响应式：小屏（≤900）进入抽屉 ---------- */
+@media (max-width: 900px) {
+    .qc-topbar__inner { gap: 10px; }
+
+    /* 只显示汉堡，隐藏横向 nav / actions；抽屉里再显示 */
+    .qc-topbar__burger { display: inline-flex; align-items: center; justify-content: center; }
+    .qc-topbar__nav, .qc-topbar__actions { display: none; }
+
+    .qc-topbar.is-open .qc-topbar__nav,
+    .qc-topbar.is-open .qc-topbar__actions {
+        display: flex; flex-direction: column; gap: 10px; padding: 12px 16px;
+    }
+
+    /* 小屏按钮/输入全宽，避免拥挤 */
+    .qc-topbar__select,
+    .qc-topbar__search,
+    .qc-topbar__btn { width: 100%; min-width: 0; }
+
+    /* 一级菜单全宽按钮（抽屉内） */
+    .qc-topbar__nav-item { position: static; }
+    .qc-topbar__nav-btn {
+        width: 100%; text-align: left; height: 36px;
+        background: #12161b; border:1px solid #2a2f36; color:#cdd6e1; border-radius:10px; padding:10px 12px;
+    }
+
+    /* 下拉改为内嵌卡片，禁用桌面动画避免抖动 */
+    .qc-topbar__menu {
+        position: static; margin-top: 8px; box-shadow: none;
+        background: #12161b; border: 1px solid #2a2f36; border-radius: 12px; padding: 6px;
+        opacity: 1 !important; transform: none !important; pointer-events: auto !important;
+        transition: none !important; display: none;
+    }
+    .qc-topbar__nav-item.is-open .qc-topbar__menu {
+        display: flex; flex-direction: column; gap: 6px;
+    }
+}
+
+/* ---------- 减少动画偏好 ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .qc-topbar__nav-btn,
+    .qc-topbar__btn,
+    .qc-topbar__menu,
+    .qc-topbar__menu-item {
+        transition: none !important;
+    }
+}

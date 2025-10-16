@@ -1,5 +1,37 @@
 {
+  "title": "SR 投票",
+  "subtitle": "选择你支持的超级代表，参与治理并获取奖励。",
+  "freezeConfirm": {
+    "title": "确认冻结",
+    "qty": "冻结数量",
+    "note": "确认后将提交链上交易，最终结果以链上为准。",
+    "invalid": "请输入有效数量"
+  },
+  "pagination": {
+    "prev": "上一页",
+    "next": "下一页",
+    "jump": "跳转到",
+    "page": "页"
+  },
+  "detail": {
+    "rank": "排名",
+    "change": "变动票",
+    "brokerage": "佣金",
+    "voterBrokerage": "投票分成",
+    "producedTotal": "生产总量",
+    "producedEfficiency": "出块效率",
+    "version": "版本号",
+    "hasPage": "有详情页"
+  },
   "common": {
+    "confirm": "确认",
+    "cancel": "取消",
+    "close": "关闭",
+    "copy": "复制",
+    "copied": "已复制",
+    "viewTx": "查看交易详情",
+    "clear": "清空",
+    "empty": "空空如也～",
     "ecosystem": "生态系统",
     "search": "搜索",
     "loadMore": "加载更多",
@@ -9,6 +41,46 @@
     "chartPlaceholder": "图表占位",
     "timelinePlaceholder": "时间线占位",
     "paginationPlaceholder": "分页占位"
+  },
+  "list": {
+    "annualized": "年化",
+    "realtimeVotes": "实时票",
+    "oneClickVote": "一键投票"
+  },
+  "sidebar": {
+    "basket": "投票篮",
+    "available": "可用票",
+    "voteAmount": "投票数量",
+    "selectedSR": "已选择的 SR",
+    "confirmVote": "确认投票",
+    "used": "已投票"
+  },
+  "freeze": {
+    "title": "冻结代币提升投票权",
+    "balance": "可用余额",
+    "half": "50%",
+    "max": "MAX",
+    "submit": "确认冻结",
+    "success": "冻结提交成功",
+    "failed": "冻结金额必须大于等于1TRX!"
+  },
+  "confirmModal": {
+    "title": "确认投票交易",
+    "qty": "投票数量",
+    "feeNote": "手续费暂不可显示，实际以链上结果为准"
+  },
+  "resultModal": {
+    "title": "交易已提交",
+    "hash": "交易哈希"
+  },
+  "page": {
+    "header": "SR 投票模块",
+    "desc": "选择你支持的超级代表，参与治理并获取奖励"
+  },
+  "toast": {
+    "voteFailed": "投票失败",
+    "voteSuccess": "投票已提交",
+    "copyOk": "已复制到剪贴板"
   },
   "nav": {
     "dashboard": "控制台",

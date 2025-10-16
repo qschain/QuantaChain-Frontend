@@ -1,8 +1,7 @@
-// 统一管理全局的用户登录状态
 import React, { createContext, useContext, useMemo, useState, useEffect } from 'react'
-import { api } from '../shared/api/api'
-import type { User, LoginResponse, RegisterResponse } from '../types'
-import { http } from '../shared/api/httpWallet'
+import { api } from '../../shared/api/api'
+import type { User, LoginResponse, RegisterResponse } from './types'
+import { http } from '../../shared/api/http'
 
 type SessionContext = {
     authed: boolean
@@ -16,7 +15,7 @@ type SessionContext = {
 
 const SessionCtx = createContext<SessionContext | null>(null)
 
-export function WalletSessionProvider({ children }: { children: React.ReactNode }) {
+export function PlatformSessionProvider({ children }: { children: React.ReactNode }) {
     const [authed, setAuthed] = useState<boolean>(false)
     const [user, setUser] = useState<User | null>(null)
     const [loading, setLoading] = useState<boolean>(true)
@@ -44,10 +43,10 @@ export function WalletSessionProvider({ children }: { children: React.ReactNode 
                     setUser(null)
                 }
                 const savedUser = localStorage.getItem('user')
-                    if (savedUser) {
-                        const user = JSON.parse(savedUser)
-                        setUser(user)
-            }
+                if (savedUser) {
+                    const user = JSON.parse(savedUser)
+                    setUser(user)
+                }
             }
         } finally {
             setLoading(false)
@@ -100,16 +99,21 @@ export function WalletSessionProvider({ children }: { children: React.ReactNode 
         if (!userName) {
             throw new Error('登录失败：未获取到用户名')
         }
-        // —— 应用 token ——（之后所有请求会自动带 Authorization 头）
+        const address = response.data?.address;
+        if (!address) {
+            throw new Error('登录失败：未获取到地址');
+        }
         applyToken(token)
 
         // 组装用户对象（实际应该从后端回传的 profile 字段取）
         const userData: User = {
+            address,
             role: role,
             name: userName,
             token
         }
         setUser(userData)
+        console.log(userData)
         setAuthed(true)
 
         localStorage.setItem('user', JSON.stringify(userData))

@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom'
-import { useSession } from '../state/WalletSessionProvider'
+import { useSession } from '../../../../../../app/session/PlatformSessionProvider'
 import { useTranslation } from 'react-i18next'
 import { useDashboardCtx } from '../model/DashboardContext'
 
@@ -27,7 +27,7 @@ export default function Sidebar() {
                     <div style={{ fontWeight: 700 }}>{t('navMenu')}</div>
                     <button
                         className="btn ghost"
-                        onClick={() => { logout(); nav('auth/login') }}
+                        onClick={() => { logout(); nav('') }}
                     >
                         {t('logout')}
                     </button>
