@@ -2,6 +2,11 @@
 export type ApiResp<T = any> = { code: string; message?: string; data?: T }
 export type PaginationParams = { pageNum: number; pageSize: number }
 
+export type UnfrozenItem = {
+    amount: number;          // 预计是 SUN
+    unfreezeTime: string;    // "2025-10-24 17:12:18"
+    type: string;            // "BANDWIDTH" | "ENERGY"
+}
 export type SRItem = {
     realTimeRanking: number
     address: string

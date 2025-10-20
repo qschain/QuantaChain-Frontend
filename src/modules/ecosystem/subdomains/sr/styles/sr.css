@@ -330,3 +330,75 @@ input[type=number] { -moz-appearance: textfield; }
     cursor:not-allowed;
     filter:grayscale(.4);
 }
+/* ===== iOS-like Toggle ===== */
+.sr-toggle {
+    position: relative;
+    width: 120px;
+    height: 36px;
+    border-radius: 999px;
+    border: 1px solid var(--sr-line);
+    background: linear-gradient(180deg, #0f141a, #0b0e11);
+    box-shadow: inset 0 4px 10px rgba(0,0,0,.35);
+    cursor: pointer;
+    outline: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 0;
+    user-select: none;
+}
+
+.sr-toggle .sr-toggle-label {
+    position: absolute;
+    z-index: 1;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .2px;
+    color: var(--sr-muted);
+    transition: color .2s ease, opacity .2s ease;
+}
+.sr-toggle .sr-toggle-label.left  { left: 14px; }
+.sr-toggle .sr-toggle-label.right { right: 14px; }
+
+.sr-toggle .sr-toggle-thumb {
+    position: absolute;
+    width: 56px;
+    height: 28px;
+    border-radius: 999px;
+    left: 4px;
+    transition: transform .22s ease;
+    background: linear-gradient(90deg, var(--sr-primary), var(--sr-primary-2));
+    box-shadow: 0 6px 18px rgba(0,229,255,.35), inset 0 0 0 1px rgba(255,255,255,.12);
+}
+
+/* 选中（能量=右侧） */
+.sr-toggle[data-checked="true"] .sr-toggle-thumb { transform: translateX(60px); }
+
+/* 文案高亮逻辑 */
+.sr-toggle[data-checked="false"] .sr-toggle-label.left  { color: #0b0e11; text-shadow: 0 0 14px rgba(0,229,255,.6); }
+.sr-toggle[data-checked="false"] .sr-toggle-label.right { color: var(--sr-muted); }
+.sr-toggle[data-checked="true"]  .sr-toggle-label.right { color: #0b0e11; text-shadow: 0 0 14px rgba(0,229,255,.6); }
+.sr-toggle[data-checked="true"]  .sr-toggle-label.left  { color: var(--sr-muted); }
+@keyframes sr-fade-in {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.sr-modal-overlay {
+    animation: sr-fade-in .18s ease-out;
+}
+/* 仅用于“正在解冻中”列表：3 列布局 */
+.sr-table.cols-3 .sr-table__row {
+    grid-template-columns: 1.2fr 1fr 1.4fr; /* 类型 | 数量 | 时间 */
+}
+.sr-table.cols-3 .sr-table__row > div { border-right: 1px solid #13202b; }
+.sr-table.cols-3 .sr-table__row > div:last-child { border-right: none; }
+
+/* 移动端：一列堆叠 */
+@media (max-width: 900px) {
+    .sr-table.cols-3 .sr-table__row.head { display: none; }
+    .sr-table.cols-3 .sr-table__row { grid-template-columns: 1fr; }
+    .sr-table.cols-3 .sr-table__row > div { border-right: none; border-bottom: 1px solid #14202b; }
+    .sr-table.cols-3 .sr-table__row > div:last-child { border-bottom: none; }
+}

@@ -166,10 +166,9 @@ export const useSr = () => {
     return ctx
 }
 
-// 提交条件：分配总和>0 且 ≤ 可用票（floor(冻结总 TRX) − 已投票）
+// 提交条件：分配总和 > 0 且 ≤ 可用票（= frozenTotalVotes）
 export const canSubmit = (s: State) => {
-    const used = Number(s.account?.voteTotal || 0)
-    const usable = Math.max(0, Number(s.frozenTotalVotes || 0) - used)
+    const usable = Math.max(0, Number(s.frozenTotalVotes || 0))
     const total = sumAlloc(s.allocations)
     return total > 0 && total <= usable
 }

@@ -1,17 +1,39 @@
 {
   "title": "SR Voting",
   "subtitle": "Choose the Super Representatives you support to participate in governance and earn rewards.",
+  "freeze": {
+    "type": "Resource",
+    "bandwidth": "BW",
+    "energy": "Energy",
+    "title": "Freeze TRX to Gain Voting Power",
+    "balance": "Available Balance",
+    "half": "50%",
+    "max": "MAX",
+    "submit": "Freeze",
+    "success": "Freeze submitted",
+    "failed": "Need to freeze more than 1 TRX！"
+  },
   "unfreeze": {
     "title": "Unfreeze TRX",
     "available": "Unfreezable Balance",
     "submit": "Unfreeze",
-    "failed": "Unfreeze failed"
+    "failed": "Unfreeze failed",
+    "pending": {
+      "title": "Unfreezing in Progress",
+      "empty": "No unfreezing records",
+      "cols": {
+        "type": "Type",
+        "amount": "Amount",
+        "time": "Unfreeze Time"
+      }
+    }
   },
   "unfreezeConfirm": {
     "title": "Confirm Unfreeze",
     "qty": "Unfreeze Amount",
     "note": "After confirmation, the unfreeze transaction will be submitted on-chain. The final result depends on the network.",
-    "invalid": "Please enter a valid amount"
+    "invalid": "Please enter a valid amount",
+    "type": "Resource"
   },
   "freezeConfirm": {
     "title": "Confirm Freeze",
@@ -67,16 +89,6 @@
     "selectedSR": "Selected SRs",
     "confirmVote": "Confirm Vote",
     "used": "Used Votes"
-  },
-  "freeze": {
-    "title": "Freeze TRX to Gain Voting Power",
-    "balance": "Available Balance",
-    "half": "50%",
-    "max": "MAX",
-    "submit": "Freeze",
-    "success": "Freeze submitted",
-    "amount": "Freeze Amount",
-    "failed": "Need to freeze more than 1 TRX！"
   },
   "confirmModal": {
     "title": "Confirm Voting Transaction",

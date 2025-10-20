@@ -1,6 +1,6 @@
 import { http } from '../../../../../../shared/api/http'
 import type {
-    ApiResp, PaginationParams, SRItem, AccountInfo, VotePayload, TxDetailResp,
+    ApiResp, PaginationParams, SRItem, AccountInfo, VotePayload, TxDetailResp,UnfrozenItem
 } from '../../state/types'
 
 // 公共：从后端 data 里抽取交易哈希
@@ -25,9 +25,9 @@ export async function getAccount(userName: string, real = true) {
         : null
 
     const account: AccountInfo = {
-        votes: Number(d.votes ?? 0),                               // 总投票权（旧口径，保留）
+        votes: Number(d.votes ?? 0),                               // 保留：总投票权（旧口径）
         voteTotal: Number(d.voteTotal ?? d.voteTatal ?? 0),        // 已投票
-        totalFrozenTRX: Number(d.totalFrozenV2 ?? 0),              // 旧字段（不再用于“可用票”）
+        totalFrozenTRX: Number(d.totalFrozenV2 ?? 0),              // 旧字段（不用于可用票）
         accountBalanceTRX: Number(trxRow?.accountBalance ?? 0),
         rewardNumSUN: Number(d.rewardNum ?? 0),
         freeNetLimit: Number(d.freeNetLimit ?? 0),
@@ -35,8 +35,21 @@ export async function getAccount(userName: string, real = true) {
     }
     return account
 }
-
-// —— 新口径：可用票依赖 /api/frozenV2 汇总 ——
+export async function getUnfrozenV2(ownerAddress: string, real = true) {
+    const res = await http.post<ApiResp<UnfrozenItem[]>>(
+        '/api/unfrozenV2',
+        { ownerAddress },
+        { useRealApi: real }
+    )
+    if (res?.code !== '200') throw new Error(res?.message || 'unfrozenV2 error')
+    const list = Array.isArray(res.data) ? res.data : []
+    // 兜底字段与类型
+    return list.map(x => ({
+        amount: Number(x?.amount ?? 0),
+        unfreezeTime: String(x?.unfreezeTime ?? ''),
+        type: String(x?.type ?? '')
+    }))
+}
 // 已冻结(新版)：按类型返回 amount（SUN）
 export async function getFrozenV2(ownerAddress: string, real = true) {
     const res = await http.post<ApiResp<Array<{ amount: number; type: string }>>>(
@@ -45,7 +58,6 @@ export async function getFrozenV2(ownerAddress: string, real = true) {
         { useRealApi: real }
     )
     if (res?.code !== '200') throw new Error(res?.message || 'frozenV2 error')
-    // 标准化：确保数组、字段稳定
     return Array.isArray(res.data)
         ? res.data.map(x => ({ amount: Number(x?.amount ?? 0), type: String(x?.type ?? '') }))
         : []
@@ -67,27 +79,24 @@ export function groupFrozenTRXByType(list: Array<{ amount: number; type: string 
     return map // type -> TRX
 }
 
-/** 新版可用票计算：floor(冻结总 TRX) - voteTotal */
-export function computeAvailableVotes(
-    acc: AccountInfo | null | undefined,
-    frozenTotalTRX: number
-) {
-    const used = Number(acc?.voteTotal ?? 0)
-    const totalVotes = Math.floor(Number(frozenTotalTRX || 0))
-    return Math.max(0, totalVotes - used)
-}
-
 // 冻结
-export async function postFreeze(ownerAddress: string, freeBalanceTRX: number, real = true) {
+export async function postFreeze(
+    ownerAddress: string,
+    amountTRX: number,
+    typeCode: '0' | '1',
+    real = true
+) {
+    const amountSUN = Math.round(Number(amountTRX || 0) * 1_000_000)
     const res = await http.post<ApiResp<{ txnHash?: string; trxHash?: string; hash?: string }>>(
         '/api/freeze',
-        { ownerAddress, freeBalance: freeBalanceTRX },
+        { ownerAddress, freeBalance: String(amountSUN), typecode: typeCode },
         { useRealApi: real }
     )
     if (res?.code !== '200') { // @ts-ignore
         throw new Error(res?.data?.message || 'freeze failed')
     }
-    return pickTxHash(res.data)
+    // 兼容不同字段名
+    return (res?.data?.txnHash || res?.data?.trxHash || res?.data?.hash || '')
 }
 
 // 解冻（amountSUN：单位 SUN）
@@ -130,10 +139,10 @@ export const srApi = {
     getFrozenV2,
     sumFrozenTRX,
     groupFrozenTRXByType,
-    computeAvailableVotes,
     postFreeze,
     postUnfreeze,
     postVoteSR,
     fetchTxDetail,
+    getUnfrozenV2
 }
 export default srApi

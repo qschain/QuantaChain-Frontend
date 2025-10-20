@@ -1,23 +1,20 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSr, canSubmit } from '../../state/store'
-import { sumAlloc } from '../../shared/allocationRules'
-import { nf } from '../../shared/format'
 
 export default function VoteSidebar({ onOpenConfirm }: { onOpenConfirm(): void }) {
     const { t } = useTranslation('sr')
     const { state, dispatch } = useSr()
 
-    // 已投票（来自 account/get）
+    // 展示：已投票（来自 account/get）
     const used = Number(state.account?.voteTotal ?? 0)
-    // 可用票 = floor(冻结总 TRX) - 已投票；冻结总票已在全局 state.frozenTotalVotes（整数）
-    const usable = Math.max(0, Number(state.frozenTotalVotes || 0) - used)
+    // 可用票：= floor(冻结总 TRX)
+    const usable = Math.max(0, Number(state.frozenTotalVotes || 0))
 
-    // 当前目标总票（显示时做一次 clamp，避免可用票更新后 UI 溢出）
+    // 当前目标总票（做一次 clamp，避免可用票更新后 UI 溢出）
     const targetTotal = Math.min(state.voteSliderValue, usable)
     const percent = Math.min(100, Math.round((targetTotal / Math.max(1, usable)) * 100))
 
-    // 地址 -> 名称
     const nameByAddr = (addr: string) => {
         const it = state.list.find(x => x.address === addr)
         return it?.name || addr.slice(0, 6) + '…' + addr.slice(-6)
@@ -52,7 +49,7 @@ export default function VoteSidebar({ onOpenConfirm }: { onOpenConfirm(): void }
                 <div className="sr-progress__bar" style={{ width: `${percent}%` }} />
             </div>
 
-            {/* ⭐ 可左右拖动的滑块（上限=可用票） */}
+            {/* 滑块（上限=可用票） */}
             <input
                 className="sr-range"
                 type="range"
@@ -63,7 +60,7 @@ export default function VoteSidebar({ onOpenConfirm }: { onOpenConfirm(): void }
                 onChange={(e) => onSlide(Number(e.target.value || 0))}
             />
 
-            {/* 数字输入（精确修改，用相同逻辑约束到可用票） */}
+            {/* 数字输入（与滑块一致的约束） */}
             <div className="sr-row sr-gap-8 sr-align-center" style={{ marginTop: 8 }}>
                 <input
                     className="sr-input"
@@ -80,7 +77,7 @@ export default function VoteSidebar({ onOpenConfirm }: { onOpenConfirm(): void }
                 <button className="sr-btn" onClick={() => onSlide(usable)}>{t('freeze.max')}</button>
             </div>
 
-            {/* 已选择 SR 列表（名称 + 该 SR 的分配票） */}
+            {/* 已选择 SR 列表（名称 + 当前分配票） */}
             <div style={{ marginTop: 12 }}>
                 <div className="sr-muted" style={{ marginBottom: 6 }}>{t('sidebar.selectedSR')}</div>
                 <div className="sr-col sr-gap-8">

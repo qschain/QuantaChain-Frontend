@@ -6,78 +6,67 @@ import { useSession } from '../../../../../../app/session/PlatformSessionProvide
 import ConfirmFreezeModal from './ConfirmFreezeModal'
 
 
-export default function FreezePanel({ onAfterSuccess }: { onAfterSuccess?: () => void }) {
+type Props = { onAfterSuccess?: () => void | Promise<void> }
+
+export default function FreezePanel({ onAfterSuccess }: Props) {
     const { t } = useTranslation('sr')
     const { state, dispatch } = useSr()
     const { user } = useSession()
 
-    // 可用余额（单位：TRX）
-    const usable = Math.max(0, Number(state.account?.accountBalanceTRX ?? 0))
+    // 输入的冻结数量（单位：TRX）
+    const [amount, setAmount] = React.useState<string>('')
+    const amtNum = Number(amount || 0)
 
-    // 输入值（单位：TRX，整数），默认 0
-    const [val, setVal] = React.useState(0)
-    const [errMsg, setErrMsg] = React.useState('')
-    const [confirmOpen, setConfirmOpen] = React.useState(false)
+    // 资源类型：'0' 带宽 | '1' 能量（默认带宽）
+    const [freezeType, setFreezeType] = React.useState<'0' | '1'>('0')
 
-    // 当可用余额变化时，对当前值进行 clamp
-    React.useEffect(() => {
-        setVal(v => Math.min(Math.max(0, Math.floor(v)), usable))
-    }, [usable])
+    // 二次确认弹窗
+    const [openConfirm, setOpenConfirm] = React.useState(false)
 
-    const clampToUsable = (n: number) => Math.min(Math.max(0, Math.floor(n)), usable)
+    // 提交状态 & 错误
+    const [submitting, setSubmitting] = React.useState(false)
+    const [err, setErr] = React.useState<string>('')
 
-    const onSlide = (n: number) => {
-        setVal(clampToUsable(n))
-        if (errMsg) setErrMsg('')
-    }
-    const onChangeVal = (n: number) => {
-        setVal(clampToUsable(n))
-        if (errMsg) setErrMsg('')
-    }
+    // 展示余额
+    const balanceTRX = Number(state.account?.accountBalanceTRX ?? 0)
 
-    const openConfirm = () => {
-        if (val <= 0) {
-            setErrMsg(t('freezeConfirm.invalid', { defaultValue: '请输入有效数量' }))
-            return
+    const onHalf = () => setAmount(Math.max(0, balanceTRX / 2).toFixed(2))
+    const onMax  = () => setAmount(Math.max(0, balanceTRX).toFixed(2))
+
+    // 开启二次确认前的校验
+    const canOpenConfirm = () => {
+        setErr('')
+        if (!user?.address) {
+            setErr(t('freeze.failed', { defaultValue: '冻结失败' }))
+            return false
         }
-        setConfirmOpen(true)
+        if (!Number.isFinite(amtNum) || amtNum <= 0) {
+            setErr(t('freeze.failed', { defaultValue: '冻结失败' }))
+            return false
+        }
+        return true
     }
 
-    // 真正发起冻结（把 TRX -> SUN）
-    const doFreeze = async () => {
+    // 提交冻结
+    const submitFreeze = async () => {
         if (!user?.address) return
-        const amountTRX = clampToUsable(val)
-        if (amountTRX <= 0) {
-            setErrMsg(t('freezeConfirm.invalid', { defaultValue: '请输入有效数量' }))
-            setConfirmOpen(false)
-            return
-        }
-
         try {
-            setErrMsg('')
-            dispatch({ type: 'setFreezing', payload: true })
-            setConfirmOpen(false)
-
-            // 转成 SUN
-            const freezeAmountSUN = amountTRX * 1_000_000
-            const hash = await srApi.postFreeze(user.address, freezeAmountSUN, true)
-
-            // 弹出交易哈希结果（你的 TxResultModal 会捕获）
+            setSubmitting(true)
+            // postFreeze 内部会把 TRX→SUN，并携带 typecode
+            const hash = await srApi.postFreeze(user.address, amtNum, freezeType, true)
+            // 记录交易哈希，触发结果弹窗
             dispatch({ type: 'setTxHash', payload: { freeze: hash } })
-
-            // 成功刷新账户/列表
-            if (typeof onAfterSuccess === 'function') {
-                await onAfterSuccess()
-            }
+            // 清空输入、关闭确认框
+            setAmount('')
+            setOpenConfirm(false)
+            // 刷新账户/列表/冻结总量（由父层传入）
+            await onAfterSuccess?.()
         } catch (e: any) {
-            dispatch({ type: 'setError', payload: e?.message || 'freeze error' })
-            setErrMsg(t('freeze.failed'))
+            setErr(e?.message || t('freeze.failed', { defaultValue: '冻结失败' }))
         } finally {
-            dispatch({ type: 'setFreezing', payload: false })
+            setSubmitting(false)
         }
     }
-
-    const percent = usable > 0 ? Math.min(100, Math.round((val / usable) * 100)) : 0
 
     return (
         <div className="sr-panel">
@@ -85,75 +74,69 @@ export default function FreezePanel({ onAfterSuccess }: { onAfterSuccess?: () =>
                 <div className="sr-panel__title">{t('freeze.title')}</div>
             </div>
 
-            <div className="sr-col sr-gap-16">
-                {/* 可用余额 */}
-                <div className="sr-muted" style={{ fontSize: 12 }}>
-                    {t('freeze.balance')}：{usable.toLocaleString()} TRX
-                </div>
+            {/* 可用余额 */}
+            <div className="sr-row sr-space-between sr-align-center" style={{ marginBottom: 8 }}>
+                <div className="sr-muted">{t('freeze.balance')}</div>
+                <div className="sr-number-md">{balanceTRX.toLocaleString()} TRX</div>
+            </div>
 
-                {/* 数量标题 + 当前选择 */}
-                <div className="sr-row sr-space-between sr-align-center">
-                    <div>{t('freeze.amount')}</div>
-                    <div className="sr-number-md">{val.toLocaleString()} TRX</div>
-                </div>
+            {/* 资源类型开关（iOS风格）：左=带宽(0)，右=能量(1) */}
+            <div className="sr-row sr-space-between sr-align-center" style={{ marginBottom: 8 }}>
+                <div className="sr-muted">{t('freeze.type', { defaultValue: '资源类型' })}</div>
+                <button
+                    type="button"
+                    className="sr-toggle"
+                    data-checked={freezeType === '1'}
+                    onClick={() => setFreezeType(prev => (prev === '0' ? '1' : '0'))}
+                    aria-checked={freezeType === '1'}
+                    role="switch"
+                >
+                    <span className="sr-toggle-label left">{t('freeze.bandwidth', { defaultValue: '带宽' })}</span>
+                    <span className="sr-toggle-label right">{t('freeze.energy', { defaultValue: '能量' })}</span>
+                    <i className="sr-toggle-thumb" />
+                </button>
+            </div>
 
-                {/* 进度条（相对可用余额） */}
-                <div className="sr-progress">
-                    <div className="sr-progress__bar" style={{ width: `${percent}%` }} />
-                </div>
-
-                {/* ⭐ 滑块：上限=可用余额（TRX） */}
+            {/* 输入数量 */}
+            <div className="sr-row sr-gap-8 sr-align-center">
                 <input
-                    className="sr-range"
-                    type="range"
+                    className="sr-input"
+                    type="number"
                     min={0}
-                    max={usable}
-                    step={1}
-                    value={val}
-                    onChange={(e) => onSlide(Number(e.target.value || 0))}
+                    step="any"
+                    placeholder="0.0"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    style={{ textAlign: 'center' }}
                 />
+                <button className="sr-btn" onClick={onHalf}>{t('freeze.half')}</button>
+                <button className="sr-btn" onClick={onMax}>{t('freeze.max')}</button>
+            </div>
 
-                {/* 精确输入 + 快捷按钮 */}
-                <div className="sr-row sr-gap-8 sr-align-center">
-                    <input
-                        className="sr-input"
-                        style={{ textAlign: 'center' }}
-                        type="number"
-                        min={0}
-                        max={usable}
-                        step={1}
-                        value={val}
-                        onChange={(e) => onChangeVal(Number(e.target.value || 0))}
-                    />
-                    <button className="sr-btn" onClick={() => onSlide(0)}>0</button>
-                    <button className="sr-btn" onClick={() => onSlide(Math.floor(usable / 2))}>{t('freeze.half')}</button>
-                    <button className="sr-btn" onClick={() => onSlide(usable)}>{t('freeze.max')}</button>
+            {/* 错误提示 + 提交按钮（提示靠近按钮） */}
+            <div className="sr-row sr-space-between sr-align-center" style={{ marginTop: 12 }}>
+                <div className="sr-badge danger" style={{ visibility: err ? 'visible' : 'hidden' }}>
+                    {err || '·'}
                 </div>
-
-                {/* 操作行：左侧失败提示，右侧提交 */}
-                <div className="sr-row sr-gap-16 sr-align-center" style={{ justifyContent: 'flex-end' }}>
-                    {errMsg ? (
-                        <span className="sr-badge danger" style={{ marginRight: 'auto' }}>
-              {errMsg}
-            </span>
-                    ) : null}
-
+                <div className="sr-row sr-gap-8">
                     <button
                         className="sr-btn primary"
-                        onClick={openConfirm}
-                        disabled={state.freezing || val <= 0}
+                        disabled={submitting}
+                        onClick={() => { if (canOpenConfirm()) setOpenConfirm(true) }}
                     >
                         {t('freeze.submit')}
                     </button>
                 </div>
             </div>
 
-            {/* 二次确认弹窗（TRX 显示） */}
+            {/* ✅ 使用你提供的 ConfirmFreezeModal */}
             <ConfirmFreezeModal
-                open={confirmOpen}
-                amountTRX={val}
-                onCancel={() => setConfirmOpen(false)}
-                onConfirm={doFreeze}
+                open={openConfirm}
+                amountTRX={amtNum}
+                typeCode={freezeType}
+                submitting={submitting}
+                onCancel={() => setOpenConfirm(false)}
+                onConfirm={submitFreeze}
             />
         </div>
     )

@@ -1,11 +1,32 @@
 {
   "title": "SR 投票",
   "subtitle": "选择你支持的超级代表，参与治理并获取奖励。",
+  "freeze": {
+    "type": "资源类型",
+    "bandwidth": "带宽",
+    "energy": "能量",
+    "title": "冻结代币提升投票权",
+    "balance": "可用余额",
+    "half": "50%",
+    "max": "MAX",
+    "submit": "确认冻结",
+    "success": "冻结提交成功",
+    "failed": "冻结金额必须大于等于1TRX!"
+  },
   "unfreeze": {
     "title": "解冻 TRX",
     "available": "可解冻额度",
     "submit": "确认解冻",
-    "failed": "解冻失败"
+    "failed": "解冻失败",
+    "pending": {
+      "title": "正在解冻中",
+      "empty": "暂无解冻记录",
+      "cols": {
+        "type": "类型",
+        "amount": "数量",
+        "time": "完成时间"
+      }
+    }
   },
   "unfreezeConfirm": {
     "title": "确认解冻",
@@ -17,7 +38,8 @@
     "title": "确认冻结",
     "qty": "冻结数量",
     "note": "确认后将提交链上交易，最终结果以链上为准。",
-    "invalid": "请输入有效数量"
+    "invalid": "请输入有效数量",
+    "type": "资源类型"
   },
   "pagination": {
     "prev": "上一页",
@@ -67,16 +89,6 @@
     "selectedSR": "已选择的 SR",
     "confirmVote": "确认投票",
     "used": "已投票"
-  },
-  "freeze": {
-    "title": "冻结代币提升投票权",
-    "balance": "可用余额",
-    "half": "50%",
-    "max": "MAX",
-    "submit": "确认冻结",
-    "success": "冻结提交成功",
-    "amount": "冻结数量",
-    "failed": "冻结金额必须大于等于1TRX!"
   },
   "confirmModal": {
     "title": "确认投票交易",
