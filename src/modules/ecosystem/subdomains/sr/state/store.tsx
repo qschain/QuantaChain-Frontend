@@ -1,9 +1,7 @@
 // sr/state/store.ts —— 轻量 Context Store（不引入第三方）
-import React, { createContext, useContext, useMemo, useReducer } from 'react'
+import React from 'react'
 import type { AccountInfo, SRItem } from './types'
 import { normalizeInt, sumAlloc, addByProportion, scaleToTotal } from '../shared/allocationRules'
-import { computeAvailableVotes } from '../shared/api/srApi'
-
 
 type State = {
     account: AccountInfo | null
@@ -28,6 +26,9 @@ type State = {
     // 详情抽屉
     selected?: SRItem | null
     detailOpen: boolean
+
+    // floor(冻结总 TRX) —— 由 /api/frozenV2 汇总后下发
+    frozenTotalVotes: number
 }
 
 const initial: State = {
@@ -49,6 +50,8 @@ const initial: State = {
 
     selected: null,
     detailOpen: false,
+
+    frozenTotalVotes: 0,
 }
 
 type Action =
@@ -69,23 +72,36 @@ type Action =
     | { type: 'setHasMore'; payload: boolean }
     | { type: 'openDetail'; payload: SRItem }
     | { type: 'closeDetail' }
+    | { type: 'setFrozenTotalVotes'; payload: number }
 
 function reducer(state: State, action: Action): State {
     switch (action.type) {
-        case 'setAccount': return { ...state, account: action.payload }
-        case 'setList':     return { ...state, list: action.payload }
-        case 'setLoading':  return { ...state, loading: action.payload }
-        case 'setSubmitting': return { ...state, submitting: action.payload }
-        case 'setFreezing': return { ...state, freezing: action.payload }
-        case 'setError':    return { ...state, error: action.payload }
-        case 'setConfirmOpen': return { ...state, confirmOpen: action.payload }
+        case 'setAccount':
+            return { ...state, account: action.payload }
+        case 'setList':
+            return { ...state, list: action.payload }
+        case 'setLoading':
+            return { ...state, loading: action.payload }
+        case 'setSubmitting':
+            return { ...state, submitting: action.payload }
+        case 'setFreezing':
+            return { ...state, freezing: action.payload }
+        case 'setError':
+            return { ...state, error: action.payload }
+        case 'setConfirmOpen':
+            return { ...state, confirmOpen: action.payload }
 
-        case 'setPage':        return { ...state, pageNum: action.payload.pageNum }
-        case 'setPageLoading': return { ...state, pageLoading: action.payload }
-        case 'setHasMore':     return { ...state, hasMore: action.payload }
+        case 'setPage':
+            return { ...state, pageNum: action.payload.pageNum }
+        case 'setPageLoading':
+            return { ...state, pageLoading: action.payload }
+        case 'setHasMore':
+            return { ...state, hasMore: action.payload }
 
-        case 'openDetail':  return { ...state, selected: action.payload, detailOpen: true }
-        case 'closeDetail': return { ...state, selected: null, detailOpen: false }
+        case 'openDetail':
+            return { ...state, selected: action.payload, detailOpen: true }
+        case 'closeDetail':
+            return { ...state, selected: null, detailOpen: false }
 
         case 'setVoteSlider': {
             const target = normalizeInt(action.payload)
@@ -106,8 +122,15 @@ function reducer(state: State, action: Action): State {
         }
 
         case 'allocReplace': {
-            const clean = Object.fromEntries(Object.entries(action.payload).map(([k, v]) => [k, normalizeInt(v)]))
-            return { ...state, allocations: clean, basket: Object.keys(clean).filter(k => clean[k] > 0), voteSliderValue: sumAlloc(clean) }
+            const clean = Object.fromEntries(
+                Object.entries(action.payload).map(([k, v]) => [k, normalizeInt(v)])
+            )
+            return {
+                ...state,
+                allocations: clean,
+                basket: Object.keys(clean).filter(k => clean[k] > 0),
+                voteSliderValue: sumAlloc(clean),
+            }
         }
 
         case 'allocClear':
@@ -120,7 +143,11 @@ function reducer(state: State, action: Action): State {
                 lastFreezeTxHash: action.payload.freeze ?? state.lastFreezeTxHash,
             }
 
-        default: return state
+        case 'setFrozenTotalVotes':
+            return { ...state, frozenTotalVotes: Math.max(0, Math.floor(Number(action.payload || 0))) }
+
+        default:
+            return state
     }
 }
 
@@ -139,9 +166,10 @@ export const useSr = () => {
     return ctx
 }
 
-// 提交条件：分配总和>0 且 ≤ 可用票（votes - voteTotal）
+// 提交条件：分配总和>0 且 ≤ 可用票（floor(冻结总 TRX) − 已投票）
 export const canSubmit = (s: State) => {
-    const usable = computeAvailableVotes(s.account)
+    const used = Number(s.account?.voteTotal || 0)
+    const usable = Math.max(0, Number(s.frozenTotalVotes || 0) - used)
     const total = sumAlloc(s.allocations)
     return total > 0 && total <= usable
 }

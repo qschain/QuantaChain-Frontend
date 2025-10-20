@@ -3,20 +3,36 @@ import { useTranslation } from 'react-i18next'
 import { SrProvider, useSr } from '../../state/store'
 import useSrInit from '../../hooks/useSrInit'
 import SRList from '../../components/SRList'
-import VoteSidebar from '../../components/VoteSidebar'
-import ConfirmVoteModal from '../../components/ConfirmVoteModal'
+import VoteSidebar from '../../components/vote/VoteSidebar'
+import ConfirmVoteModal from '../../components/vote/ConfirmVoteModal'
 import TxResultModal from '../../components/TxResultModal'
-import FreezePanel from '../../components/FreezePanel'
+import FreezePanel from '../../components/freeze/FreezePanel'
 import srApi from '../../shared/api/srApi'
 import { useSession } from '../../../../../../app/session/PlatformSessionProvider'
 import SRDetailDrawer from '../../components/SRDetailDrawer'
-
+import UnfreezePanel from '../../components/unfreeze/UnfreezePanel'
 
 function Content() {
     const { t } = useTranslation('sr')
     const { state, dispatch } = useSr()
     const { user } = useSession()
     useSrInit()
+
+    // —— 冻结总量：从 /api/frozenV2 汇总，并下发到 store（reducer 内部会 floor 成票数）——
+    async function reloadFrozenVotes() {
+        if (!user?.address) {
+            dispatch({ type: 'setFrozenTotalVotes', payload: 0 })
+            return
+        }
+        try {
+            const list = await srApi.getFrozenV2(user.address, true) // [{amount(SUN), type}]
+            const totalTRX = srApi.sumFrozenTRX(list)                 // 小数 TRX
+            dispatch({ type: 'setFrozenTotalVotes', payload: totalTRX })
+        } catch (e: any) {
+            // 不打断主流程，只记录错误
+            dispatch({ type: 'setError', payload: e?.message || 'reload frozen error' })
+        }
+    }
 
     async function reloadAccount() {
         if (!user?.name) return
@@ -47,6 +63,11 @@ function Content() {
         }
     }
 
+    // —— 首次进入 / 切换账号：加载冻结总量 ——
+    React.useEffect(() => {
+        void reloadFrozenVotes()
+    }, [user?.address])
+
     async function submitVote() {
         if (!user?.address) return
         try {
@@ -59,7 +80,9 @@ function Content() {
             const hash = await srApi.postVoteSR(payload, true)
             dispatch({ type: 'setTxHash', payload: { vote: hash } })
             dispatch({ type: 'allocClear' })
+            // 投票后已用票变化，需要刷新账户；冻结总量通常不变，但为一致性可一并刷新
             await reloadAccount()
+            await reloadFrozenVotes()
             await reloadList()
         } catch (e: any) {
             dispatch({ type: 'setError', payload: e?.message || 'vote error' })
@@ -102,7 +125,7 @@ function Content() {
                         <SRList data={state.list} loading={state.pageLoading} />
 
                         {/* —— 页码 —— */}
-                        <div className="sr-row sr-gap-8" style={{ marginTop:12, justifyContent:'flex-end', alignItems:'center' }}>
+                        <div className="sr-row sr-gap-8" style={{ marginTop: 12, justifyContent: 'flex-end', alignItems: 'center' }}>
                             <button
                                 className="sr-btn"
                                 onClick={() => void changePage(state.pageNum - 1)}
@@ -130,12 +153,12 @@ function Content() {
                                 {t('pagination.next', { defaultValue: '下一页' })}
                             </button>
 
-                            <span className="sr-muted" style={{ marginLeft:8 }}>
+                            <span className="sr-muted" style={{ marginLeft: 8 }}>
                 {t('pagination.jump', { defaultValue: '跳转到' })}
               </span>
                             <input
                                 className="sr-input"
-                                style={{ width:72, textAlign:'center' }}
+                                style={{ width: 72, textAlign: 'center' }}
                                 type="number"
                                 min={1}
                                 step={1}
@@ -152,10 +175,11 @@ function Content() {
                     </div>
 
                     {/* —— 右侧面板 —— */}
-                    <div className="sr-col sr-gap-16" style={{ position:'sticky', top:16, height:'fit-content' }}>
+                    <div className="sr-col sr-gap-16" style={{ position: 'sticky', top: 16, height: 'fit-content' }}>
                         <VoteSidebar onOpenConfirm={() => dispatch({ type: 'setConfirmOpen', payload: true })} />
-                        {/* ⚠️ 不再传 onError，避免 TS2322 */}
-                        <FreezePanel onAfterSuccess={async () => { await reloadAccount(); await reloadList(); }} />
+                        {/* 冻结/解冻成功后：刷新账户 + 列表 + 冻结总量 */}
+                        <FreezePanel onAfterSuccess={async () => { await reloadAccount(); await reloadFrozenVotes(); await reloadList(); }} />
+                        <UnfreezePanel onAfterSuccess={async () => { await reloadAccount(); await reloadFrozenVotes(); await reloadList(); }} />
                     </div>
                 </div>
 
