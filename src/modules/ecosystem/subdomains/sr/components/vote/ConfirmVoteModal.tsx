@@ -1,8 +1,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSr } from '../state/store'
-import { sumAlloc } from '../shared/allocationRules'
-import { nf } from '../shared/format'
+import { useSr } from '../../state/store'
+import { sumAlloc } from '../../shared/allocationRules'
+import { nf } from '../../shared/format'
 
 export default function ConfirmVoteModal({
                                              open, onCancel, onConfirm,

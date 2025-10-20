@@ -1,6 +1,18 @@
 {
   "title": "SR 投票",
   "subtitle": "选择你支持的超级代表，参与治理并获取奖励。",
+  "unfreeze": {
+    "title": "解冻 TRX",
+    "available": "可解冻额度",
+    "submit": "确认解冻",
+    "failed": "解冻失败"
+  },
+  "unfreezeConfirm": {
+    "title": "确认解冻",
+    "qty": "解冻数量",
+    "note": "确认后将提交链上交易，最终结果以链上为准。",
+    "invalid": "请输入有效数量"
+  },
   "freezeConfirm": {
     "title": "确认冻结",
     "qty": "冻结数量",
@@ -48,6 +60,7 @@
     "oneClickVote": "一键投票"
   },
   "sidebar": {
+    "all": "总票数",
     "basket": "投票篮",
     "available": "可用票",
     "voteAmount": "投票数量",
@@ -62,6 +75,7 @@
     "max": "MAX",
     "submit": "确认冻结",
     "success": "冻结提交成功",
+    "amount": "冻结数量",
     "failed": "冻结金额必须大于等于1TRX!"
   },
   "confirmModal": {

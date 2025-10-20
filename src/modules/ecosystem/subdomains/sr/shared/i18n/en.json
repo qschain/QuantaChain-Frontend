@@ -1,6 +1,18 @@
 {
   "title": "SR Voting",
   "subtitle": "Choose the Super Representatives you support to participate in governance and earn rewards.",
+  "unfreeze": {
+    "title": "Unfreeze TRX",
+    "available": "Unfreezable Balance",
+    "submit": "Unfreeze",
+    "failed": "Unfreeze failed"
+  },
+  "unfreezeConfirm": {
+    "title": "Confirm Unfreeze",
+    "qty": "Unfreeze Amount",
+    "note": "After confirmation, the unfreeze transaction will be submitted on-chain. The final result depends on the network.",
+    "invalid": "Please enter a valid amount"
+  },
   "freezeConfirm": {
     "title": "Confirm Freeze",
     "qty": "Freeze Amount",
@@ -48,6 +60,7 @@
     "oneClickVote": "Vote All"
   },
   "sidebar": {
+    "all": "All Votes",
     "basket": "Voting Basket",
     "available": "Available Votes",
     "voteAmount": "Vote Amount",
@@ -62,7 +75,8 @@
     "max": "MAX",
     "submit": "Freeze",
     "success": "Freeze submitted",
-    "failed": "Freeze failed"
+    "amount": "Freeze Amount",
+    "failed": "Need to freeze more than 1 TRX！"
   },
   "confirmModal": {
     "title": "Confirm Voting Transaction",
