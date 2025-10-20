@@ -5,7 +5,7 @@ import { changeAppLanguage } from '../../../shared/lib/i18n/i18n';
 import { useSession } from '../../session/PlatformSessionProvider'; // ← 平台/钱包的 useSession 导出路径
 import './topnav.css';
 
-const LOGIN_PATH = '/auth/login'; // 如已平台化可改为 '/auth/login'
+const LOGIN_PATH = '/auth/login';
 
 export default function TopNav() {
     const [open, setOpen] = useState<string | null>(null);

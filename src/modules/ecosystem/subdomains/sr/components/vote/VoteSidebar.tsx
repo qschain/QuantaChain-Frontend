@@ -1,17 +1,17 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSr, canSubmit } from '../state/store'
-import { sumAlloc } from '../shared/allocationRules'
-import { nf } from '../shared/format'
-import { computeAvailableVotes } from '../shared/api/srApi'
+import { useSr, canSubmit } from '../../state/store'
+import { sumAlloc } from '../../shared/allocationRules'
+import { nf } from '../../shared/format'
 
 export default function VoteSidebar({ onOpenConfirm }: { onOpenConfirm(): void }) {
     const { t } = useTranslation('sr')
     const { state, dispatch } = useSr()
 
-    // 已投票、可用票
+    // 已投票（来自 account/get）
     const used = Number(state.account?.voteTotal ?? 0)
-    const usable = computeAvailableVotes(state.account) // = votes - voteTotal
+    // 可用票 = floor(冻结总 TRX) - 已投票；冻结总票已在全局 state.frozenTotalVotes（整数）
+    const usable = Math.max(0, Number(state.frozenTotalVotes || 0) - used)
 
     // 当前目标总票（显示时做一次 clamp，避免可用票更新后 UI 溢出）
     const targetTotal = Math.min(state.voteSliderValue, usable)
@@ -76,7 +76,7 @@ export default function VoteSidebar({ onOpenConfirm }: { onOpenConfirm(): void }
                     onChange={(e) => onInputChange(Number(e.target.value || 0))}
                 />
                 <button className="sr-btn" onClick={() => onSlide(0)}>0</button>
-                <button className="sr-btn" onClick={() => onSlide(usable / 2)}>{t('freeze.half')}</button>
+                <button className="sr-btn" onClick={() => onSlide(Math.floor(usable / 2))}>{t('freeze.half')}</button>
                 <button className="sr-btn" onClick={() => onSlide(usable)}>{t('freeze.max')}</button>
             </div>
 
