@@ -94,6 +94,7 @@ export type Overview = {
 }
 
 export type MarketItem = {
+    pair: number;
     symbol: string
     price: number
     changePct: number

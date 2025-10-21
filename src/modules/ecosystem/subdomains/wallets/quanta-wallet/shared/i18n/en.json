@@ -1,0 +1,329 @@
+{
+  "language": "Language",
+  "search": "Search",
+  "searchPlaceholder": "Search assets, DApps...",
+  "mainNetworkConnected": "● Main Network · Connected",
+  "quickActions": "⚡ Quick Actions",
+  "navMenu": "Navigation",
+  "logout": "Logout",
+  "totalValuation": "Total Valuation",
+  "dashboard": "Dashboard",
+  "atlas": "World Map",
+  "assets": "Assets",
+  "send": "Send",
+  "receive": "Receive",
+  "deposit": "Deposit",
+  "withdraw": "Withdraw",
+  "quantumSecureStorage": "Quantum Secure Storage",
+  "systemStatus": "System Status",
+  "operational": "Operational",
+  "lastSync": "Last Sync",
+  "blockHeight": "Block Height",
+  "securityCertified": "Security Certified",
+  "multiChainSupport": "Multi-chain Support",
+  "quantumEncryption": "Quantum-grade Encryption",
+  "productName": "Digital Asset®OS",
+  "totalOverview": "Total Overview",
+  "mainAssets": "Main Assets",
+  "marketSnapshot": "Market Snapshot",
+  "marketCap": "Market Cap",
+  "assetDistribution": "Asset Distribution",
+  "latestActivities": "Latest Activities",
+  "allAssets": "All Assets",
+  "all": "All",
+  "refresh": "Refresh",
+  "loadMoreActivities": "Load more activities",
+
+  "activity": {
+    "receive": "Receive",
+    "send": "Send",
+    "swap": "Swap",
+    "bridge": "Bridge"
+  },
+
+  "globe": {
+    "pauseRotation": "Pause Rotation",
+    "resumeRotation": "Resume Rotation",
+    "resetView": "Reset View",
+    "selectRegions": "Selectable Regions",
+    "backToMap": "Back to Map"
+  },
+
+  "loading": "Loading",
+  "loadingRegionData": "Fetching data for {{region}}…",
+
+  "region": {
+    "overview": "Overview",
+    "accounts": "Number of Accounts",
+    "txCount": "Transaction Count",
+    "transferVolume": "Total Transfer Volume",
+    "tvl": "Token Value Locked",
+    "name": {
+      "cn": "China",
+      "br": "Brazil",
+      "my": "Malaysia",
+      "pk": "Pakistan",
+      "mm": "Myanmar",
+      "hk": "Hong Kong",
+      "ca": "Canada",
+      "jp": "Japan"
+    }
+  },
+
+  "settings": {
+    "title": "System Settings",
+    "center": "Account & Settings",
+    "accountOverview": "Account Overview",
+    "privacySecurity": "Privacy & Security",
+    "permissions": "Permissions",
+    "networkManagement": "Network Management",
+    "appearance": "Appearance",
+    "notifications": "Notifications",
+    "about": "About",
+    "privacy": "Privacy & Security",
+    "network": "Network"
+  },
+
+  "appearance": {
+    "theme": "Theme",
+    "layout": "Home Widgets Layout",
+    "tip": "Drag-and-drop upcoming · Toggle and sort for now",
+    "dark": "Dark",
+    "deep": "Deep",
+    "light": "Light",
+    "bright": "Bright",
+    "moveUp": "Move Up",
+    "moveDown": "Move Down",
+    "hide": "Hide",
+    "show": "Show",
+    "langCurrency": "Language & Currency",
+    "displayLanguage": "Display Language",
+    "currency": "Currency",
+    "reset": "Reset",
+    "save": "Save Changes",
+    "livePreview": "Live Preview",
+    "widgets": {
+      "portfolio": "Portfolio Overview",
+      "staking": "Staking Panel",
+      "defi": "DeFi Overview",
+      "nft": "NFT Gallery",
+      "activity": "Recent Activity"
+    }
+  },
+
+  "receiveAsset": {
+    "title": "Receive Asset",
+    "selectType": "Select Asset Type",
+    "selectNetwork": "Select Network",
+    "yourAddress": "Your Address",
+    "copy": "Copy",
+    "securityTip": "Security Tip",
+    "securityDesc": "Ensure the address is compatible with the selected network. Sending unsupported assets may result in permanent loss.",
+    "qrTitle": "Or scan QR code to receive",
+    "downloadQR": "Download QR"
+  },
+
+  "sendAsset": {
+    "title": "Send Asset",
+    "recipient": "Recipient Address",
+    "recipient.placeholder": "Enter or paste wallet address",
+    "asset": "Asset",
+    "amount": "Amount",
+    "balance": "Available",
+    "estimatedFee": "Estimated Fee"
+  },
+
+  "continue": "Continue",
+
+  "asset": {
+    "backToDashboard": "Back to Dashboard",
+    "detail": "Asset Detail",
+    "chainAddress": "On-chain Address",
+    "currentBalance": "Current Balance",
+    "change24h": "24h Change",
+    "performance": "Performance",
+    "token": "Token",
+    "portion": "ratio"
+  },
+
+  "copy": "Copy",
+  "history": "History",
+  "type": "Type",
+  "time": "Time",
+  "status": "Status",
+  "txHash": "Tx Hash",
+  "amount": "Amount",
+
+  "statusText": {
+    "success": "Success",
+    "pending": "Pending",
+    "failed": "Failed"
+  },
+
+  "tab": {
+    "send": "Send",
+    "receive": "Receive",
+    "swap": "Swap",
+    "history": "History",
+    "stake": "Stake",
+    "defi": "DeFi"
+  },
+
+  "swapPanel": {
+    "title": "Swap",
+    "from": "From",
+    "to": "To",
+    "rate": "Effective Rate",
+    "quote": "Get Quote",
+    "execute": "Execute Swap"
+  },
+
+  "stake": {
+    "placeholder": "Stake panel placeholder (APR, limits, subscribe/redeem)"
+  },
+
+  "defi": {
+    "placeholder": "DeFi panel placeholder (protocols, TVL, yields)"
+  },
+
+  "bridgePanel": {
+    "title": "Bridge",
+    "source": "Source",
+    "target": "Target",
+    "asset": "Asset",
+    "amount": "Amount",
+    "estimate": "Estimated Fee",
+    "transfer": "Start Bridge",
+    "total": "Total (Send + Gas)",
+    "includesFee": "Including platform fee {{pct}}% and estimated gas ${{gas}}",
+    "swapNetworks": "⇄ Swap Networks"
+  },
+
+  "ramp": {
+    "buy": "Buy",
+    "sell": "Sell",
+    "connectAccount": "Connect Account",
+    "notConnected": "Not connected",
+    "region": {
+      "cn": "China",
+      "us": "United States",
+      "eu": "European Union"
+    },
+    "currency": {
+      "cny": "CNY",
+      "usd": "USD",
+      "eur": "EUR"
+    },
+    "network": {
+      "ethereumMainnet": "Ethereum Mainnet"
+    },
+    "payment": {
+      "card": "Debit / Credit Card"
+    },
+    "change": "Change ▾",
+    "secureCta": "Secure Crypto Trade",
+    "backToAssets": "← Back to Assets",
+    "note": "Prices and available payment methods may vary by region and currency."
+  },
+
+  "select": {
+    "network": "Select Network"
+  },
+
+  "cancel": "Cancel",
+  "pair": "Pair",
+
+  "account": {
+    "userId": "User ID",
+    "email": "Email",
+    "plan": "Plan",
+    "planFree": "Free",
+    "phone": "Phone",
+    "avatar": "Avatar",
+    "changePassword": "Password"
+  },
+
+  "security": {
+    "twoFactor": "Two-factor Authentication",
+    "loginAlerts": "Login Alerts"
+  },
+
+  "permissions": {
+    "readBalances": "Read balances",
+    "submitTransactions": "Submit transactions"
+  },
+
+  "network": {
+    "ethMainnet": "ethMainnet",
+    "bsc": "bsc",
+    "polygon": "polygon",
+    "switch": "switch",
+    "chainId": "chain ID"
+  },
+
+  "theme": {
+    "dark": "Dark",
+    "deep": "Deep",
+    "light": "Light",
+    "bright": "Colorful"
+  },
+
+  "lang": {
+    "zh": "Simplified Chinese",
+    "en": "English"
+  },
+
+  "currency": {
+    "usd": "US Dollar (USD)",
+    "cny": "Chinese Yuan (CNY)"
+  },
+
+  "preview": {
+    "portfolio": "Portfolio",
+    "staking": "Staking",
+    "defi": "DeFi",
+    "protocols": "protocols"
+  },
+
+  "notify": {
+    "priceAlerts": "Price Alerts",
+    "txUpdates": "Transaction Updates"
+  },
+
+  "about": {
+    "product": "Product",
+    "version": "Version",
+    "license": "License"
+  },
+
+  "actions": {
+    "saveChanges": "Save Changes",
+    "resetDefault": "Reset to Default",
+    "configure": "Configure",
+    "enable": "Enable",
+    "manage": "Manage",
+    "edit": "Edit",
+    "grant": "Grant",
+    "revoke": "Revoke",
+    "moveUp": "Move Up",
+    "moveDown": "Move Down",
+    "show": "Show",
+    "hide": "Hide",
+    "chooseFile": "Choose File",
+    "change": "Change"
+  },
+
+  "confirmTransfer": "Confirm Transfer",
+  "pleaseConfirmDetails": "Please check the transfer details",
+  "recipientAddress": "Recipient Address",
+  "confirm": "Confirm",
+  "sending": "Sending...",
+  "enterPassword": "Please enter password...",
+  "recipientAddressPlaceholder": "Please enter recipient address",
+  "amountPlaceholder": "Please enter amount to send",
+  "transferFailed": "Transfer Failed",
+  "transferSuccess": "Transfer Success",
+  "beforeBalance": "Before Balance",
+  "laterBalance": "Later Balance",
+  "gotIt": "Got It !"
+}

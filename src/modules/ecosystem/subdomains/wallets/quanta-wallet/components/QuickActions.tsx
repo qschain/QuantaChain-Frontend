@@ -7,8 +7,8 @@ export default function QuickActions(){
         <div className="row" style={{gap:12, flexWrap:'wrap'}}>
             <button className="btn" onClick={()=>nav('../asset/send')}>▶ {t('send')}</button>
             <button className="btn" onClick={()=>nav('../asset/receive')}>📥{t('receive')}</button>
-            <button className="btn secondary" onClick={()=>nav('../swap')}>⭢ {t('swap')}</button>
-            <button className="btn secondary" onClick={()=>nav('../bridge')}>🌉 {t('bridge')}</button>
+            <button className="btn secondary" onClick={()=>nav('../swap')}>⭢ {t('activity.swap')}</button>
+            <button className="btn secondary" onClick={()=>nav('../bridge')}>🌉 {t('activity.bridge')}</button>
             <button className="btn ghost" onClick={()=>nav('../dapps')}>🧩 {t('dapp')}</button>
             <button className="btn ghost" onClick={()=>nav('../settings')}>👤 {t('personal')}</button>
         </div>

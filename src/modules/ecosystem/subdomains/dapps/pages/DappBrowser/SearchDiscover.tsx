@@ -14,7 +14,8 @@ export default function SearchDiscoverPage() {
   const pag = usePagination({ pageSize: 12 });
 
   useEffect(() => {
-    api.searchDapps({ q, page: pag.page, pageSize: pag.pageSize }).then((res) => {
+    // @ts-ignore
+      api.searchDapps({ q, page: pag.page, pageSize: pag.pageSize }).then((res) => {
       setItems(res.list);
       pag.setTotal(res.total);
     });

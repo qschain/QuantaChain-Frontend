@@ -1,6 +1,14 @@
 {
   "title": "SR 投票",
   "subtitle": "选择你支持的超级代表，参与治理并获取奖励。",
+  "withdraw": {
+    "action": "领取奖励",
+    "processing": "领取中…",
+    "failed": "领取失败",
+    "disabledTip": "当前没有可领取的奖励",
+    "confirmTitle": "确认领取奖励",
+    "note": "确认后将提交链上交易，最终结果以链上为准。"
+  },
   "freeze": {
     "type": "资源类型",
     "bandwidth": "带宽",
@@ -74,7 +82,12 @@
     "tablePlaceholder": "表格占位",
     "chartPlaceholder": "图表占位",
     "timelinePlaceholder": "时间线占位",
-    "paginationPlaceholder": "分页占位"
+    "paginationPlaceholder": "分页占位",
+    "refresh": "刷新",
+    "date": "日期",
+    "status": "状态",
+    "detail": "详情",
+    "none": "无"
   },
   "list": {
     "annualized": "年化",
@@ -168,7 +181,9 @@
     }
   },
   "rewards": {
+
     "title": "奖励历史记录",
+    "amount": "奖励金额 (TRX)",
     "cards": {
       "total": "累计领取总额",
       "lastTime": "最近奖励时间",

@@ -1,0 +1,308 @@
+{
+  "language": "语言",
+  "search": "搜索",
+  "searchPlaceholder": "搜索资产、DApp...",
+  "mainNetworkConnected": "● 主网 · 已连接",
+  "quickActions": "⚡ 快捷操作",
+  "navMenu": "导航菜单",
+  "logout": "退出",
+  "totalValuation": "总资产估值",
+  "dashboard": "仪表盘",
+  "atlas": "世界地图",
+  "assets": "资产管理",
+  "send": "发送",
+  "asset.token": "币种",
+  "receive": "接收",
+  "deposit": "充值",
+  "withdraw": "提现",
+  "quantumSecureStorage": "量子安全存储",
+  "systemStatus": "系统状态",
+  "operational": "正常运行",
+  "lastSync": "最后同步",
+  "blockHeight": "区块高度",
+  "securityCertified": "安全认证",
+  "multiChainSupport": "多链支持",
+  "quantumEncryption": "量子级加密",
+  "productName": "数字资产®OS",
+  "totalOverview": "总资产概览",
+  "mainAssets": "主要资产",
+  "marketSnapshot": "市场快照",
+  "marketCap": "市场总值",
+  "assetDistribution": "资产分布",
+  "latestActivities": "最新活动",
+  "allAssets": "全部资产",
+  "all": "全部",
+  "refresh": "刷新",
+  "loadMoreActivities": "加载更多活动",
+  "activity": {
+    "receive": "接收",
+    "send": "发送",
+    "swap": "兑换",
+    "bridge": "跨链桥"
+  },
+  "globe": {
+    "pauseRotation": "暂停自转",
+    "resumeRotation": "开启自转",
+    "resetView": "重置视角",
+    "selectRegions": "可选地区",
+    "backToMap": "返回地图"
+  },
+  "loading": "载入中",
+  "loadingRegionData": "正在获取 {{region}} 数据…",
+  "region": {
+    "overview": "概览",
+    "accounts": "Number of Accounts",
+    "txCount": "Transaction Count",
+    "transferVolume": "Total Transfer Volume",
+    "tvl": "Token Value Locked"
+  },
+  "settings": {
+    "center": "个人中心与设置",
+    "accountOverview": "账户概览",
+    "privacy": "隐私与安全",
+    "permissions": "权限管理",
+    "network": "网络管理",
+    "appearance": "界面/主题",
+    "notifications": "通知设置",
+    "about": "关于",
+    "title": "系统设置",
+    "accountOverviewFull": "账户总览",
+    "privacySecurity": "隐私与安全",
+    "permissionsFull": "权限管理",
+    "networkManagement": "网络管理",
+    "appearanceFull": "界面偏好",
+    "notificationsFull": "通知",
+    "aboutFull": "关于"
+  },
+  "appearance": {
+    "theme": "主题选择",
+    "layout": "首页组件布局",
+    "tip": "拖拽在下一版提供 · 先显隐与排序按钮",
+    "dark": "暗夜模式",
+    "deep": "深色模式",
+    "light": "明亮模式",
+    "bright": "亮彩模式",
+    "moveUp": "上移",
+    "moveDown": "下移",
+    "hide": "隐藏",
+    "show": "显示",
+    "langCurrency": "语言与货币",
+    "displayLanguage": "显示语言",
+    "currency": "货币单位",
+    "reset": "重置默认",
+    "save": "保存更改",
+    "livePreview": "实时预览",
+    "widgets": {
+      "portfolio": "资产组合概览",
+      "staking": "质押收益面板",
+      "defi": "DeFi 概览",
+      "nft": "NFT 图廊",
+      "activity": "最近活动"
+    }
+  },
+  "receiveAsset": {
+    "title": "接收资产",
+    "selectType": "选择资产类型",
+    "selectNetwork": "选择网络",
+    "yourAddress": "您的接收地址",
+    "copy": "复制",
+    "securityTip": "安全提示",
+    "securityDesc": "请确认地址与选定网络的链兼容，发送不支持的资产可能导致永久丢失。",
+    "qrTitle": "或扫描二维码接收",
+    "downloadQR": "下载二维码"
+  },
+  "sendAsset": {
+    "title": "发送数字资产",
+    "recipient": "接收方地址",
+    "recipient.placeholder": "输入或粘贴链钱包地址",
+    "asset": "选择要发送的资产",
+    "amount": "发送数量",
+    "balance": "可用余额",
+    "estimatedFee": "预估交易费用"
+  },
+  "continue": "继续",
+  "asset": {
+    "backToDashboard": "返回仪表盘",
+    "chainAddress": "链上地址",
+    "currentBalance": "当前余额",
+    "change24h": "24小时涨跌幅",
+    "performance": "资产表现",
+    "details": "资产详情",
+    "portion": "比例"
+  },
+  "copy": "复制",
+  "history": "历史",
+  "type": "类型",
+  "time": "时间",
+  "status": "状态",
+  "txHash": "交易哈希",
+  "amount": "金额",
+  "status.success": "成功",
+  "status.pending": "处理中",
+  "status.failed": "失败",
+  "tab": {
+    "send": "发送",
+    "receive": "接收",
+    "swap": "兑换",
+    "history": "历史",
+    "stake": "质押",
+    "defi": "DeFi"
+  },
+  "swap": {
+    "quick": "快速兑换（简化预览）",
+    "gotoFull": "前往完整兑换",
+    "title": "资产兑换",
+    "from": "从",
+    "to": "到",
+    "rate": "实际汇率",
+    "quote": "获取报价",
+    "execute": "执行兑换"
+  },
+  "stake": {
+    "placeholder": "质押面板占位（APR、可用额度、申购/赎回）"
+  },
+  "defi": {
+    "placeholder": "DeFi 面板占位（协议列表、TVL、收益）"
+  },
+  "ramp": {
+    "buy": "购买",
+    "sell": "出售",
+    "connectAccount": "连接账户",
+    "notConnected": "尚未连接",
+    "region": {
+      "cn": "中国",
+      "us": "美国",
+      "eu": "欧盟"
+    },
+    "currency": {
+      "cny": "人民币",
+      "usd": "美元",
+      "eur": "欧元"
+    },
+    "network": {
+      "ethereumMainnet": "Ethereum 主网"
+    },
+    "payment": {
+      "card": "借记卡 / 信用卡"
+    },
+    "change": "更改 ▾",
+    "secureCta": "加密安全交易",
+    "backToAssets": "← 返回资产",
+    "note": "价格与可用支付方式会因地区与法币而异"
+  },
+  "bridge": {
+    "title": "跨链桥",
+    "source": "源链",
+    "target": "目标链",
+    "asset": "资产",
+    "amount": "数量",
+    "estimate": "预估费用",
+    "transfer": "开始跨链",
+    "total": "合计（发送 + Gas）",
+    "includesFee": "包含平台费 {{pct}}% 与预计 Gas ${{gas}}",
+    "swapNetworks": "⇄ 交换网络"
+  },
+  "select": {
+    "network": "选择网络"
+  },
+  "cancel": "取消",
+  "pair": "交易对",
+  "region.name": {
+    "cn": "中国",
+    "br": "巴西",
+    "my": "马来西亚",
+    "pk": "巴基斯坦",
+    "mm": "缅甸",
+    "hk": "中国香港",
+    "ca": "加拿大",
+    "jp": "日本"
+  },
+  "dapp": "DApp市场",
+  "personal": "个人中心",
+  "account": {
+    "userId": "用户ID",
+    "email": "邮箱",
+    "plan": "套餐",
+    "planFree": "免费版",
+    "phone": "联系方式",
+    "avatar": "头像",
+    "changePassword": "更改密码"
+  },
+  "security": {
+    "twoFactor": "两步验证",
+    "loginAlerts": "登录提醒"
+  },
+  "permissions": {
+    "readBalances": "读取资产余额",
+    "submitTransactions": "提交交易"
+  },
+  "network": {
+    "ethMainnet": "ethMainnet",
+    "bsc": "bsc",
+    "polygon": "polygon",
+    "rpcEndpoint": "RPC 节点地址",
+    "chainList": "链列表",
+    "switch": "切换",
+    "chainId": "链 ID"
+  },
+  "theme": {
+    "dark": "暗夜模式",
+    "deep": "深色模式",
+    "light": "明亮模式",
+    "bright": "亮彩模式"
+  },
+  "lang": {
+    "zh": "简体中文",
+    "en": "English"
+  },
+  "currency": {
+    "usd": "美元 (USD)",
+    "cny": "人民币 (CNY)"
+  },
+  "preview": {
+    "portfolio": "资产组合",
+    "staking": "质押收益",
+    "defi": "DeFi",
+    "protocols": "个协议"
+  },
+  "notify": {
+    "priceAlerts": "价格提醒",
+    "txUpdates": "交易进度通知"
+  },
+  "about": {
+    "product": "产品",
+    "version": "版本",
+    "license": "许可协议"
+  },
+  "actions": {
+    "saveChanges": "保存更改",
+    "resetDefault": "重置默认",
+    "configure": "配置",
+    "enable": "启用",
+    "manage": "管理",
+    "edit": "编辑",
+    "grant": "授权",
+    "revoke": "撤销",
+    "moveUp": "上移",
+    "moveDown": "下移",
+    "show": "显示",
+    "hide": "隐藏",
+    "chooseFile": "选择文件",
+    "change": "更改"
+  },
+  "recipientAddress": "接收方地址",
+  "confirmTransfer": "确认转账",
+  "pleaseConfirmDetails": "请检查转账详情",
+  "password": "密码",
+  "sending": "发送中...",
+  "confirm": "确认",
+  "enterPassword": "请输入密码...",
+  "unit": "单位",
+  "recipientAddressPlaceholder": "请输入或粘贴链钱包地址",
+  "amountPlaceholder": "请输入发送数量",
+  "transferFailed": "转账失败",
+  "transferSuccess": "转账成功",
+  "beforeBalance": "转账前余额",
+  "laterBalance": "转账后余额",
+  "gotIt": "知道了!"
+}

@@ -1,6 +1,14 @@
 {
   "title": "SR Voting",
   "subtitle": "Choose the Super Representatives you support to participate in governance and earn rewards.",
+  "withdraw": {
+    "action": "Claim rewards",
+    "processing": "Claiming…",
+    "failed": "Claim failed",
+    "disabledTip": "No pending rewards to claim",
+    "confirmTitle": "Confirm Claim",
+    "note": "After confirmation, the claim transaction will be submitted on-chain. Final result depends on the network."
+  },
   "freeze": {
     "type": "Resource",
     "bandwidth": "BW",
@@ -74,7 +82,12 @@
     "tablePlaceholder": "Table placeholder",
     "chartPlaceholder": "Chart placeholder",
     "timelinePlaceholder": "Timeline placeholder",
-    "paginationPlaceholder": "Pagination placeholder"
+    "paginationPlaceholder": "Pagination placeholder",
+    "refresh": "Refresh",
+    "date": "Date",
+    "status": "Status",
+    "detail": "Detail",
+    "none": "None"
   },
   "list": {
     "annualized": "APY",
@@ -168,6 +181,7 @@
     }
   },
   "rewards": {
+    "amount": "Amount (TRX)",
     "title": "Rewards history",
     "cards": {
       "total": "Total claimed",
