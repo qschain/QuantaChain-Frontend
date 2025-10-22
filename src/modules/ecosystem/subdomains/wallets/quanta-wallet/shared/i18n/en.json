@@ -85,7 +85,9 @@
   },
 
   "appearance": {
-    "theme": "Theme",
+    "homeLayout": "Home Layout",
+    "reorderHint": "Drag-and-drop to reorder",
+    "themeTitle": "Theme",
     "layout": "Home Widgets Layout",
     "tip": "Drag-and-drop upcoming · Toggle and sort for now",
     "dark": "Dark",
@@ -97,7 +99,7 @@
     "hide": "Hide",
     "show": "Show",
     "langCurrency": "Language & Currency",
-    "displayLanguage": "Display Language",
+    "language": "Display Language",
     "currency": "Currency",
     "reset": "Reset",
     "save": "Save Changes",
@@ -264,6 +266,7 @@
   "theme": {
     "dark": "Dark",
     "deep": "Deep",
+    "system": "System",
     "light": "Light",
     "bright": "Colorful"
   },

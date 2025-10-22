@@ -1,4 +1,4 @@
-@import 'tokens.css';
+@import 'wallet-root.css';
 
 * { box-sizing: border-box; }
 body { margin: 0; font: 14px/1.5 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto; }
@@ -19,13 +19,13 @@ hr { border: none; border-top: 1px solid var(--border); }
 .mb-6 { margin-bottom: var(--space-6); }
 .mt-6 { margin-top: var(--space-6); }
 
-.muted { color: var(--text-muted); }
+/*.muted { color: var(--text-muted); }*/
 .secondary { color: var(--text-secondary); }
 
 .card {
     background: var(--bg-elevated);
     border: 1px solid var(--border);
-    border-radius: var(--card-radius);
+    border-radius: var();
     padding: var(--space-6);
     box-shadow: var(--shadow-1);
 }
@@ -46,7 +46,7 @@ hr { border: none; border-top: 1px solid var(--border); }
     color: #0a0d12;
     border: none;
     padding: 10px 14px;
-    border-radius: var(--btn-radius);
+    border-radius: var();
     cursor: pointer;
 }
 .btn.secondary { background: #2b3440; color: var(--text-primary); }
@@ -160,3 +160,231 @@ html, body, #root {
 
 /* 统一盒模型，减少子像素溢出概率 */
 *, *::before, *::after { box-sizing: border-box; }
+/* FooterBar - 主题自适应 */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 18px;
+    background: var(--bg-panel);
+    border-top: 1px solid var(--line);
+    color: var(--text);
+    font-size: 13px;
+    position: sticky;
+    bottom: 0;
+    z-index: 99;
+}
+
+/* 左右区块（可选样式分组） */
+.footer-left,
+.footer-right {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+/* badge 通用 */
+.footer .badge {
+    display: inline-flex;
+    align-items: center;
+    height: 20px;
+    padding: 0 8px;
+    border-radius: 999px;
+    font-size: 12px;
+    border: 1px solid var(--line);
+    background: color-mix(in oklab, var(--bg-surface) 85%, transparent);
+    color: var(--text);
+}
+
+/* 状态色 */
+.footer .badge.green {
+    border-color: color-mix(in oklab, var(--success) 45%, var(--line));
+    background: color-mix(in oklab, var(--success) 12%, var(--bg-surface));
+}
+
+.footer .badge.blue {
+    border-color: color-mix(in oklab, var(--primary) 45%, var(--line));
+    background: color-mix(in oklab, var(--primary) 12%, var(--bg-surface));
+}
+/* ——— Sidebar 容器 ——— */
+.sidebar {
+    width: 260px;
+    background: var(--bg-panel);
+    color: var(--text);
+    border-right: 1px solid var(--line);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* 分区卡片感 */
+.sidebar .section {
+    background: color-mix(in oklab, var(--bg-surface) 92%, transparent);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px;
+}
+
+/* 行布局（复用你已有的 row/space-between 类名） */
+.sidebar .row { display: flex; align-items: center; gap: 10px; }
+.sidebar .space-between { justify-content: space-between; }
+
+/* 次要文字 */
+.sidebar .secondary { color: var(--muted); }
+
+/* 导航列表 */
+.sidebar .nav {
+    display: grid;
+    gap: 6px;
+    padding: 12px;
+    background: color-mix(in oklab, var(--bg-surface) 85%, transparent);
+    border-radius: 12px;
+    border: 1px solid var(--line);
+}
+.sidebar .nav a {
+    display: block;
+    padding: 8px 10px;
+    border-radius: 10px;
+    color: var(--text);
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: background-color .12s ease, color .12s ease, border-color .12s ease;
+}
+.sidebar .nav a:hover {
+    background: color-mix(in oklab, var(--bg-surface) 80%, transparent);
+    border-color: color-mix(in oklab, var(--line) 80%, transparent);
+}
+/* 当前路由高亮（跟主题走） */
+.sidebar .nav a.active {
+    background: color-mix(in oklab, var(--primary) 12%, var(--bg-surface));
+    border-color: color-mix(in oklab, var(--primary) 45%, var(--line));
+    color: var(--text);
+}
+
+/* 按钮（沿用你全局的 .btn / .btn.secondary 变量化风格） */
+.sidebar .btn {
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: color-mix(in oklab, var(--bg-surface) 85%, #000);
+    color: var(--text);
+    cursor: pointer;
+}
+.sidebar .btn.secondary {
+    background: transparent;
+}
+.sidebar .btn.ghost {
+    background: transparent;
+    border: 1px solid color-mix(in oklab, var(--line) 75%, transparent);
+}
+
+/* 数值徽标（涨跌色） */
+.sidebar .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 22px;
+    padding: 0 8px;
+    border-radius: 999px;
+    font-size: 12px;
+    border: 1px solid var(--line);
+    background: color-mix(in oklab, var(--bg-surface) 85%, transparent);
+    color: var(--text);
+}
+.sidebar .badge.green {
+    border-color: color-mix(in oklab, var(--success) 45%, var(--line));
+    background: color-mix(in oklab, var(--success) 12%, var(--bg-surface));
+}
+.sidebar .badge.red {
+    border-color: color-mix(in oklab, var(--danger) 45%, var(--line));
+    background: color-mix(in oklab, var(--danger) 12%, var(--bg-surface));
+}
+/* ===== Topbar 容器：主题自适应 ===== */
+.topbar {
+    position: sticky;      /* 需要常驻顶部就保留；否则可去掉 */
+    top: 0;
+    z-index: 98;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 16px;
+    background: var(--bg-panel);
+    color: var(--text);
+    border-bottom: 1px solid var(--line);
+    backdrop-filter: blur(4px); /* 可选：轻微毛玻璃 */
+}
+
+/* 左侧搜索区域 */
+.topbar .search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 380px;      /* 可按需调整 */
+}
+.topbar .search .input {
+    min-width: 260px;
+    background: var(--bg-surface);
+    color: var(--text);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 10px 12px;
+}
+
+/* 右侧操作区域 */
+.topbar .row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* 按钮：沿用全局 .btn 语义（如果已有可省略这段或仅做微调） */
+.topbar .btn {
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: color-mix(in oklab, var(--bg-surface) 85%, #000);
+    color: var(--text);
+    cursor: pointer;
+}
+.topbar .btn.secondary { background: transparent; }
+.topbar .btn.ghost {
+    background: transparent;
+    border: 1px solid color-mix(in oklab, var(--line) 75%, transparent);
+}
+
+/* 徽标 / 状态 Badge（与 Footer/Sidebar 风格统一） */
+.topbar .badge {
+    display: inline-flex;
+    align-items: center;
+    height: 22px;
+    padding: 0 8px;
+    border-radius: 999px;
+    font-size: 12px;
+    border: 1px solid var(--line);
+    background: color-mix(in oklab, var(--bg-surface) 85%, transparent);
+    color: var(--text);
+}
+.topbar .badge.green {
+    border-color: color-mix(in oklab, var(--success) 45%, var(--line));
+    background: color-mix(in oklab, var(--success) 12%, var(--bg-surface));
+}
+
+/* 响应式：小屏时下移搜索、拉伸 */
+@media (max-width: 820px) {
+    .topbar {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .topbar .search {
+        order: 2;            /* 搜索放第二行 */
+        width: 100%;
+        min-width: 0;
+    }
+    .topbar .search .input {
+        flex: 1;
+        min-width: 0;
+    }
+}

@@ -21,14 +21,11 @@ export default function Sidebar() {
 
     return (
         <aside className="sidebar">
-            {/* 顶部操作区 —— 永远可见 */}
+            {/* 顶部操作区 */}
             <div className="section">
                 <div className="row space-between">
                     <div style={{ fontWeight: 700 }}>{t('navMenu')}</div>
-                    <button
-                        className="btn ghost"
-                        onClick={() => { logout(); nav('') }}
-                    >
+                    <button className="btn ghost" onClick={() => { logout(); nav('') }}>
                         {t('logout')}
                     </button>
                 </div>
@@ -37,10 +34,7 @@ export default function Sidebar() {
                     {t('totalValuation')}
                 </div>
 
-                {/* 状态与数据兜底 */}
-                {loading && (
-                    <div style={{ marginTop: 6, fontSize: 14 }}>{t('loading') || 'Loading…'}</div>
-                )}
+                {loading && <div style={{ marginTop: 6, fontSize: 14 }}>{t('loading') || 'Loading…'}</div>}
 
                 {error && (
                     <div
@@ -59,7 +53,6 @@ export default function Sidebar() {
                     </div>
                 )}
 
-                {/* 数据就绪时展示总览 */}
                 {!!data && (
                     <>
                         <div style={{ fontSize: 22, fontWeight: 700 }}>
@@ -72,15 +65,15 @@ export default function Sidebar() {
                 )}
             </div>
 
-            {/* 导航区 —— 不依赖数据，始终可用 */}
+            {/* 导航 */}
             <div className="section nav">
-                <NavLink to="dashboard">📊 {t('dashboard')}</NavLink>
-                <NavLink to="atlas">🌐 {t('atlas')}</NavLink>
-                <NavLink to="asset">💰 {t('assets')}</NavLink>
-                <NavLink to="settings">⚙️ {t('settings.title')}</NavLink>
+                <NavLink to="dashboard" className={({isActive}) => isActive ? 'active' : undefined}>📊 {t('dashboard')}</NavLink>
+                <NavLink to="atlas" className={({isActive}) => isActive ? 'active' : undefined}>🌐 {t('atlas')}</NavLink>
+                <NavLink to="asset" className={({isActive}) => isActive ? 'active' : undefined}>💰 {t('assets')}</NavLink>
+                <NavLink to="settings" className={({isActive}) => isActive ? 'active' : undefined}>⚙️ {t('settings.title')}</NavLink>
             </div>
 
-            {/* 快捷操作 —— 不依赖数据，始终可用 */}
+            {/* 快捷操作 */}
             <div className="section">
                 <div className="row" style={{ gap: 10 }}>
                     <button className="btn" onClick={() => nav('asset/send')}>▶ {t('send')}</button>

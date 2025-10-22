@@ -1,0 +1,206 @@
+/* ========== 主题无关的基础尺度/阴影等 ========== */
+:root {
+    /* 尺度 */
+    --radius: 16px;
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 12px;
+    --space-5: 20px;
+    --space-6: 16px;
+    --space-8: 24px;
+    --space-10: 40px;
+
+    /* 阴影 */
+    --shadow-1: 0 2px 10px rgba(0,0,0,.06);
+    --shadow-2: 0 6px 20px rgba(0,0,0,.10);
+}
+
+/* ========== 浅色主题 ========== */
+/*:root[data-theme='light'] {*/
+/*    !* 语义背景/边框/文字 *!*/
+/*    --bg: #f6f8fb;*/
+/*    --bg-panel: #ffffff;*/
+/*    --bg-surface: #f2f4f8;*/
+/*    --line: #e5eaf1;*/
+
+/*    --text: #0b1220;*/
+/*    --muted: #708090;*/
+/*    --text-primary: var(--text);*/
+/*    --text-secondary: #4b5563;*/
+/*    --text-muted: var(--muted);*/
+
+/*    !* 品牌色 *!*/
+/*    --primary: #0066ff;*/
+/*    --brand: var(--primary);*/
+/*    --accent: #3aa3ff;*/
+
+/*    !* 状态色 *!*/
+/*    --success: #16a34a;*/
+/*    --warning: #f59e0b;*/
+/*    --danger:  #ef4444;*/
+/*}*/
+
+/*!* ========== 深色主题 ========== *!*/
+
+/*:root[data-theme='dark'] {*/
+/*    !* 语义背景/边框/文字 —— 兼容你原 tokens 的视觉 *!*/
+/*    --bg: #0b0e11;        !* 原 --bg-base *!*/
+/*    --bg-panel: #101419;  !* 原 --bg-elevated *!*/
+/*    --bg-surface: #0f1318;!* 原 --bg-surface 近似 *!*/
+/*    --line: #1c2530;      !* 原 transfer.css 的默认值 *!*/
+
+/*    --text: #e8eef6;      !* 原 --text-primary *!*/
+/*    --muted: #8a97a6;     !* 原 --text-secondary *!*/
+/*    --text-primary: var(--text);*/
+/*    --text-secondary: #a2b0c3;*/
+/*    --text-muted: var(--muted);*/
+
+/*    !* 品牌/强调 *!*/
+/*    --primary: #00e6ff;   !* 原建议值 *!*/
+/*    --brand: var(--primary);*/
+/*    --accent: #11b0d8;    !* 兼容你之前的 --accent *!*/
+
+/*    !* 状态色 *!*/
+/*    --success: #19c37d;*/
+/*    --warning: #f5a524;*/
+/*    --danger:  #ff5a7a;*/
+/*}*/
+
+/* ========== 全局基底 ========== */
+html, body, #root {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    --brand: var(--primary);
+}
+
+/* ========== 常用组件基样式（如需可以精简） ========== */
+
+.input, .select {
+    background: var(--bg-surface);
+    color: var(--text);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 10px 12px;
+    outline: none;
+}
+
+.btn {
+    background: color-mix(in oklab, var(--bg-surface) 80%, #000);
+    color: var(--text);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 10px 16px;
+    cursor: pointer;
+}
+.btn.secondary { background: transparent; }
+.btn.ghost { background: transparent; opacity: .9; }
+.btn.primary { background: var(--primary); color: #07131a; }
+
+/* 平滑过渡 */
+* { transition: background-color .15s ease, color .15s ease, border-color .15s ease; }
+
+/* ========== 兼容别名（老代码仍可用原 tokens） ========== */
+:root {
+    /* 背景别名（来自你最初 tokens） */
+    --bg-base: var(--bg);
+    --bg-elevated: var(--bg-panel);
+
+    /* 文本别名 */
+    --text-primary: var(--text);
+    --text-secondary: var(--muted);
+
+    /* 颜色别名 */
+    --surface: var(--bg-panel);
+    --border: var(--line);
+}
+/* src/wallet/styles/wallet-wallet-root.css */
+
+/* 作用域：仅钱包根容器内生效 */
+.wallet-root {
+    /* 可放不随主题变的尺寸、阴影等 */
+    --wallet-radius: 16px;
+    --wallet-shadow-1: 0 2px 10px rgba(0,0,0,.06);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;   /* 保证至少铺满整屏 */
+    position: relative;  /* 和 isolate 一起能更好地隔离层级/滤镜 */
+    isolation: isolate;  /* 可选，避免外层滤镜/混合模式影响 */
+}
+
+/* 浅色 */
+.wallet-root[data-wallet-theme='light'] {
+    --bg: #f6f8fb;
+    --bg-panel: #ffffff;
+    --bg-surface: #f2f4f8;
+    --line: #e5eaf1;
+    --text: #0b1220;
+    --muted: #708090;
+    --primary: #0066ff;
+    --success: #16a34a;
+    --danger: #ef4444;
+}
+
+/* 深色（默认接近你全局 tokens 深色） */
+.wallet-root[data-wallet-theme='dark'],
+.wallet-root[data-wallet-theme='deep'] {
+    --bg: #0b0e11;
+    --bg-panel: #101419;
+    --bg-surface: #0f1318;
+    --line: #1c2530;
+    --text: #e8eef6;
+    --muted: #8a97a6;
+    --primary: #00e6ff;
+    --success: #2bd576;
+    --danger: #ff5a7a;
+}
+
+/* 亮色变体（bright）可自定义不同主色/对比度 */
+.wallet-root[data-wallet-theme='bright'] {
+    --bg: #ffffff;
+    --bg-panel: #f9fbff;
+    --bg-surface: #eef3fb;
+    --line: #dde6f3;
+    --text: #0b1220;
+    --muted: #6a7688;
+    --primary: #2563eb;
+    --success: #16a34a;
+    --danger: #dc2626;
+}
+
+/* 基础皮肤组件（仅钱包域） */
+.wallet-root .card {
+    background: var(--bg-panel);
+    color: var(--text);
+    border: 1px solid var(--line);
+    border-radius: var(--wallet-radius);
+    padding: 20px;
+    box-shadow: var(--wallet-shadow-1);
+}
+.wallet-root .btn {
+    border: 1px solid var(--line);
+    background: color-mix(in oklab, var(--bg-surface) 85%, #000);
+    color: var(--text);
+    border-radius: 12px;
+    padding: 10px 14px;
+    cursor: pointer;
+}
+.wallet-root .btn.secondary { background: transparent; }
+.wallet-root .btn.primary { background: var(--primary); color: #07131a; }
+.wallet-root .input, .wallet-root .select {
+    background: var(--bg-surface);
+    border: 1px solid var(--line);
+    color: var(--text);
+    border-radius: 12px;
+    padding: 10px 12px;
+}
+.wallet-root .badge {
+    display: inline-flex; align-items: center; height: 22px; padding: 0 8px;
+    border-radius: 999px; font-size: 12px; border: 1px solid var(--line);
+    background: color-mix(in oklab, var(--bg-surface) 85%, transparent); color: var(--text);
+}
+.wallet-root .badge.green {
+    border-color: color-mix(in oklab, var(--success) 45%, var(--line));
+    background: color-mix(in oklab, var(--success) 12%, var(--bg-surface));
+}

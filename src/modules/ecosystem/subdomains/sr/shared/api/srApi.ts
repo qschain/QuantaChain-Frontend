@@ -1,21 +1,25 @@
 import { http } from '../../../../../../shared/api/http'
 import type {
-    ApiResp, PaginationParams, SRItem, AccountInfo, VotePayload, TxDetailResp,UnfrozenItem
+    ApiResp, PaginationParams, SRItem, AccountInfo, VotePayload, TxDetailResp, UnfrozenItem
 } from '../../state/types'
 
-// 公共：从后端 data 里抽取交易哈希
+// 公共：从后端 data 里抽取交易哈希（兼容多种键名）
 function pickTxHash(d: any): string {
     return d?.txnHash || d?.trxHash || d?.hash || ''
 }
 
-// Witness 列表
+/* =========================
+ * Witness 列表
+ * ========================= */
 export async function getWitnessList(params: PaginationParams, real = true) {
     const res = await http.post<ApiResp<SRItem[]>>('/api/witness/list', params, { useRealApi: real })
     if (res?.code !== '200') throw new Error(res?.message || 'getWitnessList failed')
     return (res.data || []) as SRItem[]
 }
 
-// 账户信息
+/* =========================
+ * 账户信息
+ * ========================= */
 export async function getAccount(userName: string, real = true) {
     const res = await http.post<ApiResp<any>>('/api/account/get', { userName }, { useRealApi: real })
     if (res?.code !== '200') throw new Error(res?.message || 'getAccount failed')
@@ -25,7 +29,7 @@ export async function getAccount(userName: string, real = true) {
         : null
 
     const account: AccountInfo = {
-        votes: Number(d.votes ?? 0),                               // 保留：总投票权（旧口径）
+        votes: Number(d.votes ?? 0),                               // 总投票权（旧口径）
         voteTotal: Number(d.voteTotal ?? d.voteTatal ?? 0),        // 已投票
         totalFrozenTRX: Number(d.totalFrozenV2 ?? 0),              // 旧字段（不用于可用票）
         accountBalanceTRX: Number(trxRow?.accountBalance ?? 0),
@@ -35,6 +39,10 @@ export async function getAccount(userName: string, real = true) {
     }
     return account
 }
+
+/* =========================
+ * 已解冻队列（V2）
+ * ========================= */
 export async function getUnfrozenV2(ownerAddress: string, real = true) {
     const res = await http.post<ApiResp<UnfrozenItem[]>>(
         '/api/unfrozenV2',
@@ -50,7 +58,10 @@ export async function getUnfrozenV2(ownerAddress: string, real = true) {
         type: String(x?.type ?? '')
     }))
 }
-// 已冻结(新版)：按类型返回 amount（SUN）
+
+/* =========================
+ * 已冻结（V2）- 按类型返回 amount（SUN）
+ * ========================= */
 export async function getFrozenV2(ownerAddress: string, real = true) {
     const res = await http.post<ApiResp<Array<{ amount: number; type: string }>>>(
         '/api/frozenV2',
@@ -79,7 +90,9 @@ export function groupFrozenTRXByType(list: Array<{ amount: number; type: string 
     return map // type -> TRX
 }
 
-// 冻结
+/* =========================
+ * 冻结
+ * ========================= */
 export async function postFreeze(
     ownerAddress: string,
     amountTRX: number,
@@ -95,11 +108,13 @@ export async function postFreeze(
     if (res?.code !== '200') { // @ts-ignore
         throw new Error(res?.data?.message || 'freeze failed')
     }
-    // 兼容不同字段名
-    return (res?.data?.txnHash || res?.data?.trxHash || res?.data?.hash || '')
+    return pickTxHash(res?.data)
 }
 
-// 解冻（amountSUN：单位 SUN）
+/* =========================
+ * 解冻（按你后端的路径大小写 /api/unFreeze）
+ * amountSUN：单位 SUN；typeCode：'0' | '1'（后续后端已接收）
+ * ========================= */
 export async function postUnfreeze(
     ownerAddress: string,
     amountSUN: number,
@@ -107,7 +122,7 @@ export async function postUnfreeze(
     real = true
 ) {
     const res = await http.post<ApiResp<{ txnHash?: string; trxHash?: string; hash?: string }>>(
-        '/api/unfreeze',
+        '/api/unFreeze',
         { ownerAddress, unfreeBalance: String(amountSUN), unfreezeType: typeCode },
         { useRealApi: real }
     )
@@ -115,7 +130,9 @@ export async function postUnfreeze(
     return pickTxHash(res?.data)
 }
 
-// 批量投票
+/* =========================
+ * 批量投票
+ * ========================= */
 export async function postVoteSR(payload: VotePayload, real = true) {
     const res = await http.post<ApiResp<{ txnHash?: string; trxHash?: string; hash?: string }>>(
         '/api/vote/SR',
@@ -126,13 +143,103 @@ export async function postVoteSR(payload: VotePayload, real = true) {
     return pickTxHash(res.data)
 }
 
-// 交易详情
+/* =========================
+ * 交易详情
+ * ========================= */
 export async function fetchTxDetail(trxHash: string, real = true) {
     const res = await http.post<ApiResp<TxDetailResp>>('/api/trxInformation', { trxHash }, { useRealApi: real })
     if (res?.code !== '200') throw new Error(res?.message || 'txInformation failed')
     return res.data!
 }
 
+/* =========================
+ * 领取奖励（withdraw）
+ * POST http://192.168.99.45:8080/api/withdraw
+ * body: { ownerAddress }
+ * 返回 txnHash / trxHash / hash 任意其一
+ * ========================= */
+export async function postWithdraw(ownerAddress: string) {
+    const res = await http.post<ApiResp<{ txnHash?: string; trxHash?: string; hash?: string }>>(
+        '/api/withdraw',
+        { ownerAddress },
+        { useRealApi: true }
+    )
+    if (res?.code !== '200') throw new Error(res?.message || 'withdraw failed')
+    return pickTxHash(res?.data)
+}
+
+/* =========================
+ * 收益预测（predict）
+ * POST http://192.168.99.45:8080/api/predict
+ * body: { count: string, rate: string, days: string }
+ * resp: { code, message, data: { returns: number } }
+ * ========================= */
+export async function postPredict(params: { count: string; rate: string; days: string }) {
+    const res = await http.post<ApiResp<{ returns: number }>>(
+        '/api/predict',
+        params,
+        { useRealApi: true }
+    )
+    if (res?.code !== '200') throw new Error(res?.message || 'predict error')
+    const v = Number(res?.data?.returns ?? 0)
+    return Number.isFinite(v) ? v : 0
+}
+
+/* =========================
+ * 奖励记录分页（reward）
+ * POST http://127.0.0.1:8080/api/reward
+ * body: { address, pageNum, pageSize }
+ * resp: { code, message, data:{ total, pages, currentPage, list:[{ id, tronAddress, balance, time }] } }
+ * ========================= */
+export type RewardItem = {
+    id: number | string
+    tronAddress: string
+    balance: number   // TRX
+    time: string      // ISO 时间字符串
+}
+export type RewardListResp = {
+    total: number
+    pages: number
+    currentPage: number
+    totalBalance: number
+    list: RewardItem[]
+}
+
+export async function fetchRewardList(args: {
+    address: string
+    pageNum: number
+    pageSize: number
+}): Promise<RewardListResp> {
+    const body = {
+        address: args.address,
+        pageNum: String(args.pageNum),
+        pageSize: String(args.pageSize),
+    }
+    const res = await http.post<ApiResp<any>>('/api/reward', body, { useRealApi: true })
+    if (res?.code !== '200') throw new Error(res?.message || 'reward list error')
+
+    const data = res?.data ?? {}
+    const rawList = Array.isArray(data.list) ? data.list : []
+
+    const list: RewardItem[] = rawList.map((r: any) => ({
+        id: r?.id ?? r?.Id ?? '',
+        tronAddress: String(r?.tronAddress ?? ''),
+        balance: Number(r?.balance ?? 0)/1000000, // 已是 TRX
+        time: String(r?.time ?? r?.createdAt ?? ''),
+    }))
+
+    return {
+        total: Number(data.total ?? list.length),
+        pages: Number(data.pages ?? 1),
+        currentPage: Number(data.currentPage ?? args.pageNum),
+        totalBalance: Number(data.totalBalance ?? 0)/1000000,
+        list,
+    }
+}
+
+/* =========================
+ * 导出集合
+ * ========================= */
 export const srApi = {
     getWitnessList,
     getAccount,
@@ -143,6 +250,12 @@ export const srApi = {
     postUnfreeze,
     postVoteSR,
     fetchTxDetail,
-    getUnfrozenV2
+    getUnfrozenV2,
+
+    // 新增
+    postWithdraw,
+    postPredict,
+    fetchRewardList,
 }
+
 export default srApi

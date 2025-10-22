@@ -66,6 +66,7 @@
     "hasPage": "有详情页"
   },
   "common": {
+    "items": "奖励记录",
     "confirm": "确认",
     "cancel": "取消",
     "close": "关闭",
@@ -181,7 +182,7 @@
     }
   },
   "rewards": {
-
+    "count": "奖励领取次数",
     "title": "奖励历史记录",
     "amount": "奖励金额 (TRX)",
     "cards": {

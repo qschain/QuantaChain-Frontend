@@ -66,6 +66,7 @@
     "hasPage": "Has Page"
   },
   "common": {
+    "items": "items",
     "confirm": "Confirm",
     "cancel": "Cancel",
     "close": "Close",
@@ -181,6 +182,7 @@
     }
   },
   "rewards": {
+    "count": "Total rewards claimed counts",
     "amount": "Amount (TRX)",
     "title": "Rewards history",
     "cards": {

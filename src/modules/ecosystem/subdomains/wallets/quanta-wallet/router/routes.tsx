@@ -7,6 +7,7 @@ import WalletI18nProvider from '../WalletI18nProvider'
 import { DashboardProvider } from '../model/DashboardContext'
 //节点缓存 Provider
 import { NodesProvider } from '../model/atlas/NodesStore'
+import {ThemeProvider} from "../ThemeProvider";
 
 const DashboardLayout   = lazy(() => import('../pages/DashboardLayout'))
 const Dashboard         = lazy(() => import('../pages/Dashboard'))
@@ -37,7 +38,9 @@ const NotFound          = lazy(() => import('../pages/NotFound'))
 
 const WalletShell = () => (
         <WalletI18nProvider>
-            <Outlet />
+            <ThemeProvider>
+                <Outlet />
+            </ThemeProvider>
         </WalletI18nProvider>
 )
 
