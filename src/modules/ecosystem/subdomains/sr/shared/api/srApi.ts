@@ -236,6 +236,61 @@ export async function fetchRewardList(args: {
         list,
     }
 }
+/* =========================
+ * 提案列表：POST http://192.168.99.45:8080/api/getProposal
+ * body: { pageNum:number, pageSize:number }
+ * resp: {
+ *   code, message, data: {
+ *     data: Array<{ number, content, k, value, proposer, status, percent, time }>,
+ *     totalPages:number, totalCount:number
+ *   }
+ * }
+ * ========================= */
+export type ProposalItem = {
+    number: string
+    content: string
+    k: string
+    value: string
+    proposer: string
+    status: string         // e.g. APPROVED / REJECTED / RUNNING (视后端)
+    percent: string        // 例如 "25/27"
+    time: string           // "start->end"
+}
+
+export type ProposalPage = {
+    list: ProposalItem[]
+    totalPages: number
+    totalCount: number
+    pageNum: number
+    pageSize: number
+}
+
+export async function getProposals(params: { pageNum: number; pageSize: number }): Promise<ProposalPage> {
+    const body = { pageNum: params.pageNum, pageSize: params.pageSize }
+    const res = await http.post<any>('http://192.168.99.45:8080/api/getProposal', body, { useRealApi: true })
+    if (res?.code !== '200') throw new Error(res?.message || 'getProposal failed')
+
+    const data = res?.data ?? {}
+    const rawList = Array.isArray(data.data) ? data.data : []
+    const list: ProposalItem[] = rawList.map((x: any) => ({
+        number: String(x?.number ?? ''),
+        content: String(x?.content ?? ''),
+        k: String(x?.k ?? ''),
+        value: String(x?.value ?? ''),
+        proposer: String(x?.proposer ?? ''),
+        status: String(x?.status ?? ''),
+        percent: String(x?.percent ?? ''),
+        time: String(x?.time ?? ''),
+    }))
+
+    return {
+        list,
+        totalPages: Number(data.totalPages ?? 1),
+        totalCount: Number(data.totalCount ?? list.length),
+        pageNum: params.pageNum,
+        pageSize: params.pageSize,
+    }
+}
 
 /* =========================
  * 导出集合
@@ -251,11 +306,10 @@ export const srApi = {
     postVoteSR,
     fetchTxDetail,
     getUnfrozenV2,
-
-    // 新增
     postWithdraw,
     postPredict,
     fetchRewardList,
+    getProposals
 }
 
 export default srApi

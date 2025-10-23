@@ -66,7 +66,7 @@
     "hasPage": "Has Page"
   },
   "common": {
-    "items": "items",
+    "items": "Reward History",
     "confirm": "Confirm",
     "cancel": "Cancel",
     "close": "Close",
@@ -134,7 +134,7 @@
   },
   "dashboard": {
     "title": "SR Dashboard",
-    "subtitle": "Manage your Super Representatives voting and rewards",
+    "subtitle": "View all Super Representatives Proposals",
     "actions": {
       "viewDetails": "View details",
       "viewIncome": "View income",
@@ -197,7 +197,7 @@
     },
     "simulator": {
       "title": "Income simulation & optimization",
-      "inputs": { "amount": "TRX amount", "sr": "Select SR", "lock": "Lock period (optional)" },
+      "inputs": { "amount": "TRX amount", "sr": "Proposer", "lock": "Lock period (optional)" },
       "actions": { "simulate": "Simulate" },
       "result": { "title": "Estimation" },
       "note": "Estimation is for reference only. Actual income depends on network and SR performance."

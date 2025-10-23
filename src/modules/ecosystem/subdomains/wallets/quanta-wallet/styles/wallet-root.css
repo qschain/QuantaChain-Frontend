@@ -131,15 +131,26 @@ html, body, #root {
 
 /* 浅色 */
 .wallet-root[data-wallet-theme='light'] {
-    --bg: #f6f8fb;
-    --bg-panel: #ffffff;
-    --bg-surface: #f2f4f8;
-    --line: #e5eaf1;
-    --text: #0b1220;
-    --muted: #708090;
-    --primary: #0066ff;
-    --success: #16a34a;
-    --danger: #ef4444;
+    /* 主体灰调 */
+    --bg: #e5e7eb;          /* 整体背景，柔和的浅灰 */
+    --bg-panel: #f3f4f6;     /* 卡片面板，比背景稍亮 */
+    --bg-surface: #f9fafb;   /* 顶层表面，微亮 */
+
+    /* 边框与分隔线 */
+    --line: #d1d5db;         /* 细腻的中灰线条 */
+
+    /* 字体与文字层次 */
+    --text: #1f2937;         /* 主文字，深灰接近黑 */
+    --muted: #6b7280;        /* 次要文字，柔和灰蓝 */
+
+    /* 品牌色与状态色（在灰调背景下保持对比度） */
+    --primary: #4b6ef5;      /* 低饱和蓝灰，质感优雅 */
+    --success: #22c55e;      /* 绿色略柔和 */
+    --danger: #ef4444;       /* 红色稍亮但不刺眼 */
+
+    /* 阴影与圆角增强质感 */
+    --wallet-radius: 16px;
+    --wallet-shadow-1: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 /* 深色（默认接近你全局 tokens 深色） */

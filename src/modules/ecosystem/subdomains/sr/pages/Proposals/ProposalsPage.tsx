@@ -1,88 +1,78 @@
 import { useTranslation } from 'react-i18next';
+import {useCallback, useEffect, useState} from "react";
+import {getProposals, ProposalItem} from "../../shared/api/srApi";
+import ProposalPreview from "../../components/proposals/ProposalPreview";
+import useProposals from "../../hooks/useProposals";
+import ProposalOverlay from "../../components/proposals/ProposalOverlay";
+import ProposalPreviewSkeleton from "../../components/proposals/ProposalPreviewSkeleton";
 
 export default function ProposalsPage() {
-  const { t } = useTranslation('sr');
+    const { t } = useTranslation('sr')
+    const { loading, error, pageNum, setPageNum, totalPages, list, refresh } = useProposals(9)
 
-  return (
-    <div className="sr-page">
-      <header className="sr-header">
-        <h1 className="sr-title-neon">{t('proposals.title')}</h1>
-      </header>
+    return (
+        <div className="sr-page">
+            <header className="sr-header">
+                <h1 className="sr-title-neon">{t('proposals.title')}</h1>
+            </header>
 
-      {/* 工具栏 */}
-      <div className="sr-toolbar">
-        <button className="sr-btn">{t('proposals.filters.status')}</button>
-        <button className="sr-btn">{t('proposals.filters.type')}</button>
-        <button className="sr-btn">{t('proposals.filters.progress')}</button>
-        <button className="sr-btn ghost">{t('proposals.filters.sort')}</button>
-        <div className="sr-flex-1" />
-        <input
-          className="sr-input"
-          placeholder={t('proposals.searchPlaceholder')!}
-        />
-        <button className="sr-btn">{t('common.search')}</button>
-      </div>
+            <div className="sr-prop-blur-scope">
+                <div className="sr-row sr-space-between" style={{ marginBottom: 12 }}>
+                    <div className="sr-muted">{t('dashboard.subtitle')}</div>
+                    <div className="sr-row sr-gap-8">
+                        <button className="sr-btn" onClick={refresh}>{t('common.refresh') ?? 'Refresh'}</button>
+                    </div>
+                </div>
 
-      {/* 提案列表：自适应网格 */}
-      <div className="sr-auto-grid lg sr-gap-16">
-        {Array.from({ length: 9 }).map((_, i) => (
-          <ProposalCard key={i} i={i} />
-        ))}
-      </div>
+                {error ? <div className="sr-badge danger" style={{ marginBottom: 12 }}>{error}</div> : null}
 
-      {/* 翻页 */}
-      <div className="sr-center" style={{ marginTop: 12 }}>
-        <div className="sr-row sr-gap-8">
-          <button className="sr-btn ghost">«</button>
-          <button className="sr-btn active">1</button>
-          <button className="sr-btn ghost">2</button>
-          <button className="sr-btn ghost">…</button>
-          <button className="sr-btn ghost">12</button>
-          <button className="sr-btn ghost">»</button>
+                <div className="sr-auto-grid lg sr-gap-16">
+                    {loading
+                        ? Array.from({ length: 9 }).map((_, i) => <ProposalPreviewSkeleton key={i} />)
+                        : list.map((it) => (
+                            <ProposalPreview
+                                key={it.number}
+                                p={it}
+                                t={t}
+                                detailHref={`#prop-${it.number}`}
+                            />
+                        ))}
+                </div>
+
+                <div className="sr-center" style={{ marginTop: 14 }}>
+                    <div className="sr-row sr-gap-8">
+                        <button className="sr-btn ghost" onClick={() => setPageNum(Math.max(1, pageNum - 1))} disabled={pageNum <= 1 || loading}>«</button>
+                        {renderPages(pageNum, totalPages).map((p, idx) => {
+                            if (p === '…') return <button key={'gap'+idx} className="sr-btn ghost" disabled>…</button>
+                            const active = p === pageNum
+                            return (
+                                <button key={p} className={`sr-btn ${active ? 'active' : 'ghost'}`} onClick={() => setPageNum(p as number)} disabled={loading}>
+                                    {p}
+                                </button>
+                            )
+                        })}
+                        <button className="sr-btn ghost" onClick={() => setPageNum(Math.min(totalPages || 1, pageNum + 1))} disabled={pageNum >= (totalPages || 1) || loading}>»</button>
+                    </div>
+                </div>
+            </div>
+
+            {/* 批量 Overlay（:target 控制） */}
+            {!loading && list.map((it) => <ProposalOverlay key={'ov-'+it.number} p={it} t={t} />)}
         </div>
-      </div>
-    </div>
-  );
+    )
 }
 
-function ProposalCard({ i }: { i: number }) {
-  const states = ['进行中', '已通过', '已拒绝'] as const;
-  const s = states[i % states.length];
-
-  return (
-    <div className="sr-card">
-      <div className="sr-row sr-space-between" style={{ marginBottom: 6 }}>
-        <div className="sr-muted">#{20250901 + i}</div>
-        <span
-          className={
-            'sr-badge ' +
-            (s === '进行中'
-              ? 'success'
-              : s === '已通过'
-              ? 'info'
-              : 'danger')
-          }
-        >
-          {s}
-        </span>
-      </div>
-
-      <div className="sr-card__title">提案标题占位 {i + 1}</div>
-      <div className="sr-muted">
-        发起人：TDev · 时间：2025-09-01 ~ 2025-09-10
-      </div>
-
-      <div className="sr-progress" style={{ margin: '8px 0' }}>
-        <div
-          className="sr-progress__bar"
-          style={{ width: `${30 + (i * 7) % 60}%` }}
-        />
-      </div>
-
-      <div className="sr-row sr-gap-8">
-        <button className="sr-btn primary">参与投票</button>
-        <button className="sr-btn ghost">查看结果</button>
-      </div>
-    </div>
-  );
+/* 简易分页工具（沿用你现有的） */
+function renderPages(cur: number, total: number): Array<number | '…'> {
+    const pages: Array<number | '…'> = []
+    if (total <= 8) { for (let i = 1; i <= total; i++) pages.push(i); return pages }
+    const add = (v: number | '…') => pages.push(v)
+    add(1)
+    if (cur > 4) add('…')
+    const start = Math.max(2, cur - 2)
+    const end = Math.min(total - 1, cur + 2)
+    for (let i = start; i <= end; i++) add(i)
+    if (cur < total - 3) add('…')
+    add(total)
+    return pages
 }

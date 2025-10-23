@@ -29,7 +29,46 @@ hr { border: none; border-top: 1px solid var(--border); }
     padding: var(--space-6);
     box-shadow: var(--shadow-1);
 }
+.receive-addr-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-surface, #f3f4f6);
+    border: 1px solid var(--line, #d1d5db);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 14px;
+    color: var(--text, #1f2937);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    user-select: text;      /* 允许复制文字 */
+    cursor: default;        /* 不显示输入状态 */
+}
 
+.receive-addr-box:hover {
+    background: var(--bg-panel, #e5e7eb);
+}
+
+.receive-addr-box .addr-text {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.receive-addr-box .copy-btn {
+    border: none;
+    background: var(--primary, #4b6ef5);
+    color: white;
+    font-weight: 500;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.receive-addr-box .copy-btn:hover {
+    background: #3651c9;
+}
 .input, .select {
     width: 100%;
     background: var(--bg-surface);

@@ -8,7 +8,6 @@
   "logout": "退出",
   "totalValuation": "总资产估值",
   "dashboard": "仪表盘",
-  "atlas": "世界地图",
   "assets": "资产管理",
   "send": "发送",
   "asset.token": "币种",
@@ -306,5 +305,28 @@
   "transferSuccess": "转账成功",
   "beforeBalance": "转账前余额",
   "laterBalance": "转账后余额",
-  "gotIt": "知道了!"
+  "gotIt": "知道了!",
+  "nodeDetailTitle": "节点详情",
+  "nodeNotFound": "未找到该节点（可能缓存丢失）。",
+  "atlas":{
+    "title": "世界地图",
+    "meta": {
+    "ip": "IP",
+    "lat": "纬度",
+    "lng": "经度"
+  },
+    "info": {
+      "country": "国家/地区",
+      "province": "省/州",
+      "city": "城市",
+      "ip": "IP 地址",
+      "lat": "纬度",
+      "lng": "经度"
+    },
+    "viz": {
+      "title": "位置可视化",
+      "subtitle": "自动聚焦到该节点",
+      "note": "* 地球展示为示意用途。经纬度来自后端数据，渲染已做性能优化。"
+    }
+  }
 }

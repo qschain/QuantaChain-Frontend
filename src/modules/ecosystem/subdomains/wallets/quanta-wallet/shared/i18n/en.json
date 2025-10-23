@@ -8,7 +8,6 @@
   "logout": "Logout",
   "totalValuation": "Total Valuation",
   "dashboard": "Dashboard",
-  "atlas": "World Map",
   "assets": "Assets",
   "send": "Send",
   "receive": "Receive",
@@ -328,5 +327,28 @@
   "transferSuccess": "Transfer Success",
   "beforeBalance": "Before Balance",
   "laterBalance": "Later Balance",
-  "gotIt": "Got It !"
+  "gotIt": "Got It !",
+  "nodeDetailTitle": "Node Detail",
+  "nodeNotFound": "Node not found (cache may be stale).",
+  "atlas":{
+    "title": "World Map",
+    "meta":
+    {
+    "ip": "IP",
+    "lat": "Latitude",
+    "lng": "Longitude"
+  },
+    "info": {
+      "country": "Country/Region",
+      "province": "Province/State",
+      "city": "City",
+      "ip": "IP",
+      "lat": "Latitude",
+      "lng": "Longitude"
+    },
+    "viz": {
+      "title": "Location Visualization",
+      "subtitle": "Auto focus to this node",
+      "note": "* The globe is for illustration. Latitude/Longitude come from backend; rendering has been optimized."
+    }}
 }

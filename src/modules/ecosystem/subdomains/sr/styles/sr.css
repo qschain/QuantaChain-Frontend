@@ -10,8 +10,8 @@
     --sr-line:#1c2530;
     --sr-text:#d8e1ea;
     --sr-muted:#8a97a6;
-    --sr-primary:#00e5ff;
-    --sr-primary-2:#05ffd2;
+    --sr-primary: #3aaebc;
+    --sr-primary-2: #4eefd2;
     --sr-success:#2bd576;
     --sr-danger:#ff5a7a;
     --sr-info:#7aa2ff;
@@ -241,7 +241,7 @@ input[type=number] { -moz-appearance: textfield; }
 .sr-chip:hover{ filter:brightness(1.06); }
 
 .sr-link{ color:var(--sr-primary); text-decoration:none; }
-.sr-link:hover{ text-decoration:underline; }
+.sr-link:hover{ text-decoration:underline;cursor: pointer;user-select: none; }
 
 /* ---------- 响应式补丁 ---------- */
 @media (max-width: 1200px) {
@@ -401,4 +401,89 @@ input[type=number] { -moz-appearance: textfield; }
     .sr-table.cols-3 .sr-table__row { grid-template-columns: 1fr; }
     .sr-table.cols-3 .sr-table__row > div { border-right: none; border-bottom: 1px solid #14202b; }
     .sr-table.cols-3 .sr-table__row > div:last-child { border-bottom: none; }
+}
+/* ======= Proposals Overlay (纯 :target，无 JS) ======= */
+
+/* 虚化作用域（列表 + 分页等主体） */
+.sr-prop-blur-scope { transition: filter .18s ease, opacity .18s ease; }
+
+/* 有任意 overlay 激活时，让主体虚化 & 降亮 & 禁止交互 */
+body:has(.sr-prop-overlay:target) .sr-prop-blur-scope {
+    filter: blur(6px) brightness(.8);
+    pointer-events: none;
+}
+body:has(.sr-prop-overlay:target) {
+    overflow: hidden; /* 弹层时锁滚动（可选） */
+}
+
+/* Overlay 容器（每条提案一个锚点 section） */
+.sr-prop-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 130;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,.45);
+    backdrop-filter: blur(4px);
+}
+
+/* 通过锚点激活 */
+.sr-prop-overlay:target { display: flex; }
+
+/* 中心卡片：旋转 + 放大 */
+.sr-prop-dialog {
+    width: min(880px, 92vw);
+    max-height: 86vh;
+    overflow: auto;
+    background: var(--sr-bg-panel);
+    border: 1px solid var(--sr-line);
+    border-radius: var(--sr-radius);
+    padding: var(--sr-space-24);
+    box-shadow: 0 24px 60px rgba(0,0,0,.55), 0 0 0 1px rgba(0,229,255,.18) inset;
+    transform-origin: center center;
+    animation: sr-prop-zoom-in .22s ease-out both;
+}
+@keyframes sr-prop-zoom-in {
+    from { transform: scale(.94) rotateX(8deg); opacity:.4; }
+    to   { transform: scale(1)    rotateX(0deg); opacity:1; }
+}
+
+/* 头部 */
+.sr-prop-dlg-head{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom: 10px;
+}
+.sr-prop-title{
+    font-size: 18px; font-weight: 800;
+    text-shadow: 0 0 16px rgba(0,229,255,.25);
+}
+.sr-prop-sub{ color: var(--sr-muted); font-size: 12px; }
+
+/* 元信息条目 */
+.sr-prop-meta{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:8px; }
+
+/* 兼容骨架样式（已在你全局里定义了 sr-skeleton/sr-skel-*） */
+.sr-prop-detail-btn {
+    position: relative;
+    bottom: 1px;
+    left: 200px;
+}
+
+.sr-reward-amount {
+    font-size: clamp(18px, 2vw, 3px);
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--sr-primary), var(--sr-primary-2), var(--sr-success));
+    background-size: 200% 200%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: sr-gradient-shift 3s ease infinite;
+    filter: drop-shadow(0 0 12px rgba(0, 229, 255, 0.5));
+    letter-spacing: 0.5px;
+}
+
+@keyframes sr-gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
 }

@@ -2,6 +2,9 @@ import { useTranslation } from 'react-i18next';
 import {useSession} from "../../../../../../app/session/PlatformSessionProvider";
 import {useNavigate} from "react-router-dom";
 import useAccountSummary from "../../hooks/useAccountSummary";
+import ProposalPreview from "../../components/proposals/ProposalPreview";
+import ProposalPreviewSkeleton from "../../components/proposals/ProposalPreviewSkeleton";
+import useProposals from "../../hooks/useProposals";
 
 export default function DashboardPage() {
     const { t } = useTranslation('sr')
@@ -9,7 +12,7 @@ export default function DashboardPage() {
     const navigate = useNavigate()
 
     const { loading, error, voteTotal, pendingTRX } = useAccountSummary(user?.name)
-
+    const { loading: pLoading, error: pError, list: proposals, refresh: refreshP } = useProposals(2)
     const toVote = () => navigate('/ecosystem/sr/vote')
     const toRewards = () => navigate('/ecosystem/sr/rewards')
 
@@ -81,9 +84,21 @@ export default function DashboardPage() {
                     <div className="sr-panel__title">{t('dashboard.proposalsOverview.title')}</div>
                     <a className="sr-link" onClick={() => navigate('/ecosystem/sr/proposals')}>{t('proposals.title')} →</a>
                 </div>
+
+                {pError ? <div className="sr-badge danger" style={{ marginBottom: 12 }}>{pError}</div> : null}
+
                 <div className="sr-auto-grid">
-                    <ProposalStrip />
-                    <ProposalStrip status="pending" />
+                    {pLoading
+                        ? [0,1].map(i => <ProposalPreviewSkeleton key={i} />)
+                        : proposals.map(p => (
+                            <ProposalPreview
+                                key={p.number}
+                                p={p}
+                                t={t}
+                                interactive={false}          // ✅ 不交互
+                                hideDetailButton={true}      // ✅ 隐藏按钮
+                            />
+                        ))}
                 </div>
             </section>
 

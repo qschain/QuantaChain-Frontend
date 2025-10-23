@@ -68,7 +68,7 @@ export default function Sidebar() {
             {/* 导航 */}
             <div className="section nav">
                 <NavLink to="dashboard" className={({isActive}) => isActive ? 'active' : undefined}>📊 {t('dashboard')}</NavLink>
-                <NavLink to="atlas" className={({isActive}) => isActive ? 'active' : undefined}>🌐 {t('atlas')}</NavLink>
+                <NavLink to="atlas" className={({isActive}) => isActive ? 'active' : undefined}>🌐 {t('atlas.title')}</NavLink>
                 <NavLink to="asset" className={({isActive}) => isActive ? 'active' : undefined}>💰 {t('assets')}</NavLink>
                 <NavLink to="settings" className={({isActive}) => isActive ? 'active' : undefined}>⚙️ {t('settings.title')}</NavLink>
             </div>

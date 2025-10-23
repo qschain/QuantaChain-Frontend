@@ -4,7 +4,10 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import Globe from 'react-globe.gl';
 import { useNodes } from '../../model/atlas/NodesStore';
 import { useElementSize } from '../../../../../../../shared/hooks/useElementSize';
+import { useTranslation } from 'react-i18next';
+
 export default function NodeDetailPage() {
+    const { t } = useTranslation(['wallet', 'atlas']); // 建议放到 atlas 命名空间
     const { id = '' } = useParams();
     const { loading, error, points, refresh } = useNodes();
     const nav = useNavigate();
@@ -12,14 +15,20 @@ export default function NodeDetailPage() {
     const point = useMemo(() => points.find(p => p.id === id), [points, id]);
 
     if (!point && loading) {
-        return <div className="container"><div className="tg-card">加载中…</div></div>;
+        return (
+            <div className="container">
+                <div className="tg-card">{t('loading', { ns: 'wallet', defaultValue: 'Loading…' })}</div>
+            </div>
+        );
     }
     if (!point && error) {
         return (
             <div className="container">
                 <div className="tg-card">
-                    加载失败：{error}{' '}
-                    <button className="btn ghost" onClick={() => void refresh()}>重试</button>
+                    {t('loadFailed', { ns: 'wallet', defaultValue: 'Load failed' })}：{String(error)}{' '}
+                    <button className="btn ghost" onClick={() => void refresh()}>
+                        {t('actions.retry', { ns: 'wallet', defaultValue: 'Retry' })}
+                    </button>
                 </div>
             </div>
         );
@@ -28,37 +37,43 @@ export default function NodeDetailPage() {
         return (
             <div className="container">
                 <div className="tg-card">
-                    未找到该节点（可能缓存丢失）。{' '}
-                    <button className="btn ghost" onClick={() => void refresh()}>重新加载全部</button>
+                    {t('atlas.nodeNotFound', { defaultValue: 'Node not found (cache may be stale).' })}{' '}
+                    <button className="btn ghost" onClick={() => void refresh()}>
+                        {t('actions.reloadAll', { ns: 'wallet', defaultValue: 'Reload All' })}
+                    </button>
                 </div>
             </div>
         );
     }
 
     const r = point.raw;
-    const theme = getThemeTokens();
+    const theme = getThemeTokens(); // 现在优先从 .wallet-root 取变量
 
     return (
         <div className="tg-wrap tg-wrap--full" style={{ paddingTop: 16, paddingBottom: 32 }}>
             {/* 顶部返回 + 标题 */}
             <div className="tg-row" style={{ marginBottom: 12 }}>
-                <Link className="btn ghost" to="/ecosystem/wallets/quanta/atlas">← 返回</Link>
-                <h2 className="tg-title">节点详情</h2>
+                <Link className="btn ghost" to="/ecosystem/wallets/quanta/atlas">
+                    ← {t('actions.back', { ns: 'wallet', defaultValue: 'Back' })}
+                </Link>
+                <h2 className="tg-title">{t('atlas.nodeDetailTitle', { defaultValue: 'Node Detail' })}</h2>
             </div>
 
             {/* 英雄区：名称 + 发光底板 */}
             <div className="tg-card tg-glow tg-fade-in tg-hero">
                 <div className="tg-hero-title">
-                    <span className="tg-badge">ACTIVE</span>
+                    <span className="tg-badge">{t('status.active', { ns: 'wallet', defaultValue: 'ACTIVE' })}</span>
                     <div className="tg-hero-name">{point.name}</div>
                     <div className="tg-hero-sub">
-                        {r.country}{r.province ? ` · ${r.province}` : ''}{r.city ? ` · ${r.city}` : ''}
+                        {r.country}
+                        {r.province ? ` · ${r.province}` : ''}
+                        {r.city ? ` · ${r.city}` : ''}
                     </div>
                 </div>
                 <div className="tg-hero-meta">
-                    <TgMeta label="IP" value={r.ip} copyable />
-                    <TgMeta label="纬度" value={String(r.lat)} />
-                    <TgMeta label="经度" value={String(r.lng)} />
+                    <TgMeta label={t('atlas.meta.ip', { defaultValue: 'IP' })} value={r.ip} copyable />
+                    <TgMeta label={t('atlas.meta.lat', { defaultValue: 'Latitude' })} value={String(r.lat)} />
+                    <TgMeta label={t('atlas.meta.lng', { defaultValue: 'Longitude' })} value={String(r.lng)} />
                 </div>
             </div>
 
@@ -67,20 +82,20 @@ export default function NodeDetailPage() {
                 {/* 信息卡 */}
                 <div className="tg-card tg-fade-up">
                     <div className="tg-info-grid">
-                        <TgInfo label="国家/地区（Country/Region）" value={r.country} />
-                        {r.province && <TgInfo label="省/州（Province/State）" value={r.province} />}
-                        {r.city && <TgInfo label="城市（City）" value={r.city} />}
-                        <TgInfo label="IP 地址（IP）" value={r.ip} />
-                        <TgInfo label="纬度（Lat）" value={String(r.lat)} />
-                        <TgInfo label="经度（Lng）" value={String(r.lng)} />
+                        <TgInfo label={t('atlas.info.country', { defaultValue: 'Country/Region' })} value={r.country} />
+                        {r.province && <TgInfo label={t('atlas.info.province', { defaultValue: 'Province/State' })} value={r.province} />}
+                        {r.city && <TgInfo label={t('atlas.info.city', { defaultValue: 'City' })} value={r.city} />}
+                        <TgInfo label={t('atlas.info.ip', { defaultValue: 'IP' })} value={r.ip} />
+                        <TgInfo label={t('atlas.info.lat', { defaultValue: 'Latitude' })} value={String(r.lat)} />
+                        <TgInfo label={t('atlas.info.lng', { defaultValue: 'Longitude' })} value={String(r.lng)} />
                     </div>
                 </div>
 
                 {/* 小地球卡 */}
                 <div className="tg-card tg-mini-card tg-fade-up">
                     <div className="tg-card-head">
-                        <div className="tg-card-title">位置可视化</div>
-                        <div className="tg-muted">自动聚焦到该节点</div>
+                        <div className="tg-card-title">{t('atlas.viz.title', { defaultValue: 'Location Visualization' })}</div>
+                        <div className="tg-muted">{t('atlas.viz.subtitle', { defaultValue: 'Auto focus to this node' })}</div>
                     </div>
                     <div className="tg-mini-wrap">
                         <MiniGlobe
@@ -88,7 +103,7 @@ export default function NodeDetailPage() {
                             lng={Number(r.lng)}
                             name={point.name}
                             theme={theme}
-                            onBack={() => nav('/wallets/quanta/atlas')}
+                            onBack={() => nav('/ecosystem/wallets/quanta/atlas')}
                         />
                     </div>
                 </div>
@@ -96,7 +111,10 @@ export default function NodeDetailPage() {
 
             {/* 轻提示 */}
             <div className="tg-muted" style={{ marginTop: 8, fontSize: 12 }}>
-                * 地球展示为示意用途。经纬度来自后端数据，渲染已做性能优化。
+                {t('atlas.viz.note', {
+                    defaultValue:
+                        '* The globe is for illustration. Latitude/Longitude come from backend; rendering has been optimized.',
+                })}
             </div>
 
             {/* 局部样式（全部 tg- 前缀） */}
@@ -118,14 +136,16 @@ function TgInfo({ label, value }: { label: string; value: string }) {
 
 function TgMeta({ label, value, copyable }: { label: string; value: string; copyable?: boolean }) {
     const doCopy = async () => {
-        try { await navigator.clipboard.writeText(value); } catch {}
+        try {
+            await navigator.clipboard.writeText(value);
+        } catch {}
     };
     return (
         <div className="tg-meta">
             <div className="tg-meta-label">{label}</div>
             <div className="tg-meta-value">
                 <span>{value}</span>
-                {copyable && <button className="tg-chip" onClick={doCopy}>复制</button>}
+                {copyable && <button className="tg-chip" onClick={doCopy}>{label}</button>}
             </div>
         </div>
     );
@@ -151,7 +171,6 @@ function MiniGlobe({
         if (!g || !Number.isFinite(lat) || !Number.isFinite(lng)) return;
         if (width <= 1 || height <= 1) return; // 等尺寸就绪
 
-        // 初始放远一点再飞入，更有“深入”感；目标 altitude 取 1.5 更稳定
         g.pointOfView({ lat, lng, altitude: 2.2 }, 0);
         const t = setTimeout(() => {
             g.pointOfView({ lat, lng, altitude: 1.5 }, 900);
@@ -180,7 +199,6 @@ function MiniGlobe({
         <div className="tg-mini" ref={wrapRef}>
             <Globe
                 ref={globeRef}
-                /* 用测得的尺寸渲染，避免 flex/grid 导致的错位 */
                 width={width}
                 height={height}
                 backgroundColor="rgba(0,0,0,0)"
@@ -198,7 +216,6 @@ function MiniGlobe({
                 pointAltitude={0.06}
                 pointRadius={1.1}
                 pointColor={() => theme.primary}
-                // HTML 脉冲标记
                 htmlElementsData={pt}
                 htmlLat={(d: any) => d.lat}
                 htmlLng={(d: any) => d.lng}
@@ -223,18 +240,23 @@ type ThemeTokens = {
     radius: string;
 };
 
+/** 优先从 .wallet-root 读取 CSS 变量（与 wallet-tokens.css 对齐） */
 function getThemeTokens(): ThemeTokens {
-    const read = (v: string, fallback: string) =>
-        getComputedStyle(document.documentElement).getPropertyValue(v)?.trim() || fallback;
+    const scope =
+        (document.querySelector('.wallet-root') as HTMLElement) || document.documentElement;
+
+    const read = (name: string, fallback: string) =>
+        getComputedStyle(scope).getPropertyValue(name)?.trim() || fallback;
+
     return {
-        bg: read('--bg', '#0b0e11'),
-        panel: read('--bg-panel', '#101419'),
+        bg:      read('--bg', '#0b0e11'),
+        panel:   read('--bg-panel', '#101419'),
         surface: read('--bg-surface', '#0f1318'),
-        line: read('--line', '#1c2530'),
-        text: read('--text', '#d8e1ea'),
-        muted: read('--muted', '#8a97a6'),
+        line:    read('--line', '#1c2530'),
+        text:    read('--text', '#d8e1ea'),
+        muted:   read('--muted', '#8a97a6'),
         primary: read('--primary', '#4ddfc4'),
-        radius: read('--radius', '16px')
+        radius:  read('--wallet-radius', '16px'),
     };
 }
 

@@ -17,9 +17,9 @@ type UsePredictReturn = {
 export default function usePredict(
     initial?: Partial<Pick<UsePredictReturn, 'count' | 'rate' | 'days'>>
 ): UsePredictReturn {
-    const [count, setCount] = useState(initial?.count ?? '1000')
-    const [rate, setRate] = useState(initial?.rate ?? '0.03')
-    const [days, setDays] = useState(initial?.days ?? '30')
+    const [count, setCount] = useState(initial?.count ?? '')
+    const [rate, setRate] = useState(initial?.rate ?? '')
+    const [days, setDays] = useState(initial?.days ?? '')
 
     const [result, setResult] = useState<number | null>(null)
     const [loading, setLoading] = useState(false)
@@ -37,7 +37,7 @@ export default function usePredict(
             // 兜底把空值置为字符串数字
             const payload = {
                 count: String(count || '0'),
-                rate: String(rate || '0'),
+                rate: String(Number(rate || '0')/100),
                 days: String(days || '0'),
             }
             const ret = await postPredict(payload)

@@ -172,7 +172,7 @@ export default function RewardsPage() {
                         displayRows.map((r, idx) => (
                             <div key={`${r.id}-${idx}`} className="sr-table__row" style={{ gridTemplateColumns: '2fr 1fr' }}>
                                 <div>{formatTime(r.time)}</div>
-                                <div>{Number(r.balance).toLocaleString(undefined, { maximumFractionDigits: 6 })}</div>
+                                <div className="sr-reward-amount">{'+'+Number(r.balance).toLocaleString(undefined, { maximumFractionDigits: 6 })}</div>
                             </div>
                         ))
                     )}

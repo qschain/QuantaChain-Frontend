@@ -3,7 +3,7 @@ import { useWalletTheme } from '../../ThemeProvider'
 import { useState, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
-type ThemeKey = 'dark' | 'light' | 'system'
+type ThemeKey = 'dark' | 'light' | 'system'| 'bright'
 
 export default function Appearance() {
     const { t, i18n } = useTranslation(['wallet'])
@@ -31,6 +31,7 @@ export default function Appearance() {
         { key: 'system', label: t('theme.system') },
         { key: 'dark',   label: t('theme.dark') },
         { key: 'light',  label: t('theme.light') },
+        { key: 'bright',  label: t('theme.bright') },
     ]), [t])
 
     // —— 如果 UIProvider 未设置 data-theme，这里兜底设置（可按需删除） —— //

@@ -125,7 +125,7 @@
   "nav": {
     "dashboard": "控制台",
     "vote": "投票",
-    "rewards": "奖励与收益",
+    "rewards": "收益",
     "proposals": "治理提案",
     "analytics": "统计分析",
     "learn": "学习支持",
@@ -134,7 +134,7 @@
   },
   "dashboard": {
     "title": "SR控制台",
-    "subtitle": "管理您的超级代表投票和收益",
+    "subtitle": "查看所有超级代表的提案",
     "actions": {
       "viewDetails": "查看详情",
       "viewIncome": "查看收益详情",
@@ -197,7 +197,7 @@
     },
     "simulator": {
       "title": "收益模拟与优化",
-      "inputs": { "amount": "投票TRX数量", "sr": "SR选择", "lock": "锁定期（可选）" },
+      "inputs": { "amount": "投票TRX数量", "sr": "提案者", "lock": "锁定期（可选）" },
       "actions": { "simulate": "模拟收益" },
       "result": { "title": "收益估算" },
       "note": "收益预估仅供参考，实际收益受网络状况和SR表现影响。"

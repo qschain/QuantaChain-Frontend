@@ -73,7 +73,7 @@ export default function ReceiveAsset() {
                 <div className="mt-6" style={{ maxWidth: 820 }}>
                     <div className="mb-2">{t('receiveAsset.yourAddress')}</div>
                     <div className="row">
-                        <input className="input" readOnly value={addr} />
+                        <input className="receive-addr-box" readOnly value={addr} />
                         <button className="btn secondary" onClick={() => navigator.clipboard.writeText(addr)}>
                             {t('receiveAsset.copy')}
                         </button>
