@@ -34,11 +34,19 @@ export type SRItem = {
     lastWeekOutOfTimeTrans?: number
     changedBrokerage?: boolean
     lowestBrokerage?: number
-
+    percent?:string
     // 其他
     witnessType?: number
 }
-
+export type WitnessListResult = {
+    SrData: SRItem[]
+    totalPages: number
+    totalCount: number
+    sumVotes: number
+    freezeRate: number  // 0~1 的小数，例如 0.476，对应 47.6%
+    nextTime: string
+    raw?: any           // 如需访问原始字段
+}
 export type AccountInfo = {
     votes: number         // 总投票数（后端语义）
     voteTotal: number     // 可用投票数（用于前端上限）

@@ -29,6 +29,11 @@ type State = {
 
     // floor(冻结总 TRX) —— 由 /api/frozenV2 汇总后下发
     frozenTotalVotes: number
+
+    sumVotes: number
+    freezeRate: number   // 0~1，小数
+    totalCount: number
+    nextTime: string
 }
 
 const initial: State = {
@@ -52,6 +57,11 @@ const initial: State = {
     detailOpen: false,
 
     frozenTotalVotes: 0,
+
+    sumVotes: 0,
+    freezeRate: 0,
+    totalCount: 0,
+    nextTime: '',
 }
 
 type Action =
@@ -73,6 +83,7 @@ type Action =
     | { type: 'openDetail'; payload: SRItem }
     | { type: 'closeDetail' }
     | { type: 'setFrozenTotalVotes'; payload: number }
+    | { type: 'setSummary'; payload: { sumVotes: number; freezeRate: number; totalCount: number; nextTime: string } }
 
 function reducer(state: State, action: Action): State {
     switch (action.type) {
@@ -145,6 +156,16 @@ function reducer(state: State, action: Action): State {
 
         case 'setFrozenTotalVotes':
             return { ...state, frozenTotalVotes: Math.max(0, Math.floor(Number(action.payload || 0))) }
+        case 'setSummary': {
+            const { sumVotes, freezeRate, totalCount, nextTime } = action.payload
+            return {
+                ...state,
+                sumVotes: Number(sumVotes) || 0,
+                freezeRate: Number(freezeRate) || 0,
+                totalCount: Number(totalCount) || 0,
+                nextTime: String(nextTime || ''),
+            }
+        }
 
         default:
             return state

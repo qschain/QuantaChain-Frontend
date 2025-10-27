@@ -46,22 +46,29 @@ function Content() {
 
     async function reloadList() {
         try {
-            dispatch({ type: 'setPageLoading', payload: true })
-            const list = await srApi.getWitnessList(
-                { pageNum: state.pageNum, pageSize: state.pageSize },
-                true
-            )
-            dispatch({ type: 'setList', payload: list })
-            dispatch({
-                type: 'setHasMore',
-                payload: Array.isArray(list) && list.length >= state.pageSize,
-            })
+            dispatch({ type: 'setPageLoading', payload: true });
+
+            // 调用新版接口
+            const { list, totalPages, sumVotes, freezeRate, totalCount, nextTime } =
+                await srApi.getWitnessList(
+                    { pageNum: state.pageNum, pageSize: state.pageSize },
+                    true
+                );
+
+            // 更新列表
+            dispatch({ type: 'setList', payload: list });
+
+            // 判断是否还有下一页
+            const hasMore = state.pageNum < totalPages;
+            dispatch({ type: 'setHasMore', payload: hasMore })
+
         } catch (e: any) {
-            dispatch({ type: 'setError', payload: e?.message || 'reload list error' })
+            dispatch({ type: 'setError', payload: e?.message || 'reload list error' });
         } finally {
-            dispatch({ type: 'setPageLoading', payload: false })
+            dispatch({ type: 'setPageLoading', payload: false });
         }
     }
+
 
     // —— 首次进入 / 切换账号：加载冻结总量 ——
     React.useEffect(() => {
@@ -93,21 +100,28 @@ function Content() {
 
     async function changePage(next: number) {
         try {
-            const page = Math.max(1, next)
-            dispatch({ type: 'setPage', payload: { pageNum: page } })
-            dispatch({ type: 'setPageLoading', payload: true })
-            const list = await srApi.getWitnessList({ pageNum: page, pageSize: state.pageSize }, true)
-            dispatch({ type: 'setList', payload: list })
-            dispatch({
-                type: 'setHasMore',
-                payload: Array.isArray(list) && list.length >= state.pageSize,
-            })
+            const page = Math.max(1, next);
+            dispatch({ type: 'setPage', payload: { pageNum: page } });
+            dispatch({ type: 'setPageLoading', payload: true });
+
+            const {
+                list,
+                totalPages,
+                sumVotes,
+                freezeRate,
+                totalCount,
+                nextTime,
+            } = await srApi.getWitnessList({ pageNum: page, pageSize: state.pageSize }, true);
+
+            dispatch({ type: 'setList', payload: list });
+            dispatch({ type: 'setHasMore', payload: page < totalPages });
         } catch (e: any) {
-            dispatch({ type: 'setError', payload: e?.message || 'load page error' })
+            dispatch({ type: 'setError', payload: e?.message || 'load page error' });
         } finally {
-            dispatch({ type: 'setPageLoading', payload: false })
+            dispatch({ type: 'setPageLoading', payload: false });
         }
     }
+
 
     const windowPages = [state.pageNum - 2, state.pageNum - 1, state.pageNum, state.pageNum + 1, state.pageNum + 2]
         .filter(p => p >= 1)

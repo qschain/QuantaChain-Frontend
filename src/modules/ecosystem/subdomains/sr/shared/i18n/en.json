@@ -27,7 +27,7 @@
     "submit": "Unfreeze",
     "failed": "Unfreeze failed",
     "pending": {
-      "title": "Unfreezing in Progress",
+      "title": "Unfreezing History",
       "empty": "No unfreezing records",
       "cols": {
         "type": "Type",

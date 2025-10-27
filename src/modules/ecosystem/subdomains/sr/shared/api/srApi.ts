@@ -1,6 +1,6 @@
 import { http } from '../../../../../../shared/api/http'
-import type {
-    ApiResp, PaginationParams, SRItem, AccountInfo, VotePayload, TxDetailResp, UnfrozenItem
+import {
+    ApiResp, PaginationParams, SRItem, AccountInfo, VotePayload, TxDetailResp, UnfrozenItem, WitnessListResult
 } from '../../state/types'
 
 // 公共：从后端 data 里抽取交易哈希（兼容多种键名）
@@ -12,9 +12,17 @@ function pickTxHash(d: any): string {
  * Witness 列表
  * ========================= */
 export async function getWitnessList(params: PaginationParams, real = true) {
-    const res = await http.post<ApiResp<SRItem[]>>('/api/witness/list', params, { useRealApi: real })
+    const res = await http.post<ApiResp<WitnessListResult>>('/api/witness/list', params, { useRealApi: real })
     if (res?.code !== '200') throw new Error(res?.message || 'getWitnessList failed')
-    return (res.data || []) as SRItem[]
+    const d = res.data as WitnessListResult
+    return {
+        list: d.SrData ?? [],
+        sumVotes: Number(d.sumVotes ?? 0),
+        freezeRate: Number(d.freezeRate ?? 0),
+        totalPages: Number(d.totalPages ?? 1),
+        totalCount: Number(d.totalCount),
+        nextTime:String(d.nextTime ?? '')
+    }
 }
 
 /* =========================

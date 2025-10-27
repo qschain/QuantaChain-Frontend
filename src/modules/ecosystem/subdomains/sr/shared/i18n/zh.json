@@ -27,7 +27,7 @@
     "submit": "确认解冻",
     "failed": "解冻失败",
     "pending": {
-      "title": "正在解冻中",
+      "title": "解冻历史",
       "empty": "暂无解冻记录",
       "cols": {
         "type": "类型",
