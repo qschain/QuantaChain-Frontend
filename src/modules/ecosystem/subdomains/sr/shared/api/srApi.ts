@@ -28,7 +28,8 @@ export async function getWitnessList(params: PaginationParams, real = true) {
 /* =========================
  * 账户信息
  * ========================= */
-export async function getAccount(userName: string, real = true) {
+export async function getAccount(userName: string, real?: boolean) {
+    // @ts-ignore
     const res = await http.post<ApiResp<any>>('/api/account/get', { userName }, { useRealApi: real })
     if (res?.code !== '200') throw new Error(res?.message || 'getAccount failed')
     const d = res.data || {}
@@ -80,6 +81,60 @@ export async function getFrozenV2(ownerAddress: string, real = true) {
     return Array.isArray(res.data)
         ? res.data.map(x => ({ amount: Number(x?.amount ?? 0), type: String(x?.type ?? '') }))
         : []
+}
+/* =========================
+ * 统计折线图接口
+ * ========================= */
+function parseTs(input?: string): number {
+    if (!input) return NaN;
+    // 兼容 "2025-10-27T11:13:05" / "2025-10-27 11:13:05" / 带毫秒/无T等
+    const s = String(input).trim()
+        .replace('T', ' ')        // 去掉 T
+        .replace(/-/g, '/');      // Safari 需斜杠
+    const t = Date.parse(s);
+    return Number.isFinite(t) ? t : NaN;
+}
+export type WitnessStatPoint = { ts: number; apy: number; freezeRate: number }
+export type WitnessStatistics = {
+    points: WitnessStatPoint[]
+    minApy: number
+    maxApy: number
+    minFreezeRate: number
+    maxFreezeRate: number
+}
+
+export async function getWitnessStatistics(days: number, real = true): Promise<WitnessStatistics> {
+    const res = await http.post<{
+        code: string
+        message?: string
+        data?: {
+            minApy?: number
+            maxApy?: number
+            minFreezeRate?: number
+            maxFreezeRate?: number
+            dataList?: Array<{ apy?: number; freezeRate?: number; date?: string }>
+        }
+    }>('/api/WitnessStatistics', { days }, { useRealApi: real })
+
+    if (res?.code !== '200') throw new Error(res?.message || 'getWitnessStatistics failed')
+
+    const d = res?.data || {}
+    const raw = Array.isArray(d.dataList) ? d.dataList : [];
+
+    const points = raw.map(p => {
+        const ts = parseTs(p.date);
+        return Number.isFinite(ts) ? { ts, apy: Number(p.apy ?? 0), freezeRate: Number(p.freezeRate ?? 0) } : null;
+    }).filter(Boolean) as WitnessStatPoint[];
+    // 按时间升序
+    points.sort((a, b) => a.ts - b.ts)
+
+    return {
+        points,
+        minApy: Number(d.minApy ?? 0),
+        maxApy: Number(d.maxApy ?? 0),
+        minFreezeRate: Number(d.minFreezeRate ?? 0),
+        maxFreezeRate: Number(d.maxFreezeRate ?? 0),
+    }
 }
 
 /** 工具：把 SUN → TRX，并聚合求和（返回小数 TRX） */
@@ -317,7 +372,8 @@ export const srApi = {
     postWithdraw,
     postPredict,
     fetchRewardList,
-    getProposals
+    getProposals,
+    getWitnessStatistics,
 }
 
 export default srApi

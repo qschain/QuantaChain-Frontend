@@ -1,3 +1,4 @@
+import useSrInit from '../../hooks/useSrInit'
 import { useTranslation } from 'react-i18next';
 import {useSession} from "../../../../../../app/session/PlatformSessionProvider";
 import {useNavigate} from "react-router-dom";
@@ -5,8 +6,14 @@ import useAccountSummary from "../../hooks/useAccountSummary";
 import ProposalPreview from "../../components/proposals/ProposalPreview";
 import ProposalPreviewSkeleton from "../../components/proposals/ProposalPreviewSkeleton";
 import useProposals from "../../hooks/useProposals";
+import React, {useEffect, useState} from "react";
+// ✅ 新增：从 sr store 取汇总（sumVotes、nextTime）
+import {SrProvider, useSr} from '../../state/store';
 
-export default function DashboardPage() {
+import TronPulseCoreRing from "../../components/dashboard/countdown/TronPulseCoreRing";
+
+
+ function Content() {
     const { t } = useTranslation('sr')
     const { user } = useSession()
     const navigate = useNavigate()
@@ -16,6 +23,16 @@ export default function DashboardPage() {
     const toVote = () => navigate('/ecosystem/sr/vote')
     const toRewards = () => navigate('/ecosystem/sr/rewards')
 
+    // ✅ 新增：读取 sumVotes / nextTime，并计算倒计时
+    const { state } = useSrInit()
+    const sumVotes = state.sumVotes
+    const nextTime = state.nextTime
+    const left = useCountdown(nextTime)
+
+     // 🔥 新增：检查网络数据是否已加载
+     const networkDataLoading = state.pageLoading || sumVotes === 0
+     // 🔥 检查 nextTime 是否有效
+     const hasValidNextTime = nextTime && nextTime.trim() !== ''
     return (
         <div className="sr-page">
             <header className="sr-header">
@@ -51,32 +68,49 @@ export default function DashboardPage() {
                 />
             </section>
 
-            {/* 网络状态（占位） */}
+            {/* 网络状态 */}
             <section className="sr-panel">
                 <div className="sr-panel__head">
                     <div className="sr-panel__title">{t('dashboard.network.title')}</div>
                 </div>
                 <div className="sr-auto-grid sm">
-                    <MetricCard label={t('dashboard.network.activeSr')} value="27" />
-                    <MetricCard label={t('dashboard.network.blockRate')} value="98.7%" />
-                    <MetricCard label={t('dashboard.network.blockHeight')} value="#47,893" />
+                    {/* 1. 不变 */}
+                    <StatCard title={t('dashboard.network.activeSr')} value="27" loading={false} action={""}/>
+                    {/* 2. 总投票数 - 添加 loading 状态 */}
+                    <StatCard
+                        title={t('analytics.kpi.totalVotes')}
+                        value={nf(sumVotes)}
+                        loading={networkDataLoading}
+                        action={""}
+                    />
+                    {/* 3. 倒计时 - 添加条件渲染 */}
+                    <div className="sr-card sr-card-neon" style={{ display:'grid', placeItems:'center' }}>
+                        <div className="sr-card__title">{t('dashboard.network.blockHeight')}</div>
+                        {!hasValidNextTime ? (
+                            <div className="sr-skeleton" style={{ margin: '12px 0' }}>
+                                <div className="sr-skel-line" style={{ height: 80, width: 80, borderRadius: '50%' }} />
+                            </div>
+                        ) : (
+                            <TronPulseCoreRing nextTime={nextTime} />
+                        )}
+                    </div>
                 </div>
             </section>
 
             {/* 趋势图（占位） */}
-            <section className="sr-panel">
-                <div className="sr-panel__head">
-                    <div className="sr-panel__title">{t('dashboard.trend.title')}</div>
-                    <div className="sr-row sr-gap-8">
-                        <button className="sr-btn ghost">24h</button>
-                        <button className="sr-btn ghost">7d</button>
-                        <button className="sr-btn ghost">30d</button>
-                    </div>
-                </div>
-                <div className="sr-card" style={{height:220, display:'flex', alignItems:'center', justifyContent:'center', color:'var(--sr-muted)'}}>
-                    {t('common.chartPlaceholder')}
-                </div>
-            </section>
+            {/*<section className="sr-panel">*/}
+            {/*    <div className="sr-panel__head">*/}
+            {/*        <div className="sr-panel__title">{t('dashboard.trend.title')}</div>*/}
+            {/*        <div className="sr-row sr-gap-8">*/}
+            {/*            <button className="sr-btn ghost">24h</button>*/}
+            {/*            <button className="sr-btn ghost">7d</button>*/}
+            {/*            <button className="sr-btn ghost">30d</button>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*    <div className="sr-card" style={{height:220, display:'flex', alignItems:'center', justifyContent:'center', color:'var(--sr-muted)'}}>*/}
+            {/*        {t('common.chartPlaceholder')}*/}
+            {/*    </div>*/}
+            {/*</section>*/}
 
             {/* 提案概览（示例） */}
             <section className="sr-panel">
@@ -95,8 +129,8 @@ export default function DashboardPage() {
                                 key={p.number}
                                 p={p}
                                 t={t}
-                                interactive={false}          // ✅ 不交互
-                                hideDetailButton={true}      // ✅ 隐藏按钮
+                                interactive={false}
+                                hideDetailButton={true}
                             />
                         ))}
                 </div>
@@ -160,14 +194,6 @@ function StatCard({
     )
 }
 
-function MetricCard({ label, value }: { label: string; value: string }) {
-    return (
-        <div className="sr-card">
-            <div className="sr-muted">{label}</div>
-            <div className="sr-number-xl">{value}</div>
-        </div>
-    )
-}
 
 function ProposalStrip({ status = 'running' }: { status?: 'running' | 'pending' }) {
     return (
@@ -209,5 +235,52 @@ function NewsCard({ tag, title }: { tag: string; title: string }) {
             <div className="sr-card__title" style={{ marginTop: 8 }}>{title}</div>
             <div className="sr-muted">这是新闻摘要内容，用于展示列表中的简介文本…</div>
         </div>
+    )
+}
+
+// —— 工具：千分位
+function nf(n?: number) {
+    const v = Number(n ?? 0)
+    if (!Number.isFinite(v)) return '—'
+    return v.toLocaleString()
+}
+
+// —— 工具：倒计时（nextTime: "YYYY-MM-DD HH:mm:ss"）
+function useCountdown(nextTime?: string) {
+    const [left, setLeft] = useState<string>('—')
+
+    useEffect(() => {
+        if (!nextTime) { setLeft('—'); return }
+        // 兼容 Safari：把 '-' 替换成 '/' 再解析
+        const target = Date.parse(String(nextTime).replace(/-/g, '/'))
+        if (!Number.isFinite(target)) { setLeft('—'); return }
+
+        const tick = () => {
+            const diff = target - Date.now()
+            if (diff <= 0) { setLeft('—'); return }
+            const s = Math.floor(diff / 1000)
+            const d = Math.floor(s / 86400)
+            const h = Math.floor((s % 86400) / 3600)
+            const m = Math.floor((s % 3600) / 60)
+            const sec = s % 60
+            setLeft(
+                d > 0
+                    ? `${d}d ${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`
+                    : `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`
+            )
+        }
+
+        tick()
+        const id = setInterval(tick, 1000)
+        return () => clearInterval(id)
+    }, [nextTime])
+
+    return left
+}
+export default function DashboardPage() {
+    return (
+        <SrProvider>
+            <Content />
+        </SrProvider>
     )
 }

@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useState} from "react";
-import {http} from "../../../../../shared/api/http";
+import {srApi} from "../shared/api/srApi";
 
 type Summary = {
     loading: boolean
@@ -22,12 +22,10 @@ export default function useAccountSummary(userName?: string): Summary {
         setError('')
         try {
             // 直接正常调用，不暴露新的 api 方法
-            const res = await http.post<any>('/api/account/get', { userName }, { useRealApi: true })
-            const data = res?.data ?? res ?? {}
+            const res = await srApi.getAccount(userName ,true)
 
-            // 兼容可能的字段差异：voteTotal / voteTatal / vote
-            const vt = Number(data.voteTotal ?? data.voteTatal ?? data.vote ?? 0)
-            const rewardSun = Number(data.rewardNum ?? 0)
+            const vt = Number(res.voteTotal ?? 0)
+            const rewardSun = Number(res.rewardNumSUN ?? 0)
 
             setVoteTotal(Number.isFinite(vt) ? vt : 0)
             setPendingTRX(rewardSun / 1_000_000) // SUN -> TRX

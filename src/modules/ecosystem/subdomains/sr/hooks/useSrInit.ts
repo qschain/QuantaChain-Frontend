@@ -1,4 +1,3 @@
-// sr/hooks/useSrInit.ts —— 首屏初始化加载 Hook
 import { useEffect } from 'react'
 import { useSr } from '../state/store'
 import srApi from '../shared/api/srApi'

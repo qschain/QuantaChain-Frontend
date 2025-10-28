@@ -487,3 +487,185 @@ body:has(.sr-prop-overlay:target) {
     0%, 100% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
 }
+
+/* ===== Tron Pulse Core ===== */
+.sr-ring {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 16px;
+}
+.sr-ring--pulse {
+    background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+    border: 1px solid var(--sr-line);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.02);
+}
+.sr-ring__bg {
+    fill: none;
+    stroke: rgba(255,255,255,.08);
+}
+.sr-ring__fg {
+    fill: none;
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 10px rgba(0,229,255,.25));
+}
+.sr-ring__dot {
+    fill: var(--sr-primary);
+    filter: drop-shadow(0 0 12px rgba(0,229,255,.75));
+    animation: sr-pulse-dot 1.2s ease-in-out infinite;
+}
+@keyframes sr-pulse-dot {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+.sr-ring__label {
+    position: absolute;
+    top: 8px;
+    font-size: 12px;
+    color: var(--sr-muted);
+}
+.sr-ring__center {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    gap: 6px;
+    text-align: center;
+    pointer-events: none;
+}
+.sr-ring__time {
+    font-weight: 800;
+    font-size: 16px;
+    text-shadow: 0 0 18px rgba(0,229,255,.35);
+}
+.sr-ring__percent {
+    font-size: 12px;
+    color: var(--sr-muted);
+}
+/* ===== Tron Pulse Core（充能波纹版） ===== */
+
+.sr-ring {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 16px;
+}
+
+.sr-ring--pulse {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    backdrop-filter: none;
+}
+
+.sr-ring__bg {
+    fill: none;
+    stroke: rgba(255,255,255,.08);
+}
+
+.sr-ring__fg {
+    fill: none;
+    filter: drop-shadow(0 0 10px rgba(0,229,255,.28));
+}
+
+/* 顶部小标题 */
+.sr-ring__label {
+    position: absolute;
+    top: 8px;
+    font-size: 12px;
+    color: var(--sr-muted);
+}
+
+/* 中心读数（确保完全居中） */
+.sr-ring__center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-align: center;
+    pointer-events: none;
+}
+
+.sr-ring__time {
+    font-weight: 900;
+    font-size: 16px;
+    letter-spacing: .2px;
+    text-shadow: 0 0 20px rgba(0, 229, 255, .35);
+}
+
+.sr-ring__percent {
+    font-size: 12px;
+    color: var(--sr-muted);
+}
+/* ===== 能量“充能”波纹头部 ===== */
+.sr-ring__ripples {
+    /* 让波纹上层一点，避免被环覆盖 */
+    pointer-events: none;
+}
+
+.sr-ripple-core {
+    fill: var(--sr-primary);
+    opacity: .9;
+    filter:
+            drop-shadow(0 0 10px rgba(0,229,255,.9))
+            drop-shadow(0 0 18px rgba(0,229,255,.6));
+}
+
+/* 波纹圈：只有描边，向外扩散并逐渐消失 */
+/*.sr-ripple {*/
+/*    fill: none;*/
+/*    stroke: var(--sr-primary);*/
+/*    stroke-width: 2.5;*/
+/*    opacity: .75;*/
+/*    filter: drop-shadow(0 0 10px rgba(0,229,255,.6));*/
+/*    transform-origin: center;*/
+/*    animation: sr-ripple-spread 1.6s ease-out infinite;*/
+/*}*/
+
+/* 三个相位，营造连续充能 */
+.sr-ripple.r1 { animation-delay: 0s;    }
+.sr-ripple.r2 { animation-delay: .35s;  }
+.sr-ripple.r3 { animation-delay: .7s;   }
+
+@keyframes sr-ripple-spread {
+    0% {
+        transform: scale(1);
+        opacity: .75;
+        stroke-width: 2.5;
+    }
+    60% {
+        opacity: .25;
+    }
+    100% {
+        transform: scale(2.2); /* 扩散半径 */
+        opacity: 0;
+        stroke-width: 0.5;
+    }
+}
+.sr-ring--pulse svg,
+.sr-panel .sr-ring--pulse,
+.sr-card .sr-ring--pulse {
+    overflow: visible !important;
+}
+/* 霓虹圆环容器：深色玻璃卡片范式 */
+.neon-fade-in {
+    animation: sr-neon-fade .28s ease-out both;
+}
+@keyframes sr-neon-fade {
+    from { opacity: .25; transform: translateY(6px) scale(.995); filter: drop-shadow(0 0 0 rgba(0,229,255,0)); }
+    to   { opacity: 1;   transform: translateY(0)   scale(1);     filter: drop-shadow(0 0 10px rgba(0,229,255,.08)); }
+}
+
+/* 点位淡入 */
+.sr-points { animation: sr-point-pop .22s ease-out .12s both; }
+@keyframes sr-point-pop {
+    from { opacity: 0; transform: scale(.7); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+/* 容器，便于未来扩展横向切换等 */
+.sr-chart-switch { position: relative; }

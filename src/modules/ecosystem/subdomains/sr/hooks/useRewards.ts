@@ -35,7 +35,7 @@ export default function useRewards(userName?: string, ownerAddress?: string): Re
         }
         setLoading(true)
         try {
-            const account = await srApi.getAccount(userName) // 已封装映射到 AccountInfo
+            const account = await srApi.getAccount(userName,true) // 已封装映射到 AccountInfo
             const rewardSun = Number(account?.rewardNumSUN ?? 0)
             setPendingTRX(rewardSun / 1_000_000)
         } catch (e: any) {
