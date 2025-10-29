@@ -1,7 +1,7 @@
 import type { RouteObject } from 'react-router-dom';
 import { lazy } from 'react';
 import ExplorerLayout from './ExplorerLayout';
-
+import {UnderConstruction} from '../../../../pages/UnderConstruction'
 const ExplorerHome   = lazy(() => import('./pages/ExplorerHome'));
 const BlockDetail    = lazy(() => import('./pages/BlockDetail'));
 const TxDetail       = lazy(() => import('./pages/TxDetail'));
@@ -22,6 +22,8 @@ export const routes: RouteObject[] = [
             { path: 'stats',  element: <ExplorerStats /> },
             { path: 'tokens', element: <TokensList /> },
             { path: 'api',    element: <ApiDocs /> },
+            { path: 'transactions',    element: <UnderConstruction /> },
+            { path: 'blocks',    element: <UnderConstruction /> },
         ],
     },
 ];

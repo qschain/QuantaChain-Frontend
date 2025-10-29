@@ -1,7 +1,7 @@
 // src/modules/ecosystem/features/explorer/components/ExplorerHero.tsx
 import { useTranslation } from 'react-i18next';
 import SearchBar from './SearchBar'; // 若 SearchBar 在别处，改路径
-import '../styles/explorer.css';
+import '../../styles/explorer.css';
 
 export default function ExplorerHero(){
     const { t } = useTranslation('explorer');

@@ -330,7 +330,7 @@ export type ProposalPage = {
 
 export async function getProposals(params: { pageNum: number; pageSize: number }): Promise<ProposalPage> {
     const body = { pageNum: params.pageNum, pageSize: params.pageSize }
-    const res = await http.post<any>('http://192.168.99.45:8080/api/getProposal', body, { useRealApi: true })
+    const res = await http.post<any>('/api/getProposal', body, { useRealApi: true })
     if (res?.code !== '200') throw new Error(res?.message || 'getProposal failed')
 
     const data = res?.data ?? {}

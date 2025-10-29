@@ -24,26 +24,33 @@ export default function ExplorerLayout() {
           >
             {collapsed ? '→' : '←'}
           </button>
+            <div className="ex-sider-title">{t('nav.title')}</div>
 
-          <div className="ex-sider-title">{t('nav.title')}</div>
+            <SiderItem to="/ecosystem/explorer" end icon={<IconHome />}>
+                {t('nav.home')}
+            </SiderItem>
 
-          <SiderItem to="/ecosystem/explorer" end icon={<IconHome />}>
-            {t('nav.home')}
-          </SiderItem>
+            <SiderItem to="/ecosystem/explorer/tokens" icon={<IconTokens />}>
+                {t('nav.tokens')}
+            </SiderItem>
 
-          <SiderItem to="/ecosystem/explorer/tokens" icon={<IconTokens />}>
-            {t('nav.tokens')}
-          </SiderItem>
+            <SiderItem to="/ecosystem/explorer/stats" icon={<IconStats />}>
+                {t('nav.stats')}
+            </SiderItem>
 
-          <SiderItem to="/ecosystem/explorer/stats" icon={<IconStats />}>
-            {t('nav.stats')}
-          </SiderItem>
+            <SiderItem to="/ecosystem/explorer/blocks" icon={<IconBlocks/>}>
+                {t('nav.blocks')}
+            </SiderItem>
 
-          <SiderItem to="/ecosystem/explorer/api" icon={<IconCode />}>
-            {t('nav.api')}
-          </SiderItem>
+            <SiderItem to="/ecosystem/explorer/transactions" icon={<IconTransactions/>}>
+                {t('nav.transactions')}
+            </SiderItem>
 
-          <div className="ex-sider-sub">{t('nav.extra')}</div>
+            <SiderItem to="/ecosystem/explorer/api" icon={<IconCode />}>
+                {t('nav.api')}
+            </SiderItem>
+
+            <div className="ex-sider-sub">{t('nav.extra')}</div>
         </aside>
 
         <main className="ex-content">
@@ -115,4 +122,23 @@ function IconCode() {
       <path d="M14 4 10 20" />
     </svg>
   );
+}
+
+function IconBlocks() {
+    return (
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8">
+            <path d="M21 8l-9-5-9 5 9 5 9-5z" />          {/* 顶部方块 */}
+            <path d="M3 8v8l9 5 9-5V8" />                 {/* 外框 */}
+            <path d="M3 16l9-5 9 5" />                   {/* 内部分层 */}
+        </svg>
+    );
+}
+
+function IconTransactions() {
+    return (
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8">
+            <path d="M3 7h13l-3-3m3 3-3 3" />   {/* 向右箭头 */}
+            <path d="M21 17H8l3 3m-3-3 3-3" />  {/* 向左箭头 */}
+        </svg>
+    );
 }

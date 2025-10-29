@@ -199,15 +199,15 @@ export default function TopNav() {
                     </select>
 
                     {/* 搜索框：按钮固定可见 */}
-                    <div className="qc-topbar__search qc-topbar__search--compact" role="search">
-                        <input
-                            placeholder={t('actions.searchPlaceholder') || 'Search…'}
-                            aria-label={t('actions.search') || 'Search'}
-                        />
-                        <button type="button" aria-label={t('actions.search') || 'Search'}>
-                            🔍
-                        </button>
-                    </div>
+                    {/*<div className="qc-topbar__search qc-topbar__search--compact" role="search">*/}
+                    {/*    <input*/}
+                    {/*        placeholder={t('actions.searchPlaceholder') || 'Search…'}*/}
+                    {/*        aria-label={t('actions.search') || 'Search'}*/}
+                    {/*    />*/}
+                    {/*    <button type="button" aria-label={t('actions.search') || 'Search'}>*/}
+                    {/*        🔍*/}
+                    {/*    </button>*/}
+                    {/*</div>*/}
 
                     {/* 登录态切换 */}
                     {!loading && authed ? (

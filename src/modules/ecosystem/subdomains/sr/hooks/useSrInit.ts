@@ -4,33 +4,34 @@ import srApi from '../shared/api/srApi'
 import { useSession } from '../../../../../app/session/PlatformSessionProvider'
 
 export default function useSrInit() {
-    const { state, dispatch } = useSr()
-    const { user } = useSession()
+    const {state, dispatch} = useSr()
+    const {user} = useSession()
 
     /** 1️⃣ 初始化加载 SR 列表（不依赖用户） */
     useEffect(() => {
         let alive = true
+
         async function loadList() {
             try {
-                dispatch({ type: 'setPageLoading', payload: true })
+                dispatch({type: 'setPageLoading', payload: true})
 
-                const { list, totalPages, sumVotes, freezeRate, totalCount, nextTime } =
-                    await srApi.getWitnessList({ pageNum: state.pageNum, pageSize: state.pageSize }, true)
+                const {list, totalPages, sumVotes, freezeRate, totalCount, nextTime} =
+                    await srApi.getWitnessList({pageNum: state.pageNum, pageSize: state.pageSize}, true)
 
                 if (!alive) return
-                dispatch({ type: 'setList', payload: list })
-                dispatch({ type: 'setHasMore', payload: state.pageNum < totalPages })
+                dispatch({type: 'setList', payload: list})
+                dispatch({type: 'setHasMore', payload: state.pageNum < totalPages})
 
                 // 统一存储概要数据（供 Dashboard / Analytics 等使用）
                 dispatch({
                     type: 'setSummary',
-                    payload: { sumVotes, freezeRate, totalCount, nextTime },
+                    payload: {sumVotes, freezeRate, totalCount, nextTime},
                 })
             } catch (e: any) {
                 if (!alive) return
-                dispatch({ type: 'setError', payload: e?.message || 'load list error' })
+                dispatch({type: 'setError', payload: e?.message || 'load list error'})
             } finally {
-                if (alive) dispatch({ type: 'setPageLoading', payload: false })
+                if (alive) dispatch({type: 'setPageLoading', payload: false})
             }
         }
 
@@ -44,18 +45,19 @@ export default function useSrInit() {
     useEffect(() => {
         if (!user?.name) return
         let alive = true
+
         async function loadAccount() {
             try {
-                dispatch({ type: 'setLoading', payload: true })
+                dispatch({type: 'setLoading', payload: true})
                 // @ts-ignore
                 const account = await srApi.getAccount(user.name, true)
                 if (!alive) return
-                dispatch({ type: 'setAccount', payload: account })
+                dispatch({type: 'setAccount', payload: account})
             } catch (e: any) {
                 if (!alive) return
-                dispatch({ type: 'setError', payload: e?.message || 'load account error' })
+                dispatch({type: 'setError', payload: e?.message || 'load account error'})
             } finally {
-                if (alive) dispatch({ type: 'setLoading', payload: false })
+                if (alive) dispatch({type: 'setLoading', payload: false})
             }
         }
 
@@ -71,21 +73,21 @@ export default function useSrInit() {
             if (document.visibilityState !== 'visible') return
             if (!Array.isArray(state.list) || state.list.length === 0) {
                 ;(async () => {
-                    dispatch({ type: 'setPageLoading', payload: true })
+                    dispatch({type: 'setPageLoading', payload: true})
                     try {
-                        const { list, totalPages, sumVotes, freezeRate, totalCount, nextTime } =
-                            await srApi.getWitnessList({ pageNum: state.pageNum, pageSize: state.pageSize }, true)
+                        const {list, totalPages, sumVotes, freezeRate, totalCount, nextTime} =
+                            await srApi.getWitnessList({pageNum: state.pageNum, pageSize: state.pageSize}, true)
 
-                        dispatch({ type: 'setList', payload: list })
-                        dispatch({ type: 'setHasMore', payload: state.pageNum < totalPages })
+                        dispatch({type: 'setList', payload: list})
+                        dispatch({type: 'setHasMore', payload: state.pageNum < totalPages})
                         dispatch({
                             type: 'setSummary',
-                            payload: { sumVotes, freezeRate, totalCount, nextTime },
+                            payload: {sumVotes, freezeRate, totalCount, nextTime},
                         })
                     } catch (e: any) {
-                        dispatch({ type: 'setError', payload: e?.message || 'reload list error' })
+                        dispatch({type: 'setError', payload: e?.message || 'reload list error'})
                     } finally {
-                        dispatch({ type: 'setPageLoading', payload: false })
+                        dispatch({type: 'setPageLoading', payload: false})
                     }
                 })()
             }
@@ -94,5 +96,5 @@ export default function useSrInit() {
         return () => document.removeEventListener('visibilitychange', onVisible)
     }, [state.list, state.pageNum, state.pageSize])
 
-    return { state, dispatch, user }
+    return {state, dispatch, user}
 }

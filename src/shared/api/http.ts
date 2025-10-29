@@ -27,8 +27,8 @@ function buildUrl(path: string, query?: Record<string, any>, useRealApi: boolean
 
     if (useRealApi && !isAbsolutePath) {
         const realBase = buildBaseAbsolute(REAL_API_URL)
-        const cleanPath = path.replace(/^\/?api\//, '')
-        const url = new URL(cleanPath, realBase)
+        // const cleanPath = path.replace(/^\/?api\//, '')
+        const url = new URL(path, realBase)
 
         if (query) {
             Object.entries(query).forEach(([k, v]) => {

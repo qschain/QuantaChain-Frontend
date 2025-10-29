@@ -9,6 +9,43 @@ export type ChainOverview = {
         "superNumber": string
     }
 };
+// ===== 后端原样类型（Init / Latest） =====
+export type BlockItem = {
+    number: string;        // "77019331"
+    hash: string;
+    parentHash?: string;
+    size?: string;
+    witnessName?: string;  // 出块者
+    trxCount?: string;     // 交易数
+    time: string;          // "2025-10-29 14:23:03"
+    fee?: string;
+    blockReward?: string;
+    voteReward?: string;
+    netUsage?: string;
+    energyUsage?: string;
+};
+
+export type InitBlocksResponse = {
+    code: string;
+    message: string;
+    data: BlockItem[];
+};
+
+export type LatestTxItem = {
+    ownerAddress: string;
+    toAddress?: string | null;
+    time: string;
+    hash: string;
+};
+
+export type LatestHeadResponse = {
+    code: string;
+    message: string;
+    data: {
+        newBlock: BlockItem;
+        blockTrxEntityList: LatestTxItem[];
+    };
+};
 
 export type BlockLite = {
     height:number; hash:string; time:string; txCount:number; miner?:string;

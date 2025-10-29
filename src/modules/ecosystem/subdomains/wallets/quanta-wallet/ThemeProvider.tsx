@@ -1,4 +1,3 @@
-// src/wallet/shared/prefs/WalletPrefsProvider.tsx
 import React, { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { useUI } from '../../../../../shared/state/UIProvider'
 

@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
-import ExplorerHero from '../components/ExplorerHero';
-import OverviewCards from '../components/OverviewCards';
+import ExplorerHero from '../components/home/ExplorerHero';
+import OverviewCards from '../components/home/OverviewCards';
 import SectionHead from '../components/SectionHead';
-import LiveList from '../components/LiveList';
+import LiveList from '../components/home/LiveList';
 import { useExplorerOverview } from '../hooks/useExplorerOverview';
 import  useExplorerLive from '../hooks/useExplorerLive'; // ← 新 hook
 import '../styles/explorer.css';

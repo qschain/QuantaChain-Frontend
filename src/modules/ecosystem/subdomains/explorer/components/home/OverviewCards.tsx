@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
-import StatCard from './StatCard';
-import Skeleton from './Skeleton';
-import type { ChainOverview } from '../state/types';
+import StatCard from '../StatCard';
+import Skeleton from '../Skeleton';
+import type { ChainOverview } from '../../state/types';
 
 export default function OverviewCards({ overview }:{ overview?: ChainOverview }) {
     const { t } = useTranslation('explorer');

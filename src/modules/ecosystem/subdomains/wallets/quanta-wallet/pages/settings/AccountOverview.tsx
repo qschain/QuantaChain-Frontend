@@ -1,21 +1,27 @@
 import Card from '../../components/Card'
 import { useTranslation } from 'react-i18next'
+import { useSession } from '../../../../../../../app/session/PlatformSessionProvider'
 
-export default function AccountOverview(){
+export default function AccountOverview() {
     const { t } = useTranslation(['wallet'])
+    const { user, authed, loading } = useSession()
 
-    // 若后续接真实数据，可从 Session/用户接口读取
-    const username = 'Username_123'
+    const username = user?.name ?? ''
+    const badge = (username?.[0] ?? 'U').toUpperCase()
+
+    // 这些先保留占位；你有真实字段时再替换
     const userIdMasked = '0x1a2b...c34d'
-    const phoneMasked = '+86 18****8888'
-    const emailMasked = 'user**@email.com'
+    const phoneMasked = ''
+    const emailMasked = ''
 
     return (
         <Card title={t('settings.accountOverview')}>
             <div className="row">
-                <div className="badge">U</div>
+                <div className="badge">{badge}</div>
                 <div style={{ marginLeft: 12 }}>
-                    <div style={{ fontWeight: 700 }}>{username}</div>
+                    <div style={{ fontWeight: 700 }}>
+                        {loading ? '...' : (authed ? (username || '—') : t('actions.signIn'))}
+                    </div>
                     <div className="secondary">{t('account.userId')}: {userIdMasked}</div>
                 </div>
             </div>
